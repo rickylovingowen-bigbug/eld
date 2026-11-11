@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import postgres from "postgres";
+import { sqlOptions } from "@/lib/db-options";
 import { loadLocalEnv } from "@/lib/load-env";
 
 loadLocalEnv();
@@ -13,7 +14,7 @@ if (!databaseUrl) {
 const url: string = databaseUrl;
 
 async function main(): Promise<void> {
-  const sql = postgres(url, { max: 1 });
+  const sql = postgres(url, { ...sqlOptions(url), max: 1 });
   await sql`create table if not exists eld_schema_migrations (
     version text primary key,
     applied_at timestamptz not null default now()

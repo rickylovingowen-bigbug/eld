@@ -1,18 +1,17 @@
-import { childhoodConfigVersion, loadChapters, loadChildhoodTopics } from "@/lib/config/catalog";
-import { configMtime } from "@/lib/config/files";
+import { catalogRevision, childhoodConfigVersion, loadChapters, loadChildhoodTopics } from "@/lib/config/catalog";
 import { RICKY_ID, RICKY_NAME } from "@/lib/constants";
 import { getSql } from "@/lib/db";
 
-let syncedMtime = -1;
+let syncedRevision = "";
 let inflight: Promise<void> | null = null;
 
 export function ensureSeeded(): Promise<void> {
-  const mtime = configMtime(["config/childhood-topics-v1.json", "config/memoir-topics-v3.json"]);
-  if (mtime === syncedMtime) return Promise.resolve();
+  const revision = catalogRevision();
+  if (revision === syncedRevision) return Promise.resolve();
   if (!inflight) {
     inflight = syncCatalog()
       .then(() => {
-        syncedMtime = mtime;
+        syncedRevision = revision;
       })
       .finally(() => {
         inflight = null;

@@ -5,6 +5,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Memoir",
   description: "A private place to tell the story of growing up.",
+  robots: { index: false, follow: false },
 };
 
 export const viewport: Viewport = {

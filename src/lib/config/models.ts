@@ -1,4 +1,5 @@
-import { readJsonFile } from "@/lib/config/files";
+import modelsFile from "../../../config/models.json";
+import pricesFile from "../../../config/prices.json";
 import type { ModelStep } from "@/lib/types";
 
 export interface StepSpec {
@@ -20,11 +21,11 @@ interface PricesFile {
 }
 
 export function loadModelConfig(): ModelsFile {
-  return readJsonFile<ModelsFile>("config/models.json");
+  return modelsFile as ModelsFile;
 }
 
 export function loadPrices(): PricesFile {
-  return readJsonFile<PricesFile>("config/prices.json");
+  return pricesFile as PricesFile;
 }
 
 export function stepSpec(step: ModelStep): StepSpec {

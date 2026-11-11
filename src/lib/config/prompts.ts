@@ -1,4 +1,6 @@
-import { readJsonFile, readTextFile } from "@/lib/config/files";
+import { readFileSync } from "node:fs";
+import path from "node:path";
+import bannedFile from "../../../config/banned-phrases-v1.json";
 
 export type PromptId =
   | "classify"
@@ -44,14 +46,14 @@ export function parsePromptMarkdown(markdown: string): Record<PromptId, string> 
   return Object.fromEntries(found) as Record<PromptId, string>;
 }
 
-let cached: { mtimeMs: number; prompts: Record<PromptId, string> } | null = null;
+let cached: Record<PromptId, string> | null = null;
 
 export function loadPrompts(): Record<PromptId, string> {
-  const { text, mtimeMs } = readTextFile("prompts/ai-prompts-v1.md");
-  if (cached && cached.mtimeMs === mtimeMs) return cached.prompts;
-  const prompts = parsePromptMarkdown(text);
-  cached = { mtimeMs, prompts };
-  return prompts;
+  if (cached) return cached;
+  // Literal path so the Next server bundle traces this file in. It is not read from outside the deployment.
+  const text = readFileSync(path.join(process.cwd(), "prompts/ai-prompts-v1.md"), "utf8");
+  cached = parsePromptMarkdown(text);
+  return cached;
 }
 
 export function fillTemplate(template: string, vars: Record<string, string>): string {
@@ -70,7 +72,7 @@ interface BannedFile {
 }
 
 export function loadBannedPhrases(): BannedFile {
-  return readJsonFile<BannedFile>("config/banned-phrases-v1.json");
+  return bannedFile as BannedFile;
 }
 
 export function bannedPhraseBlock(): string {

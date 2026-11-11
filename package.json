@@ -20,7 +20,8 @@
     "eval:run": "tsx src/scripts/eval-run.ts",
     "db:migrate": "tsx src/scripts/db-migrate.ts",
     "db:seed": "tsx src/scripts/db-seed.ts",
-    "db:setup": "tsx src/scripts/db-migrate.ts && tsx src/scripts/db-seed.ts"
+    "db:setup": "tsx src/scripts/db-migrate.ts && tsx src/scripts/db-seed.ts",
+    "db:schema": "tsx src/scripts/emit-schema.ts"
   },
   "devDependencies": {
     "@types/node": "^26.6.6",

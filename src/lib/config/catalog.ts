@@ -1,4 +1,5 @@
-import { readJsonFile } from "@/lib/config/files";
+import childhoodFile from "../../../config/childhood-topics-v1.json";
+import memoirFile from "../../../config/memoir-topics-v3.json";
 import type { TopicContent } from "@/lib/types";
 
 interface ChildhoodFile {
@@ -29,7 +30,7 @@ export interface ChapterRecord {
 }
 
 export function loadChapters(): ChapterRecord[] {
-  const file = readJsonFile<MemoirFile>("config/memoir-topics-v3.json");
+  const file = memoirFile as MemoirFile;
   return file.chapters.map((chapter, index) => ({
     id: chapter.id,
     title: { en: chapter.en, zh: chapter.zh },
@@ -39,7 +40,7 @@ export function loadChapters(): ChapterRecord[] {
 }
 
 export function loadChildhoodTopics(): TopicContent[] {
-  const file = readJsonFile<ChildhoodFile>("config/childhood-topics-v1.json");
+  const file = childhoodFile as ChildhoodFile;
   const rank = new Map(file.recommend_order.map((id, index) => [id, index + 1]));
   return file.topics.map((topic) => ({
     id: topic.id,
@@ -56,5 +57,10 @@ export function loadChildhoodTopics(): TopicContent[] {
 }
 
 export function childhoodConfigVersion(): string {
-  return readJsonFile<ChildhoodFile>("config/childhood-topics-v1.json").version;
+  return (childhoodFile as ChildhoodFile).version;
+}
+
+/** Changes when the bundled topic files change, so a warm instance re-seeds once. */
+export function catalogRevision(): string {
+  return JSON.stringify(childhoodFile) + JSON.stringify(memoirFile);
 }

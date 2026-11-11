@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { loadChildhoodTopics } from "@/lib/config/catalog";
 import { MockModelClient, type ModelClient } from "@/lib/ai/mock";
-import { createModelClient } from "@/lib/ai/client";
+import { createModelClient, resolveAiMode } from "@/lib/ai/client";
 import { isDontRemember, isEmotionalGap } from "@/lib/conversation/classify";
 import { isLeading, countQuestions } from "@/lib/conversation/guard";
 import { scoreDontRemember, scoreShortAnswer } from "@/eval/rubric-score";
@@ -83,7 +83,7 @@ export async function runEvalSet(options: EvalOptions): Promise<Record<string, u
   const topics = loadChildhoodTopics();
   const topicName = new Map(topics.map((topic) => [topic.id, topic.title.en]));
   const summary: Record<string, unknown> = {
-    mode: process.env.AI_MODE === "live" && process.env.AI_GATEWAY_API_KEY ? "live" : "mock",
+    mode: resolveAiMode(),
     judge: {
       dimension: "no_leading_detail",
       score: null,
