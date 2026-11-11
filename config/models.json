@@ -1,0 +1,77 @@
+{
+  "notes": "Per-step model config. Verify must not send temperature. Reasoning effort none on the classifier and interviewer; medium on verify. Structured outputs for every JSON step. Ids and params follow prompts/ai-prompts-v1.md (v1.1).",
+  "steps": {
+    "classify": {
+      "id": "openai/gpt-6-luna",
+      "backup": "anthropic/claude-haiku-5.5",
+      "temperature": 0,
+      "maxOutputTokens": 200,
+      "reasoningEffort": "none",
+      "structured": true
+    },
+    "interview": {
+      "id": "openai/gpt-6.1-terra",
+      "backup": "anthropic/claude-sonnet-5.5",
+      "temperature": 0.7,
+      "maxOutputTokens": 150,
+      "reasoningEffort": "none",
+      "structured": false
+    },
+    "extract": {
+      "id": "openai/gpt-6.1-sol",
+      "backup": "anthropic/claude-sonnet-5.5",
+      "temperature": 0,
+      "maxOutputTokens": 4000,
+      "reasoningEffort": null,
+      "structured": true
+    },
+    "structure": {
+      "id": "openai/gpt-6.1-sol",
+      "backup": "anthropic/claude-sonnet-5.5",
+      "temperature": 0.2,
+      "maxOutputTokens": 2500,
+      "reasoningEffort": null,
+      "structured": true
+    },
+    "draft": {
+      "id": "openai/gpt-6.1-sol",
+      "backup": "anthropic/claude-opus-5.5",
+      "temperature": 0.5,
+      "maxOutputTokens": 4000,
+      "reasoningEffort": null,
+      "structured": true
+    },
+    "verify": {
+      "id": "anthropic/claude-opus-5.5",
+      "backup": "anthropic/claude-sonnet-5.5",
+      "temperature": null,
+      "maxOutputTokens": 4000,
+      "reasoningEffort": "medium",
+      "structured": true
+    },
+    "chapter": {
+      "id": "openai/gpt-6.1-sol",
+      "backup": "anthropic/claude-opus-5.5",
+      "temperature": 0.5,
+      "maxOutputTokens": 8000,
+      "reasoningEffort": null,
+      "structured": true
+    },
+    "simulatedElder": {
+      "id": "anthropic/claude-sonnet-5.5",
+      "backup": null,
+      "temperature": 0.9,
+      "maxOutputTokens": 400,
+      "reasoningEffort": null,
+      "structured": false
+    },
+    "judge": {
+      "id": "anthropic/claude-opus-5.5",
+      "backup": null,
+      "temperature": 0,
+      "maxOutputTokens": 400,
+      "reasoningEffort": null,
+      "structured": true
+    }
+  }
+}

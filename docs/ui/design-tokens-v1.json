@@ -1,0 +1,192 @@
+{
+  "$meta": {
+    "name": "eld design tokens",
+    "version": "1.1",
+    "baseline": "iPhone 393x852 pt, mobile-first web; tablet/desktop content centered, max width 600"
+  },
+  "color": {
+    "bg": "#FAF8F5",
+    "surface": "#FFFFFF",
+    "surfaceMuted": "#F2EFEA",
+    "text": "#1F1E1C",
+    "textSecondary": "#6B6762",
+    "textDisabled": "#A8A39C",
+    "border": "#E4E0D9",
+    "accent": "#3B3363",
+    "accentPressed": "#2E2850",
+    "accentSoft": "#ECEAF4",
+    "onAccent": "#FFFFFF",
+    "uncertain": "#B7832F",
+    "uncertainSoft": "#FBF3E4",
+    "success": "#3E7B5C",
+    "error": "#A8432F",
+    "focusRing": "#5A4FA0",
+    "successSoft": "#E8F1EC",
+    "uncertainBorder": "#EBD9B5",
+    "uncertainText": "#8A6221",
+    "chromeText": "#1F1E1C"
+  },
+  "font": {
+    "serifEn": "'New York', 'Iowan Old Style', Georgia, serif",
+    "sansEn": "-apple-system, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif",
+    "zh": "'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', sans-serif"
+  },
+  "type": {
+    "_note": "pt = CSS px at 1x; scale with rem so system/browser text size applies. lineHeight: en / zh",
+    "display": {
+      "size": 34,
+      "weight": 500,
+      "family": "serif",
+      "lineHeight": {
+        "en": 1.2,
+        "zh": 1.35
+      }
+    },
+    "title": {
+      "size": 28,
+      "weight": 500,
+      "family": "serif",
+      "lineHeight": {
+        "en": 1.25,
+        "zh": 1.4
+      }
+    },
+    "question": {
+      "size": 24,
+      "weight": 500,
+      "family": "serif",
+      "lineHeight": {
+        "en": 1.3,
+        "zh": 1.5
+      },
+      "min": 22
+    },
+    "reading": {
+      "size": 19,
+      "weight": 400,
+      "family": "serif",
+      "lineHeight": {
+        "en": 1.55,
+        "zh": 1.8
+      }
+    },
+    "body": {
+      "size": 17,
+      "weight": 400,
+      "family": "sans",
+      "lineHeight": {
+        "en": 1.4,
+        "zh": 1.6
+      },
+      "min": 17
+    },
+    "label": {
+      "size": 17,
+      "weight": 600,
+      "family": "sans",
+      "lineHeight": {
+        "en": 1.2,
+        "zh": 1.3
+      }
+    },
+    "caption": {
+      "size": 15,
+      "weight": 400,
+      "family": "sans",
+      "lineHeight": {
+        "en": 1.35,
+        "zh": 1.5
+      }
+    },
+    "chapterReading": {
+      "size": 20,
+      "weight": 400,
+      "family": "serif",
+      "lineHeight": {
+        "en": 1.6,
+        "zh": 1.85
+      }
+    },
+    "overline": {
+      "size": 13,
+      "weight": 600,
+      "family": "sans",
+      "letterSpacing": 0.6,
+      "case": "uppercase (EN only; ZH stays as-is)"
+    },
+    "tag": {
+      "size": 13,
+      "weight": 600,
+      "family": "sans"
+    }
+  },
+  "space": {
+    "xs": 4,
+    "sm": 8,
+    "md": 12,
+    "lg": 16,
+    "xl": 24,
+    "2xl": 32,
+    "3xl": 48,
+    "pageX": 20
+  },
+  "radius": {
+    "sm": 10,
+    "md": 14,
+    "lg": 20,
+    "pill": 999
+  },
+  "size": {
+    "buttonMinHeight": 56,
+    "touchMin": 48,
+    "inputMinHeight": 96,
+    "contentMaxWidth": 600,
+    "_buttonWidth": "never fixed; hug text with padding 24 horizontal, or full width for primary",
+    "navHeight": 52,
+    "tagHeight": 28,
+    "compactButtonHeight": 48,
+    "headerButtonHeight": 44,
+    "micSlot": 56,
+    "iconGrid": 24,
+    "iconStroke": 1.75
+  },
+  "shadow": {
+    "card": "0 1px 2px rgba(31,30,28,0.04), 0 4px 16px rgba(31,30,28,0.05)",
+    "sheet": "0 -8px 32px rgba(31,30,28,0.10)"
+  },
+  "motion": {
+    "_note": "respect prefers-reduced-motion: replace movement with 120ms opacity fade",
+    "fast": {
+      "ms": 150,
+      "easing": "cubic-bezier(0.2, 0, 0, 1)"
+    },
+    "base": {
+      "ms": 250,
+      "easing": "cubic-bezier(0.2, 0, 0, 1)"
+    },
+    "sheet": {
+      "ms": 350,
+      "easing": "cubic-bezier(0.32, 0.72, 0, 1)"
+    },
+    "typewriterCharMs": 18,
+    "thinkingPulseMs": 1400
+  },
+  "rules": [
+    "One accent color only; one primary (accent filled) button per screen.",
+    "Lay out in English first, then check in Chinese; English runs 30-50% longer.",
+    "Sentence case in English UI copy.",
+    "No red dots, percentages, countdowns or 'incomplete' wording.",
+    "Uncertain facts use 'uncertain' dotted underline plus a question, never color alone.",
+    "Disabled Send while AI is generating; keep typed text on failure."
+  ],
+  "largeText": {
+    "_note": "scale all type with rem; test at 1.35x (iOS xxxLarge) and 1.75x (AX3)",
+    "rules": [
+      "Story header: at >=1.3x, 'Done for today' moves below topic name",
+      "Story: conversation is bottom-anchored; old Q&A is cut first, never the current question or input",
+      "At >=1.6x hide earlier Q&A behind 'Show earlier answers'",
+      "Buttons never fixed width; labels wrap to 2 lines before truncating",
+      "Status bar / system chrome never scales"
+    ]
+  }
+}

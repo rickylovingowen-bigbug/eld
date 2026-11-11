@@ -1,0 +1,51 @@
+{
+  "version": "v1",
+  "owner": "传记作者",
+  "usage": {
+    "step3": "Do not write any of these phrases.",
+    "step4_code": "Case-insensitive substring/regex match on draft sentences. EXEMPT a match if the same phrase appears in the elder's own source messages for that sentence (they may genuinely talk this way).",
+    "step4_model": "Matches in 'moral' -> flag moral; 'literary' and 'sensory_cliche' -> flag added_detail; 'ai_tone' -> flag voice_drift; 'voice_swaps' -> flag voice_drift only when the source used the plain form."
+  },
+  "moral": [
+    "a testament to", "taught me the value of", "taught me the importance of", "i learned that", "lesson i would carry",
+    "i carry with me", "to this day i", "shaped who i am", "shaped the person i", "made me who i am",
+    "looking back", "in hindsight", "little did i know", "i didn't know it then", "i would later realize",
+    "it was then that i realized", "the true meaning of", "what really matters", "life lesson",
+    "i will never forget", "forever grateful", "simpler time", "those were the days", "a reminder that",
+    "family is everything", "the heart of the home", "the heart of our family"
+  ],
+  "literary": [
+    "tapestry", "bittersweet", "symphony", "a sea of", "a whirlwind of", "like a warm embrace", "warm embrace",
+    "etched in my memory", "etched in my mind", "seared into my memory", "frozen in time", "time stood still",
+    "a world away", "the fabric of", "woven into", "painted the sky", "danced in the", "bathed in",
+    "golden hue", "golden light", "sun-dappled", "dappled", "nestled", "tucked away", "idyllic", "quaint",
+    "picturesque", "magical", "enchanting", "breathtaking", "palpable", "ethereal", "tranquil", "serene",
+    "cherished memories", "fond memories", "treasured memories", "a kaleidoscope of", "a melody of",
+    "whispered secrets", "the scent of nostalgia", "nostalgia", "unspoken bond", "unbreakable bond"
+  ],
+  "sensory_cliche": [
+    "smell of freshly baked", "aroma of", "wafted", "wafting", "mingled with", "crisp autumn", "crisp air",
+    "sunlight streamed", "sunlight filtered", "the crackle of", "the gentle hum", "laughter filled", "filled with laughter",
+    "warm glow", "cozy"
+  ],
+  "ai_tone": [
+    "great question", "absolutely", "i'd be happy to", "in conclusion", "in summary", "overall,", "delve",
+    "navigate the", "journey", "embark", "a pivotal moment", "pivotal", "profound", "profoundly", "resonate",
+    "it's worth noting", "not only", "but also", "in a world where", "a rich", "vibrant", "intricate", "multifaceted"
+  ],
+  "voice_swaps": [
+    {"plain": "mom", "fancy": ["mother", "my dear mother"]},
+    {"plain": "dad", "fancy": ["father"]},
+    {"plain": "kids", "fancy": ["children"]},
+    {"plain": "grandma", "fancy": ["grandmother"]},
+    {"plain": "grandpa", "fancy": ["grandfather"]},
+    {"plain": "house", "fancy": ["abode", "dwelling", "residence"]},
+    {"plain": "got", "fancy": ["received", "obtained"]},
+    {"plain": "started", "fancy": ["commenced"]}
+  ],
+  "notes": [
+    "Lists are a floor, not a ceiling: step 4 model still judges anything not sourced.",
+    "Never auto-delete on voice_swaps; restore the elder's word instead.",
+    "'journey', 'cozy', 'magical' etc. are fine verbatim inside a quote the elder wrote."
+  ]
+}
