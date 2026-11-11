@@ -185,7 +185,7 @@ export class MemoryRepo implements ConversationRepo {
     return this.points
       .filter(
         (point) =>
-          point.kind === "refusal" &&
+          (point.kind === "refusal" || point.kind === "do_not_write") &&
           point.userId === userId &&
           (topicId == null || point.topicId == null || point.topicId === topicId),
       )
@@ -243,7 +243,9 @@ export class MemoryRepo implements ConversationRepo {
 
   private rememberPoint(point: StoredPoint | undefined): void {
     if (!point) return;
-    const exists = this.points.some((item) => item.messageId === point.messageId && item.kind === point.kind);
+    const exists = this.points.some(
+      (item) => item.messageId === point.messageId && item.kind === point.kind && item.point === point.point,
+    );
     if (!exists) this.points.push(point);
   }
 }

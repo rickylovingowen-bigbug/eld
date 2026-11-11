@@ -3,7 +3,7 @@ import path from "node:path";
 import { loadChildhoodTopics } from "@/lib/config/catalog";
 import { MockModelClient, type ModelClient } from "@/lib/ai/mock";
 import { createModelClient, resolveAiMode } from "@/lib/ai/client";
-import { isDontRemember, isEmotionalGap } from "@/lib/conversation/classify";
+import { avoidPointsForTurn, isDontRemember, isEmotionalGap } from "@/lib/conversation/classify";
 import { isLeading, countQuestions } from "@/lib/conversation/guard";
 import { scoreDontRemember, scoreShortAnswer } from "@/eval/rubric-score";
 import { completeTurn, ingestUserMessage } from "@/lib/conversation/engine";
@@ -253,16 +253,17 @@ async function runPersona(
     const qCount = countQuestions(result.assistantMessage.content);
     if (qCount > 0) questions += 1;
     if (isLeading(result.assistantMessage.content)) leading += 1;
-    const currentRefused = result.classification.refusal && result.classification.refusedPoint
-      ? [...refused, result.classification.refusedPoint]
-      : refused;
-    if (result.classification.refusal || refused.length > 0) {
+    const marked = avoidPointsForTurn(result.classification, lines.filter(Boolean).join("\n"), lastQuestion);
+    const currentRefused = [...refused, ...marked];
+    if (result.classification.refusal || result.classification.doNotWrite || refused.length > 0) {
       refusalChecks += 1;
-      if (!mentionsRefusedPoint(result.assistantMessage.content, currentRefused.length ? currentRefused : refused)) {
+      if (!mentionsRefusedPoint(result.assistantMessage.content, currentRefused)) {
         refusalOk += 1;
       }
     }
-    if (result.classification.refusedPoint) refused.push(result.classification.refusedPoint);
+    for (const point of marked) {
+      if (!refused.includes(point)) refused.push(point);
+    }
     lastQuestion = result.assistantMessage.content;
     turns.push({
       assistant: result.assistantMessage.content,

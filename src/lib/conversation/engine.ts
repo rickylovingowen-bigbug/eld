@@ -1,7 +1,7 @@
 import { loadChapters } from "@/lib/config/catalog";
 import { loadPrompts } from "@/lib/config/prompts";
 import type { ModelClient } from "@/lib/ai/mock";
-import { isDontRemember, pointForDoNotWrite } from "@/lib/conversation/classify";
+import { avoidPointsForTurn, isDontRemember, pointForDoNotWrite } from "@/lib/conversation/classify";
 import { assembleContext, renderInterviewPrompt, type ContextTurn } from "@/lib/conversation/context";
 import { decideTurn, trailingTopicRefusals } from "@/lib/conversation/decide";
 import {
@@ -132,6 +132,7 @@ export async function completeTurn(
     .map((item) => item.classification);
   const refusalPoints = await repo.listRefusalPoints(input.userId, session.topicId);
   const userText = pending.map((message) => message.content).join("\n");
+  const declined = declinedQuestion(messages, pending);
   const priorDontRemember = messages.filter(
     (message) => message.role === "user" && !pending.some((item) => item.id === message.id) && isDontRemember(message.content),
   ).length;
@@ -149,9 +150,7 @@ export async function completeTurn(
   const calls: ModelCallRecord[] = [];
   const repairs: string[] = [];
   const blockedPoints = [
-    ...refusalPoints,
-    ...(classification.refusedPoint ? [classification.refusedPoint] : []),
-    ...(classification.doNotWrite ? [pointForDoNotWrite(userText, null)] : []),
+    ...new Set([...refusalPoints, ...avoidPointsForTurn(classification, userText, declined)]),
   ];
   let text = decision.template ?? "";
   if (decision.useModel) {
@@ -163,6 +162,7 @@ export async function completeTurn(
       classification,
       userText,
       priorDontRemember,
+      declined,
     );
     const first = await ai.interview(rendered);
     calls.push(first.call);
@@ -191,7 +191,7 @@ export async function completeTurn(
   } else if (!decision.expectsQuestion) {
     text = text.replace(/[?\uFF1F].*$/s, "").trim() || text;
     if (countQuestionsSafe(text) > 0) text = text.split(/[?\uFF1F]/)[0]?.replace(/[?\uFF1F]/g, "").trim() ?? text;
-  } else if (countQuestionsSafe(text) !== 1 || mentionsRefusedPoint(text, refusalPoints)) {
+  } else if (countQuestionsSafe(text) !== 1 || mentionsRefusedPoint(text, blockedPoints)) {
     repairs.push("safe_fallback");
     text = classification.refusal ? safeRefusalTemplate(blockedPoints) : fallbackQuestion(blockedPoints, true);
   }
@@ -213,12 +213,23 @@ export async function completeTurn(
       marked.push({
         userId: input.userId,
         topicId: session.topicId,
-        point: pointForDoNotWrite(message.content, null),
+        point: pointForDoNotWrite(message.content, declined),
         messageId: message.id,
         kind: "do_not_write",
       });
     }
-    return marked;
+    if ((item.refusal || item.doNotWrite) && declined) {
+      marked.push({
+        userId: input.userId,
+        topicId: session.topicId,
+        point: declined,
+        messageId: message.id,
+        kind: item.refusal ? "refusal" : "do_not_write",
+      });
+    }
+    return marked.filter(
+      (point, index) => marked.findIndex((other) => other.kind === point.kind && other.point === point.point) === index,
+    );
   });
   const committed = await repo.commitAssistantTurn({
     sessionId: session.id,
@@ -258,6 +269,7 @@ async function renderForSession(
   classification: Classification,
   userText: string,
   dontRememberPrior: number,
+  declined: string | null,
 ): Promise<{ system: string; prompt: string }> {
   const topic = session.topicId ? await repo.getTopic(session.topicId) : null;
   const blocked = await repo.listDoNotWrite(userId);
@@ -282,7 +294,12 @@ async function renderForSession(
     storySummaries: memory.storySummaries,
     followUpsUsed: session.followupsUsed,
     extendedByUser: session.extendedByUser,
-    refusedPoints: await repo.listRefusalPoints(userId, session.topicId),
+    refusedPoints: [
+      ...new Set([
+        ...(await repo.listRefusalPoints(userId, session.topicId)),
+        ...avoidPointsForTurn(classification, userText, declined),
+      ]),
+    ],
     doNotWriteTopics: blocked,
     openingGap: memory.openingGap,
     signals: {
@@ -307,6 +324,13 @@ function pendingUserMessages(messages: Message[]): Message[] {
     }
   }
   return messages.slice(start).filter((message) => message.role === "user");
+}
+
+function declinedQuestion(messages: Message[], pending: Message[]): string | null {
+  const pendingIds = new Set(pending.map((message) => message.id));
+  const prior = [...messages].reverse().find((message) => message.role === "assistant" && !pendingIds.has(message.id));
+  const text = prior?.content.trim();
+  return text ? text : null;
 }
 
 function countQuestionsSafe(text: string): number {

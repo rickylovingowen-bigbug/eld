@@ -41,5 +41,23 @@ describe("refusal blocking", () => {
     expect(points.length).toBeGreaterThan(0);
     expect(mentionsRefusedPoint(second.assistantMessage.content, points)).toBeNull();
     expect(second.session.followupsUsed).toBeLessThanOrEqual(1);
+    expect(points.some((point) => point.includes("?"))).toBe(true);
+    expect(points.some((point) => /\b(thank|telling)\b/i.test(point) && !point.includes("?"))).toBe(false);
+  });
+
+  it("anchors a refusal on the declined question, not filler from the previous reply", () => {
+    const redirect =
+      "Of course. Thank you for telling me that much. Would you like to talk about something else from this time?";
+    const point = classifyHeuristic("id rather not", redirect).refusedPoint ?? "";
+    expect(point).not.toMatch(/thank|telling|course/);
+    expect(mentionsRefusedPoint(redirect, [point, redirect])).not.toBeNull();
+    expect(
+      mentionsRefusedPoint("What did the kitchen smell like when you walked in?", [
+        "What did the kitchen smell like?",
+      ]),
+    ).not.toBeNull();
+    expect(
+      mentionsRefusedPoint("What did they do for work?", ["What did the kitchen smell like?"]),
+    ).toBeNull();
   });
 });

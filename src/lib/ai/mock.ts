@@ -7,6 +7,7 @@ import {
   enforceOneQuestion,
   fallbackQuestion,
   isLeading,
+  mentionsRefusedPoint,
   safeRefusalTemplate,
   withDoNotWriteAck,
 } from "@/lib/conversation/guard";
@@ -67,10 +68,9 @@ export class MockModelClient implements ModelClient {
 
 export function mockInterview(prompt: string): string {
   if (prompt.includes("previous reply was rejected")) {
-    return fallbackQuestion([], true);
+    return fallbackQuestion(pointsFrom(prompt), true);
   }
-  const refused = field(prompt, "Refused points:");
-  const points = refused === "(none)" ? [] : refused.split("|").map((item) => item.trim()).filter(Boolean);
+  const points = pointsFrom(prompt);
   if (field(prompt, "Wants to stop:") === "true") return STOP_TEMPLATE;
   if (field(prompt, "Distress:") === "strong") return DISTRESS_TEMPLATE;
   if (field(prompt, "Refusal now:") === "true") return safeRefusalTemplate(points);
@@ -87,16 +87,25 @@ export function mockInterview(prompt: string): string {
   const used = Number(field(prompt, "Follow-ups used:")) || 0;
   const suggestions = field(prompt, "Suggested follow-ups:");
   const followUps = suggestions === "(none)" ? [] : suggestions.split("|").map((item) => item.trim()).filter(Boolean);
-  const raw = followUps[Math.min(used, Math.max(followUps.length - 1, 0))] ?? "What do you remember most clearly about that?";
+  const ordered = followUps.slice(used).concat(followUps.slice(0, used));
+  const raw = ordered.find((item) => !mentionsRefusedPoint(item, points)) ?? fallbackQuestion(points, true);
   const firstAsk = raw.split(/[?\uFF1F]/)[0]?.trim() || "What do you remember most clearly about that";
   let question = isLeading(firstAsk) ? "What do you remember most clearly about that?" : `${firstAsk.replace(/\?$/, "")}?`;
+  if (mentionsRefusedPoint(question, points)) question = fallbackQuestion(points, true);
   if (field(prompt, "Answer length:") === "very_short") {
-    question = "What's one small thing you can picture about that?";
+    const smaller = "What's one small thing you can picture about that?";
+    question = mentionsRefusedPoint(smaller, points) ? fallbackQuestion(points, true) : smaller;
   }
   let text = echo ? `${echo} ${question}` : question;
   text = enforceOneQuestion(text).text;
   if (field(prompt, "Do not write now:") === "true") text = withDoNotWriteAck(text, points);
   return text;
+}
+
+function pointsFrom(prompt: string): string[] {
+  const refused = field(prompt, "Refused points:");
+  if (refused === "(none)") return [];
+  return refused.split("|").map((item) => item.trim()).filter(Boolean);
 }
 
 const DANGLING = new Set([

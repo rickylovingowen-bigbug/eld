@@ -45,6 +45,75 @@ export function countQuestions(text: string): number {
   return text.match(QUESTION_MARK)?.length ?? 0;
 }
 
+/** Interviewer filler. These are not a refused point, even when they sit in the previous reply. */
+const GENERIC_WORDS = new Set([
+  "thank",
+  "thanks",
+  "telling",
+  "tell",
+  "told",
+  "course",
+  "please",
+  "sorry",
+  "okay",
+  "fine",
+  "else",
+  "instead",
+  "leave",
+  "saved",
+  "words",
+  "share",
+  "shared",
+  "remember",
+  "clearly",
+  "picture",
+  "something",
+  "would",
+  "like",
+  "talk",
+  "much",
+  "people",
+  "really",
+  "just",
+  "one",
+  "small",
+  "thing",
+  "most",
+  "time",
+  "today",
+  "here",
+  "there",
+  "let",
+  "lets",
+  "going",
+  "keep",
+  "stop",
+  "switch",
+  "another",
+  "topic",
+  "story",
+  "book",
+  "between",
+  "stays",
+  "got",
+  "all",
+  "can",
+  "cant",
+  "see",
+  "doing",
+  "know",
+  "start",
+  "back",
+  "then",
+  "lot",
+  "come",
+  "comes",
+  "mind",
+  "years",
+  "those",
+  "from",
+]);
+
 export function contentWords(phrase: string): string[] {
   return phrase
     .toLowerCase()
@@ -53,14 +122,61 @@ export function contentWords(phrase: string): string[] {
     .filter((word) => word.length >= 3 && !STOP_WORDS.has(word));
 }
 
+export function distinctiveWords(phrase: string): string[] {
+  return contentWords(phrase).filter((word) => !GENERIC_WORDS.has(word));
+}
+
+/** The question the elder just heard, without a thank-you preamble. */
+export function questionSentence(text: string): string {
+  const mark = text.search(/[?\uFF1F]/);
+  if (mark === -1) return text.trim();
+  const upTo = text.slice(0, mark + 1);
+  const parts = upTo.split(/(?<=[.!])\s+/);
+  return (parts[parts.length - 1] ?? upTo).trim();
+}
+
+function isStoredQuestion(point: string): boolean {
+  return /[?\uFF1F]/.test(point) || distinctiveWords(point).length >= 6;
+}
+
 export function mentionsRefusedPoint(reply: string, points: string[]): string | null {
-  const haystack = reply.toLowerCase();
   for (const point of points) {
-    const words = contentWords(point);
-    const hit = words.find((word) => new RegExp(`\\b${escapeRegExp(word)}\\b`, "i").test(haystack));
-    if (hit) return point;
+    if (!point.trim()) continue;
+    if (isStoredQuestion(point)) {
+      if (reasksQuestion(reply, point)) return point;
+    } else if (shortPointHit(reply, point)) {
+      return point;
+    }
   }
   return null;
+}
+
+function shortPointHit(reply: string, point: string): boolean {
+  const words = distinctiveWords(point);
+  if (words.length === 0) return false;
+  const hits = words.filter((word) => new RegExp(`\\b${escapeRegExp(word)}\\b`, "i").test(reply));
+  if (words.length === 1) return hits.length === 1;
+  return hits.length >= Math.ceil(words.length * 0.5);
+}
+
+/** Same question, or a close paraphrase: most of its distinctive words show up again. */
+function reasksQuestion(reply: string, declined: string): boolean {
+  const asked = normalizeQuestion(questionSentence(reply));
+  const prior = normalizeQuestion(questionSentence(declined));
+  if (asked && prior && (asked === prior || (asked.length > 24 && prior.length > 24 && (asked.includes(prior) || prior.includes(asked))))) {
+    return true;
+  }
+  const askedWords = distinctiveWords(questionSentence(reply));
+  const priorWords = distinctiveWords(questionSentence(declined));
+  if (priorWords.length === 0 || askedWords.length === 0) return false;
+  const priorSet = new Set(priorWords);
+  const overlap = askedWords.filter((word) => priorSet.has(word));
+  if (priorWords.length === 1) return overlap.length === 1;
+  return overlap.length >= 2 && overlap.length / priorWords.length >= 0.5;
+}
+
+function normalizeQuestion(text: string): string {
+  return text.toLowerCase().replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
 }
 
 export function isCompoundQuestion(text: string): boolean {
@@ -102,18 +218,25 @@ export function enforceOneQuestion(text: string): { text: string; trimmed: boole
   return { text: trimmedText.slice(0, index + 1).trim(), trimmed: true };
 }
 
+const REFUSAL_REDIRECTS = [
+  "Of course. Thank you for telling me that much. Would you like to talk about something else from this time?",
+  "Of course. We can leave that there. What would you like to talk about instead?",
+  "Of course. We can leave that there. What else from those years comes to mind?",
+];
+
+const FALLBACK_QUESTIONS = [
+  "What do you remember most clearly about that?",
+  "What would you like to talk about instead?",
+  "What else from those years comes to mind?",
+];
+
 export function safeRefusalTemplate(points: string[]): string {
-  const warm =
-    "Of course. Thank you for telling me that much. Would you like to talk about something else from this time?";
-  if (!mentionsRefusedPoint(warm, points)) return warm;
-  return "Of course. We can leave that there. What would you like to talk about instead?";
+  return REFUSAL_REDIRECTS.find((text) => !mentionsRefusedPoint(text, points)) ?? REFUSAL_REDIRECTS[REFUSAL_REDIRECTS.length - 1]!;
 }
 
 export function fallbackQuestion(points: string[], expectQuestion: boolean): string {
   if (!expectQuestion) return "Thank you for telling me all of this. Your words are saved.";
-  const open = "What do you remember most clearly about that?";
-  if (!mentionsRefusedPoint(open, points)) return open;
-  return "What would you like to talk about instead?";
+  return FALLBACK_QUESTIONS.find((text) => !mentionsRefusedPoint(text, points)) ?? FALLBACK_QUESTIONS[FALLBACK_QUESTIONS.length - 1]!;
 }
 
 export const STOP_TEMPLATE = "Thank you for telling me all of this. Your words are saved.";

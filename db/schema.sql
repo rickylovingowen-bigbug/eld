@@ -410,7 +410,7 @@ create table if not exists public.refused_points (
   -- refusal: do not ask again. do_not_write: keep the words, but writing steps must not use them.
   kind        text not null default 'refusal' check (kind in ('refusal', 'do_not_write')),
   created_at  timestamptz not null default now(),
-  unique (message_id, kind)
+  unique (message_id, kind, point)
 );
 create index if not exists refused_points_user_topic_idx on public.refused_points (user_id, topic_id);
 create index if not exists refused_points_topic_id_idx on public.refused_points (topic_id);
@@ -485,6 +485,19 @@ begin
       execute format('revoke usage on schema public from %I', role_name);
     end if;
   end loop;
+end $$;
+
+-- A refusal can store the extracted point and the declined question on the same message.
+alter table public.refused_points drop constraint if exists refused_points_message_id_kind_key;
+
+do $$
+begin
+  if not exists (
+    select 1 from pg_constraint where conname = 'refused_points_message_id_kind_point_key'
+  ) then
+    alter table public.refused_points
+      add constraint refused_points_message_id_kind_point_key unique (message_id, kind, point);
+  end if;
 end $$;
 
 -- Ricky, the ten chapters, and the twelve childhood topics. Same rows as pnpm db:seed.

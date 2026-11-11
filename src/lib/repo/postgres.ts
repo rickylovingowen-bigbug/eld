@@ -158,7 +158,7 @@ export class PostgresRepo implements ConversationRepo {
         await tx`
           insert into refused_points (user_id, topic_id, point, message_id, kind)
           values (${point.userId}, ${point.topicId}, ${point.point}, ${point.messageId}, ${point.kind})
-          on conflict (message_id, kind) do nothing
+          on conflict (message_id, kind, point) do nothing
         `;
       }
       if (input.markTopicDoNotWrite) {
@@ -196,7 +196,7 @@ export class PostgresRepo implements ConversationRepo {
     const rows = await this.sql<Row[]>`
       select point from refused_points
       where user_id = ${userId}
-        and kind = 'refusal'
+        and kind in ('refusal', 'do_not_write')
         and (${topicId}::text is null or topic_id is null or topic_id = ${topicId})
     `;
     return rows.map((row) => String(row.point));

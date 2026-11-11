@@ -1,4 +1,4 @@
-import { contentWords } from "@/lib/conversation/guard";
+import { distinctiveWords, questionSentence } from "@/lib/conversation/guard";
 import type { AnswerLength, Classification, Distress, DoNotWriteScope, RefusalScope } from "@/lib/types";
 
 const REFUSAL =
@@ -81,18 +81,28 @@ export function pointForDoNotWrite(message: string, lastQuestion: string | null)
   const normalized = message.toLowerCase().replace(/['’]/g, "");
   const about = normalized.match(/\babout\s+([a-z0-9' ]{0,40})/);
   if (about?.[1]) {
-    const words = contentWords(about[1]);
+    const words = distinctiveWords(about[1]);
     if (words.length > 0) return words.slice(0, 6).join(" ");
   }
-  const words = contentWords(message).filter(
-    (word) => !["dont", "write", "book", "please", "still", "hurts", "want", "stop", "today", "name"].includes(word),
+  const words = distinctiveWords(message).filter(
+    (word) => !["dont", "write", "book", "please", "still", "hurts", "want", "stop", "today"].includes(word),
   );
   if (words.length > 0) return words.slice(0, 6).join(" ");
-  if (lastQuestion) {
-    const fromQuestion = contentWords(lastQuestion);
-    if (fromQuestion.length > 0) return fromQuestion.slice(0, 6).join(" ");
-  }
-  return "that detail";
+  return anchorOnQuestion(lastQuestion) ?? "that detail";
+}
+
+/** Extracted point plus the interviewer question that was just declined. */
+export function avoidPointsForTurn(
+  classification: { refusal: boolean; refusedPoint: string | null; doNotWrite: boolean },
+  userText: string,
+  declinedQuestion: string | null,
+): string[] {
+  const points: string[] = [];
+  if (classification.refusal && classification.refusedPoint) points.push(classification.refusedPoint);
+  if (classification.doNotWrite) points.push(pointForDoNotWrite(userText, declinedQuestion));
+  const question = declinedQuestion?.trim();
+  if ((classification.refusal || classification.doNotWrite) && question) points.push(question);
+  return [...new Set(points.map((point) => point.trim()).filter(Boolean))];
 }
 
 export function answerLength(message: string): AnswerLength {
@@ -106,12 +116,23 @@ function refusedPoint(normalized: string, lastQuestion: string | null): string {
   const about = normalized.match(/\babout\s+(.{0,48})/);
   if (about?.[1]) {
     const phrase = about[1].replace(/[.!?].*$/, "").trim();
-    const words = contentWords(phrase);
+    const words = distinctiveWords(phrase);
     if (words.length > 0) return words.slice(0, 6).join(" ");
   }
-  if (lastQuestion) {
-    const words = contentWords(lastQuestion);
-    if (words.length > 0) return words.slice(0, 6).join(" ");
-  }
-  return "that subject";
+  const fromUser = distinctiveWords(
+    normalized
+      .replace(/\b(i would |id |i )?rather not\b/g, " ")
+      .replace(/\b(lets|let us) (skip|move on)\b/g, " ")
+      .replace(/\b(dont|do not) want to (talk|go|get into)\b/g, " ")
+      .replace(/\b(skip that|skip it|something else|none of your business|thats private|thats personal)\b/g, " "),
+  );
+  if (fromUser.length > 0) return fromUser.slice(0, 6).join(" ");
+  return anchorOnQuestion(lastQuestion) ?? "that subject";
+}
+
+function anchorOnQuestion(lastQuestion: string | null): string | null {
+  if (!lastQuestion) return null;
+  const words = distinctiveWords(questionSentence(lastQuestion));
+  if (words.length === 0) return null;
+  return words.slice(0, 6).join(" ");
 }
