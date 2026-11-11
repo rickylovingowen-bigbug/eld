@@ -27,8 +27,8 @@ export default async function HomePage() {
       </div>
       {home.firstVisit ? (
         <div className="welcome">
-          <h1 className="display">{t.welcomeTitle(home.name)}.</h1>
-          <p className="sub">{t.welcomeRest}</p>
+          <h1 className="display">{t.welcomeTitle(home.name)}</h1>
+          <p className="body-text">{t.welcomeRest}</p>
         </div>
       ) : (
         <>

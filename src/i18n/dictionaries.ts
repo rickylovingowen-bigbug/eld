@@ -64,7 +64,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     afternoon: "Good afternoon",
     evening: "Good evening",
     greet: (part, name) => `${part}, ${name}`,
-    welcomeTitle: (name) => `Welcome, ${name}`,
+    welcomeTitle: (name) => `Welcome, ${name}.`,
     welcomeLine: (name) =>
       `Welcome, ${name}. I'll ask about when you were little. Just type what comes to mind. Short answers are fine.`,
     welcomeRest: "I'll ask about when you were little. Just type what comes to mind. Short answers are fine.",
@@ -120,7 +120,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     afternoon: "下午好",
     evening: "晚上好",
     greet: (part, name) => `${part}，${name}`,
-    welcomeTitle: (name) => `欢迎，${name}`,
+    welcomeTitle: (name) => `欢迎，${name}。`,
     welcomeLine: (name) => `欢迎，${name}。我会问小时候的事。想到什么就打什么，短一点也没关系。`,
     welcomeRest: "我会问小时候的事。想到什么就打什么，短一点也没关系。",
     welcomeBody: "我会问一些小时候的事。你打字回答就好，我听着。",

@@ -62,6 +62,6 @@ Use `rem` for every font size so iOS / browser text size applies; spacing stays 
 Chinese uses the zh line heights in tokens (about 0.2 taller). Overline stays unchanged in Chinese (no uppercase, no letter spacing). Chinese renders are not in this round; English is primary.
 
 ## v3.2 additions
-- `01-home-first.html`: first visit (0 stories). Greeting becomes "Welcome, {name}" plus one line of intro; main card overline "Start here", topic = The house I grew up in, button "Start". Never show a count of 0.
+- `01-home-first.html`: first visit (0 stories). Greeting headline is display "Welcome, {name}." (name from config, default Ricky). The line under it is body text2: "I'll ask about when you were little. Just type what comes to mind. Short answers are fine." The mock's "Walt" and "I'll ask you about when you were a kid. Just type your answers." are not used. Main card overline "Start here", topic = The house I grew up in, button "Start". Never show a count of 0.
 - `08-all-topics.html`: opened from "See all topics". Lists all 12 topics in `recommend_order`, each row = topic_en (19 serif) + card_hint_en (15, max 2 lines) + chevron; whole row (min 76pt) opens Story. Optional tag: "In progress" (accentSoft) / "N story/stories" (successSoft). No percentages, no "not started" marks.
 - Topics marked "Don't ask me about this" are removed from the main list and appear under "You asked me not to bring up", with a text button "Bring it back" (restores it to the list; no confirm needed). This is the only place to restore.

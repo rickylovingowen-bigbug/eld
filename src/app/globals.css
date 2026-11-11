@@ -44,6 +44,13 @@ a { color: var(--color-accent); text-decoration: none; }
 }
 html[lang="zh-Hans"] .display { line-height: 1.35; letter-spacing: 0; }
 .sub { color: var(--color-textSecondary); margin: 10px 0 0; }
+.body-text {
+  margin: 10px 0 0;
+  color: var(--color-textSecondary);
+  font-size: var(--type-body-size);
+  font-weight: var(--type-body-weight);
+  line-height: 1.4;
+}
 .hero {
   margin-top: 16px;
   background: var(--color-accent);
