@@ -5,10 +5,27 @@ import { assembleContext, renderInterviewPrompt } from "@/lib/conversation/conte
 import { loadPrompts } from "@/lib/config/prompts";
 import { runTurn } from "@/lib/conversation/engine";
 import { openConversation } from "@/lib/conversation/open";
+import { scoreDoNotWriteHandled } from "@/eval/rubric-score";
 import { messageIdsExcludedFromWriting } from "@/lib/pipeline/exclude";
 import { MemoryRepo } from "@/lib/repo/memory";
 
 const USER = "77777777-7777-4777-8777-777777777777";
+
+describe("do-not-write scoring", () => {
+  it("passes one brief acknowledgement that stays on the point", () => {
+    expect(scoreDoNotWriteHandled("Got it, that stays between us. What did they do for work?")).toBe("pass");
+    expect(scoreDoNotWriteHandled("What did they do for work?")).toBe("fail");
+    expect(
+      scoreDoNotWriteHandled("Got it, that stays between us. Would you like to talk about something else?"),
+    ).toBe("fail");
+    expect(
+      scoreDoNotWriteHandled("Got it, that stays between us. Thank you for telling me all of this. Your words are saved.", {
+        wantsToStop: true,
+        distress: "strong",
+      }),
+    ).toBe("pass");
+  });
+});
 
 describe("do-not-write", () => {
   it("drops do-not-write topics before the interviewer prompt is built", () => {
@@ -66,6 +83,9 @@ describe("do-not-write", () => {
     expect(result.classification.doNotWrite).toBe(true);
     expect(result.classification.doNotWriteScope).toBe("point");
     expect(result.assistantMessage.content.toLowerCase()).toContain("stays between us");
+    expect(result.assistantMessage.content).toMatch(/\?/);
+    expect(result.assistantMessage.content.toLowerCase()).not.toMatch(/something else|another topic/);
+    expect(await repo.listRefusalPoints(USER, "childhood-parents")).toEqual([]);
     expect(repo.topicState(USER, "childhood-parents")).toBe("recommendable");
     expect(repo.points.some((point) => point.kind === "do_not_write" && point.messageId === result.userMessage.id)).toBe(true);
     expect(result.session.status).toBe("open");

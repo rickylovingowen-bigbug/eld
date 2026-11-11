@@ -98,7 +98,7 @@ export function mockInterview(prompt: string): string {
   }
   let text = echo ? `${echo} ${question}` : question;
   text = enforceOneQuestion(text).text;
-  if (field(prompt, "Do not write now:") === "true") text = withDoNotWriteAck(text, points);
+  if (field(prompt, "Do not write now:") === "true") text = withDoNotWriteAck(text);
   return text;
 }
 

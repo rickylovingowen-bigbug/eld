@@ -196,7 +196,7 @@ export class PostgresRepo implements ConversationRepo {
     const rows = await this.sql<Row[]>`
       select point from refused_points
       where user_id = ${userId}
-        and kind in ('refusal', 'do_not_write')
+        and kind = 'refusal'
         and (${topicId}::text is null or topic_id is null or topic_id = ${topicId})
     `;
     return rows.map((row) => String(row.point));

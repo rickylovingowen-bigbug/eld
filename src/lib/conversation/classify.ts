@@ -91,17 +91,16 @@ export function pointForDoNotWrite(message: string, lastQuestion: string | null)
   return anchorOnQuestion(lastQuestion) ?? "that detail";
 }
 
-/** Extracted point plus the interviewer question that was just declined. */
+/** Refusal only: the extracted point and the question just declined. Do-not-write is not an avoid list. */
 export function avoidPointsForTurn(
-  classification: { refusal: boolean; refusedPoint: string | null; doNotWrite: boolean },
-  userText: string,
+  classification: { refusal: boolean; refusedPoint: string | null },
   declinedQuestion: string | null,
 ): string[] {
+  if (!classification.refusal) return [];
   const points: string[] = [];
-  if (classification.refusal && classification.refusedPoint) points.push(classification.refusedPoint);
-  if (classification.doNotWrite) points.push(pointForDoNotWrite(userText, declinedQuestion));
+  if (classification.refusedPoint) points.push(classification.refusedPoint);
   const question = declinedQuestion?.trim();
-  if ((classification.refusal || classification.doNotWrite) && question) points.push(question);
+  if (question) points.push(question);
   return [...new Set(points.map((point) => point.trim()).filter(Boolean))];
 }
 

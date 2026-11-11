@@ -185,7 +185,7 @@ export class MemoryRepo implements ConversationRepo {
     return this.points
       .filter(
         (point) =>
-          (point.kind === "refusal" || point.kind === "do_not_write") &&
+          point.kind === "refusal" &&
           point.userId === userId &&
           (topicId == null || point.topicId == null || point.topicId === topicId),
       )

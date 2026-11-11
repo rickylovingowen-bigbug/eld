@@ -270,14 +270,22 @@ export function acknowledgesDoNotWrite(text: string): boolean {
   );
 }
 
-/** One-sentence acknowledgement, then whatever question remains. */
-export function withDoNotWriteAck(text: string, refusedPoints: string[]): string {
-  const body = acknowledgesDoNotWrite(text) ? text.trim() : `${BETWEEN_US} ${text.trim()}`.trim();
-  const one = enforceOneQuestion(body).text;
-  if (countQuestions(one) === 1 && !mentionsRefusedPoint(one, refusedPoints)) return one;
-  const question = fallbackQuestion(refusedPoints, true);
-  const combined = `${BETWEEN_US} ${question}`;
-  return enforceOneQuestion(combined).text;
+/**
+ * One short acknowledgement, then the same follow-up. Do-not-write does not
+ * replace the question or move off the point.
+ */
+export function withDoNotWriteAck(text: string): string {
+  const trimmed = text.trim();
+  const body = acknowledgesDoNotWrite(trimmed) ? trimmed : `${BETWEEN_US} ${trimmed}`.trim();
+  return enforceOneQuestion(body).text;
+}
+
+const STEER_AWAY =
+  /\b(something else|another topic|switch to|talk about instead|leave that|leave this|we can leave|what else from those years|what would you like to talk about)\b/i;
+
+/** The reply changed the subject instead of staying with what the elder just said. */
+export function steersAway(reply: string): boolean {
+  return STEER_AWAY.test(reply);
 }
 
 function escapeRegExp(value: string): string {

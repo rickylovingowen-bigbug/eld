@@ -150,7 +150,7 @@ export async function completeTurn(
   const calls: ModelCallRecord[] = [];
   const repairs: string[] = [];
   const blockedPoints = [
-    ...new Set([...refusalPoints, ...avoidPointsForTurn(classification, userText, declined)]),
+    ...new Set([...refusalPoints, ...avoidPointsForTurn(classification, declined)]),
   ];
   let text = decision.template ?? "";
   if (decision.useModel) {
@@ -185,7 +185,7 @@ export async function completeTurn(
   }
 
   if (classification.doNotWrite && decision.expectsQuestion) {
-    const acked = withDoNotWriteAck(text, blockedPoints);
+    const acked = withDoNotWriteAck(text);
     if (acked !== text) repairs.push("do_not_write_ack");
     text = acked;
   } else if (!decision.expectsQuestion) {
@@ -218,13 +218,13 @@ export async function completeTurn(
         kind: "do_not_write",
       });
     }
-    if ((item.refusal || item.doNotWrite) && declined) {
+    if (item.refusal && declined) {
       marked.push({
         userId: input.userId,
         topicId: session.topicId,
         point: declined,
         messageId: message.id,
-        kind: item.refusal ? "refusal" : "do_not_write",
+        kind: "refusal",
       });
     }
     return marked.filter(
@@ -297,10 +297,10 @@ async function renderForSession(
     refusedPoints: [
       ...new Set([
         ...(await repo.listRefusalPoints(userId, session.topicId)),
-        ...avoidPointsForTurn(classification, userText, declined),
+        ...avoidPointsForTurn(classification, declined),
       ]),
     ],
-    doNotWriteTopics: blocked,
+    doNotWriteTopics: blocked.filter((topic) => topic.id !== session.topicId),
     openingGap: memory.openingGap,
     signals: {
       refusalNow: classification.refusal,

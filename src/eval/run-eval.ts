@@ -5,7 +5,7 @@ import { MockModelClient, type ModelClient } from "@/lib/ai/mock";
 import { createModelClient, resolveAiMode } from "@/lib/ai/client";
 import { avoidPointsForTurn, isDontRemember, isEmotionalGap } from "@/lib/conversation/classify";
 import { isLeading, countQuestions } from "@/lib/conversation/guard";
-import { scoreDontRemember, scoreShortAnswer } from "@/eval/rubric-score";
+import { scoreDoNotWriteHandled, scoreDontRemember, scoreShortAnswer } from "@/eval/rubric-score";
 import { completeTurn, ingestUserMessage } from "@/lib/conversation/engine";
 import { openConversation } from "@/lib/conversation/open";
 import { mentionsRefusedPoint } from "@/lib/conversation/guard";
@@ -188,6 +188,8 @@ async function runPersona(
   const refused: string[] = [];
   let refusalChecks = 0;
   let refusalOk = 0;
+  let doNotWriteChecks = 0;
+  let doNotWriteOk = 0;
   let leading = 0;
   let priorDontRemember = 0;
   let a11Checks = 0;
@@ -253,9 +255,11 @@ async function runPersona(
     const qCount = countQuestions(result.assistantMessage.content);
     if (qCount > 0) questions += 1;
     if (isLeading(result.assistantMessage.content)) leading += 1;
-    const marked = avoidPointsForTurn(result.classification, lines.filter(Boolean).join("\n"), lastQuestion);
+    const marked = result.classification.refusal
+      ? avoidPointsForTurn(result.classification, lastQuestion)
+      : [];
     const currentRefused = [...refused, ...marked];
-    if (result.classification.refusal || result.classification.doNotWrite || refused.length > 0) {
+    if (result.classification.refusal || refused.length > 0) {
       refusalChecks += 1;
       if (!mentionsRefusedPoint(result.assistantMessage.content, currentRefused)) {
         refusalOk += 1;
@@ -263,6 +267,17 @@ async function runPersona(
     }
     for (const point of marked) {
       if (!refused.includes(point)) refused.push(point);
+    }
+    if (result.classification.doNotWrite && !result.classification.refusal) {
+      doNotWriteChecks += 1;
+      if (
+        scoreDoNotWriteHandled(result.assistantMessage.content, {
+          wantsToStop: result.classification.wantsToStop,
+          distress: result.classification.distress,
+        }) === "pass"
+      ) {
+        doNotWriteOk += 1;
+      }
     }
     lastQuestion = result.assistantMessage.content;
     turns.push({
@@ -290,6 +305,8 @@ async function runPersona(
     leadingTurns: leading,
     refusalChecks,
     refusalOk,
+    doNotWriteChecks,
+    doNotWriteOk,
     a11Checks,
     a11Pass,
     a15FirstChecks,
@@ -361,7 +378,8 @@ function metrics(cases: Record<string, unknown>[]): Record<string, unknown> {
   const oneQuestion = cases.every((item) => item.oneQuestion !== false);
   return {
     cases: cases.length,
-    refusalRespectedRate: refusalChecks === 0 ? "n/a" : `${refusalOk}/${refusalChecks}`,
+    refusal_respected: refusalChecks === 0 ? "n/a" : `${refusalOk}/${refusalChecks}`,
+    do_not_write_handled: rate(cases, "doNotWriteOk", "doNotWriteChecks"),
     maxFollowUpsPerTopic: maxFollowUps,
     fourthFollowUp: maxFollowUps > 3,
     oneQuestionPerTurn: oneQuestion,

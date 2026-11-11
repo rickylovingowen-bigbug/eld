@@ -1,5 +1,5 @@
 import { isDontRemember, isEmotionalGap } from "@/lib/conversation/classify";
-import { countQuestions, isLeading } from "@/lib/conversation/guard";
+import { acknowledgesDoNotWrite, countQuestions, isLeading, steersAway } from "@/lib/conversation/guard";
 import type { Distress } from "@/lib/types";
 
 export type RubricMark = "pass" | "fail" | "n/a";
@@ -32,4 +32,29 @@ export function scoreDontRemember(
   const pushes = /think harder/i.test(reply);
   if (!second) return reassures && hook && countQuestions(reply) === 1 && !pushes ? "pass" : "fail";
   return reassures && switches && !hook && countQuestions(reply) === 1 && !pushes ? "pass" : "fail";
+}
+
+/**
+ * Do-not-write, when the elder is still talking: exactly one brief
+ * "this stays out of the book" line, then the same conversation. Steering
+ * away fails. If they also asked to stop, the ack plus a clean ending passes.
+ * Strong distress keeps its own support question.
+ */
+export function scoreDoNotWriteHandled(
+  reply: string,
+  signals: { wantsToStop: boolean; distress: string } = { wantsToStop: false, distress: "none" },
+): RubricMark {
+  const sentences = reply
+    .split(/(?<=[.!])\s+/)
+    .map((sentence) => sentence.trim())
+    .filter(Boolean);
+  const acks = sentences.filter((sentence) => acknowledgesDoNotWrite(sentence));
+  if (acks.length !== 1) return "fail";
+  const words = acks[0]?.split(/\s+/).filter(Boolean).length ?? 0;
+  if (words > 14) return "fail";
+  if (signals.wantsToStop) return countQuestions(reply) === 0 ? "pass" : "fail";
+  if (signals.distress === "strong") return countQuestions(reply) === 1 ? "pass" : "fail";
+  if (countQuestions(reply) !== 1) return "fail";
+  if (steersAway(reply)) return "fail";
+  return "pass";
 }
