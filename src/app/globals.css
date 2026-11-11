@@ -85,7 +85,7 @@ html[lang="zh-Hans"] .kicker, html[lang="zh-Hans"] .overline { text-transform: n
 .btn.primary:disabled { background: var(--color-surfaceMuted); color: var(--color-textDisabled); }
 .btn.on-hero { background: var(--color-onAccent); color: var(--color-accent); width: 100%; margin-top: 18px; }
 .btn.secondary { background: var(--color-surface); color: var(--color-accent); border: 1.5px solid var(--color-border); }
-.section-row { display: flex; justify-content: space-between; align-items: center; margin: 16px 0 8px; gap: 12px; }
+.section-row { display: flex; justify-content: space-between; align-items: center; margin: 0 0 8px; gap: 12px; }
 .overline { font-size: var(--type-overline-size); font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase; color: var(--color-textSecondary); }
 .text-btn { border: 0; background: transparent; color: var(--color-accent); font-weight: 600; min-height: var(--size-touchMin); }
 .card {
@@ -97,7 +97,24 @@ html[lang="zh-Hans"] .kicker, html[lang="zh-Hans"] .overline { text-transform: n
 }
 .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
 .card h3 { margin: 2px 0 0; font-family: var(--font-serifEn); font-size: 1.1875rem; font-weight: 500; }
-.hint { margin: 6px 8px 0 0; color: var(--color-textSecondary); font-size: var(--type-caption-size); }
+.hint {
+  margin: 6px 8px 0 0;
+  color: var(--color-textSecondary);
+  font-size: var(--type-caption-size);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+.hint.on-hero { color: rgba(255, 255, 255, 0.82); margin-right: 0; }
+.mark { margin: 8px 0 0; font-size: var(--type-caption-size); font-weight: 600; color: var(--color-uncertainText); }
+.see-all { margin-top: 16px; }
+.see-all > summary { list-style: none; cursor: pointer; }
+.see-all > summary::-webkit-details-marker { display: none; }
+.see-all-btn { font-size: 0.9375rem; font-weight: 600; color: var(--color-accent); }
+.see-all-panel { margin-top: 8px; }
+.welcome-line { font-size: 1.75rem; }
 .card-actions { display: flex; justify-content: space-between; align-items: center; }
 .icon-btn { width: 48px; height: 48px; border: 0; background: transparent; color: var(--color-textSecondary); }
 .menu { margin: 0 8px 8px 0; }

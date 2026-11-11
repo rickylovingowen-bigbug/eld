@@ -3,7 +3,9 @@ import path from "node:path";
 import { loadChildhoodTopics } from "@/lib/config/catalog";
 import { MockModelClient, type ModelClient } from "@/lib/ai/mock";
 import { createModelClient } from "@/lib/ai/client";
+import { isDontRemember, isEmotionalGap } from "@/lib/conversation/classify";
 import { isLeading, countQuestions } from "@/lib/conversation/guard";
+import { scoreDontRemember, scoreShortAnswer } from "@/eval/rubric-score";
 import { completeTurn, ingestUserMessage } from "@/lib/conversation/engine";
 import { openConversation } from "@/lib/conversation/open";
 import { mentionsRefusedPoint } from "@/lib/conversation/guard";
@@ -148,7 +150,9 @@ async function scoreClassifierCases(
     }
     if (all) exact += 1;
     bump(confusion.refusal, String(item.gold.refusal), String(predicted.refusal));
-    bump(confusion.do_not_write, String(item.gold.do_not_write), String(predicted.do_not_write));
+    if ("do_not_write" in item.gold) {
+      bump(confusion.do_not_write, String(item.gold.do_not_write), String(predicted.do_not_write));
+    }
     bump(confusion.distress, String(item.gold.distress), String(predicted.distress));
     rows.push({ id: item.id, gold: item.gold, predicted, calls: result.call });
   }
@@ -185,6 +189,13 @@ async function runPersona(
   let refusalChecks = 0;
   let refusalOk = 0;
   let leading = 0;
+  let priorDontRemember = 0;
+  let a11Checks = 0;
+  let a11Pass = 0;
+  let a15FirstChecks = 0;
+  let a15FirstPass = 0;
+  let a15SecondChecks = 0;
+  let a15SecondPass = 0;
   let questions = 0;
   let interviewerTurns = 0;
 
@@ -217,6 +228,27 @@ async function runPersona(
       if (userTurns >= 8) break;
     }
     const result = await completeTurn(repo, ai, { sessionId: opened.session.id, userId: EVAL_USER });
+    const reply = result.assistantMessage.content;
+    for (const line of lines) {
+      if (!line) continue;
+      const short = scoreShortAnswer(line, reply);
+      if (short !== "n/a") {
+        a11Checks += 1;
+        if (short === "pass") a11Pass += 1;
+      }
+      const remembered = scoreDontRemember(line, priorDontRemember, result.classification.distress, reply);
+      if (remembered !== "n/a") {
+        const second = priorDontRemember >= 1 || isEmotionalGap(line, result.classification.distress);
+        if (second) {
+          a15SecondChecks += 1;
+          if (remembered === "pass") a15SecondPass += 1;
+        } else {
+          a15FirstChecks += 1;
+          if (remembered === "pass") a15FirstPass += 1;
+        }
+      }
+      if (isDontRemember(line)) priorDontRemember += 1;
+    }
     interviewerTurns += 1;
     const qCount = countQuestions(result.assistantMessage.content);
     if (qCount > 0) questions += 1;
@@ -257,6 +289,12 @@ async function runPersona(
     leadingTurns: leading,
     refusalChecks,
     refusalOk,
+    a11Checks,
+    a11Pass,
+    a15FirstChecks,
+    a15FirstPass,
+    a15SecondChecks,
+    a15SecondPass,
     oneQuestion: turns.filter((turn) => "questionCount" in turn).every((turn) => (turn.questionCount ?? 0) <= 1),
     turns,
   };
@@ -328,7 +366,16 @@ function metrics(cases: Record<string, unknown>[]): Record<string, unknown> {
     oneQuestionPerTurn: oneQuestion,
     leadingQuestionRate: questionTurns === 0 ? "n/a" : `${leadingTurns}/${questionTurns}`,
     leadingQuestionJudge: { score: null, status: "not_run" },
+    shortAnswerRate: rate(cases, "a11Pass", "a11Checks"),
+    dontRememberFirstRate: rate(cases, "a15FirstPass", "a15FirstChecks"),
+    dontRememberSecondRate: rate(cases, "a15SecondPass", "a15SecondChecks"),
   };
+}
+
+function rate(cases: Record<string, unknown>[], passKey: string, checkKey: string): string {
+  const checks = cases.reduce((sum, item) => sum + Number(item[checkKey] ?? 0), 0);
+  const passes = cases.reduce((sum, item) => sum + Number(item[passKey] ?? 0), 0);
+  return checks === 0 ? "n/a" : `${passes}/${checks}`;
 }
 
 function toGold(classification: Classification): Gold {

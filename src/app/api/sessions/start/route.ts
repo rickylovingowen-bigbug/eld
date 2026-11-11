@@ -12,6 +12,12 @@ export async function POST(request: Request) {
     return Response.json({ error: "tell_more arrives in v0.2" }, { status: 400 });
   }
   const repo = new PostgresRepo();
+  if (entryMode === "topic" && body.topicId) {
+    const states = await repo.listDoNotWrite(RICKY_ID);
+    if (states.some((topic) => topic.id === body.topicId)) {
+      await repo.setTopicStatus(RICKY_ID, body.topicId, "recommendable");
+    }
+  }
   const opened = await openConversation(repo, {
     userId: RICKY_ID,
     entryMode,

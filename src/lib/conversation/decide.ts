@@ -1,11 +1,12 @@
 import { FOLLOW_UP_CAP } from "@/lib/constants";
-import { isDontRemember } from "@/lib/conversation/classify";
+import { isDontRemember, isEmotionalGap } from "@/lib/conversation/classify";
 import {
   BETWEEN_US,
   CAP_TEMPLATE,
   DISTRESS_TEMPLATE,
   DO_NOT_WRITE_TEMPLATE,
-  DONT_REMEMBER_TEMPLATE,
+  DONT_REMEMBER_FIRST,
+  DONT_REMEMBER_SWITCH,
   MARKED_DO_NOT_WRITE_TEMPLATE,
   STOP_TEMPLATE,
   safeRefusalTemplate,
@@ -48,6 +49,8 @@ export interface DecideInput {
   consecutiveTopicRefusals: number;
   userText: string;
   refusedPoints: string[];
+  /** How many earlier turns on this topic were "I don't remember". */
+  priorDontRemember?: number;
 }
 
 export function trailingTopicRefusals(
@@ -170,10 +173,11 @@ export function decideTurn(input: DecideInput): Decision {
   }
 
   if (isDontRemember(text)) {
+    const again = (input.priorDontRemember ?? 0) >= 1 || isEmotionalGap(text, classification.distress);
     return decision({
       kind: "reassure_switch",
       useModel: false,
-      template: DONT_REMEMBER_TEMPLATE,
+      template: again ? DONT_REMEMBER_SWITCH : DONT_REMEMBER_FIRST,
       messageKind: "reassure_switch",
       countsAsFollowUp: false,
       expectsQuestion: true,

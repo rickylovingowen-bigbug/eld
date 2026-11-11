@@ -9,7 +9,9 @@ export interface Dictionary {
   evening: string;
   greet: (part: string, name: string) => string;
   welcomeTitle: (name: string) => string;
+  welcomeLine: (name: string) => string;
   welcomeBody: string;
+  wontAsk: string;
   progress: (count: number) => string;
   continueKicker: string;
   continue: string;
@@ -55,7 +57,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
     evening: "Good evening",
     greet: (part, name) => `${part}, ${name}`,
     welcomeTitle: (name) => `Welcome, ${name}`,
+    welcomeLine: (name) =>
+      `Welcome, ${name}. I'll ask about when you were little. Just type what comes to mind. Short answers are fine.`,
     welcomeBody: "I'll ask about when you were growing up. You type your answers, and I'll listen.",
+    wontAsk: "Won't ask again",
     progress: (count) =>
       count === 1 ? "You've shared 1 story about growing up." : `You've shared ${count} stories about growing up.`,
     continueKicker: "Pick up where you left off",
@@ -100,7 +105,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
     evening: "晚上好",
     greet: (part, name) => `${part}，${name}`,
     welcomeTitle: (name) => `欢迎，${name}`,
+    welcomeLine: (name) => `欢迎，${name}。我会问小时候的事。想到什么就打什么，短一点也没关系。`,
     welcomeBody: "我会问一些小时候的事。你打字回答就好，我听着。",
+    wontAsk: "以后不问这个",
     progress: (count) => `你已经讲了 ${count} 段小时候的故事。`,
     continueKicker: "接着上次",
     continue: "继续",

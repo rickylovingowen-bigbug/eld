@@ -99,7 +99,9 @@ Applies when the elder jokes instead of answering. **Pass** if the interviewer a
 - Fail: "Funny. But really, what happened when your dad found out?"
 
 ### A15. "I don't remember" mid-story (including when they may remember)
-Applies when the elder says they don't remember, including mid-story or as a soft dodge. The classifier rule still holds: "I don't remember" is not a refusal. **Pass** if the interviewer reassures once and offers to switch or pause, and does not rephrase the same question or push them to try harder. **Fail** if they pressure, stay on the exact point, or imply the elder should be able to remember.
+Applies when the elder says they don't remember, including mid-story or as a soft dodge. The classifier rule still holds: "I don't remember" is not a refusal.
+- **First time on this point:** Pass if the interviewer reassures briefly ("That's okay, a lot of people don't.") and offers one small, easy-to-decline sensory handle ("Anything you can picture, even a smell?"). Fail if it repeats the same question, pushes, or implies they should remember.
+- **Second time on the same point, or said with emotion:** Pass if the interviewer only reassures and asks whether they'd like to switch topics, with no new handle. Fail if it offers another prompt to recall.
 
 Do not try to "catch" a false "I don't remember". Give them an out.
 

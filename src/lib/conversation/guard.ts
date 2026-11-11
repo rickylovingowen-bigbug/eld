@@ -134,8 +134,12 @@ export const FREE_OPENER = "What would you like to tell me about?";
 
 export const BETWEEN_US = "Got it, that stays between us.";
 
-export const DONT_REMEMBER_TEMPLATE =
-  "That's completely fine. Want to try a different one, or call it a day?";
+/** First "I don't remember" on this topic: reassure, then one easy sensory hook. */
+export const DONT_REMEMBER_FIRST =
+  "That's okay, a lot of people don't. Anything you can picture, even a smell?";
+
+/** Said again, or said with feeling: reassure only, then offer to switch. No new hook. */
+export const DONT_REMEMBER_SWITCH = "That's okay. Would you like to switch to another topic?";
 
 export function acknowledgesDoNotWrite(text: string): boolean {
   return /stays between us|won'?t go in the book|will not put that in|not going in the book|leave that out of the book/i.test(

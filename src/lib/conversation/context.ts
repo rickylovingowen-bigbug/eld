@@ -39,6 +39,8 @@ export interface ContextParts {
     doNotWriteNow: boolean;
     answerLength: Classification["answerLength"];
     dontRemember: boolean;
+    /** Earlier "I don't remember" turns on this topic, not counting the current message. */
+    dontRememberPrior: number;
   };
 }
 
@@ -99,7 +101,11 @@ export function renderInterviewPrompt(
       ctx.people.map((person) => `${person.name}${person.relation ? ` (${person.relation})` : ""}`).join("; ") ||
       "(none yet)",
     story_summaries: ctx.storySummaries.map((story) => story.summary).join(" | ") || "(none yet)",
+    dont_remember_prior: String(ctx.signals.dontRememberPrior),
   });
+  const withCount = `${system}
+
+App count: dont_remember_prior = ${ctx.signals.dontRememberPrior}. That is how many times they already said they don't remember on this topic, before this message. The first time (0, and distress is none): one reassuring line, then one small sensory hook they can decline. The second time, or if they say it with feeling: reassurance only, then ask whether they'd like to switch topics. No new hook.`;
   const prompt = [
     `Follow-ups used: ${ctx.followUpsUsed}`,
     `Extended: ${ctx.extendedByUser}`,
@@ -108,6 +114,7 @@ export function renderInterviewPrompt(
     `Do not write now: ${ctx.signals.doNotWriteNow}`,
     `Answer length: ${ctx.signals.answerLength}`,
     `Dont remember: ${ctx.signals.dontRemember}`,
+    `Dont remember prior: ${ctx.signals.dontRememberPrior}`,
     `Wants to stop: ${ctx.signals.wantsToStop}`,
     `Refused points: ${ctx.refusedPoints.join(" | ") || "(none)"}`,
     `Opening gap: ${ctx.openingGap?.nextQuestion ?? "(none)"}`,
@@ -120,5 +127,5 @@ export function renderInterviewPrompt(
     "",
     "Write the next interviewer reply.",
   ].join("\n");
-  return { system, prompt };
+  return { system: withCount, prompt };
 }

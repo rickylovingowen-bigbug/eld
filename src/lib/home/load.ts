@@ -1,4 +1,5 @@
 import { ensureSeeded } from "@/lib/catalog-sync";
+import { loadChildhoodTopics } from "@/lib/config/catalog";
 import { RICKY_ID } from "@/lib/constants";
 import { getSql } from "@/lib/db";
 import { layoutHomeTopics } from "@/lib/home/recommend";
@@ -26,7 +27,7 @@ export interface HomeData {
 export async function loadHome(): Promise<HomeData> {
   await ensureSeeded();
   const sql = getSql();
-  const [userRows, topicRows, sessionRows, storyRows, messageRows] = await Promise.all([
+  const [userRows, topicRows, sessionRows, storyRows] = await Promise.all([
     sql<{ display_name: string; ui_locale: string }[]>`
       select display_name, ui_locale from users where id = ${RICKY_ID}
     `,
@@ -50,16 +51,15 @@ export async function loadHome(): Promise<HomeData> {
       select count(*)::int as count from stories
       where user_id = ${RICKY_ID} and chapter_id = 'childhood' and status <> 'removed'
     `,
-    sql<{ exists: boolean }[]>`
-      select exists(select 1 from messages where user_id = ${RICKY_ID} and role = 'user') as exists
-    `,
   ]);
+  const hints = new Map(loadChildhoodTopics().map((topic) => [topic.id, topic.cardHint]));
   const user = userRows[0];
   const topics: TopicWithStatus[] = topicRows.map((row) => ({
     id: row.id,
     chapterId: "childhood",
     title: row.title,
     openingQuestion: row.opening_question,
+    cardHint: hints.get(row.id) ?? "",
     followUps: [],
     sensitive: row.sensitive,
     recommendByDefault: row.recommend_by_default,
@@ -73,7 +73,7 @@ export async function loadHome(): Promise<HomeData> {
     locale: user?.ui_locale === "zh" ? "zh" : "en",
     name: user?.display_name ?? "Ricky",
     storyCount: storyRows[0]?.count ?? 0,
-    firstVisit: messageRows[0]?.exists !== true && !open,
+    firstVisit: (storyRows[0]?.count ?? 0) === 0 && !open,
     continueCard: open
       ? {
           sessionId: open.id,

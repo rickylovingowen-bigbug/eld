@@ -70,6 +70,13 @@ export function isDontRemember(message: string): boolean {
   return DONT_REMEMBER.test(normalized) && !REFUSAL.test(normalized);
 }
 
+/** "I don't remember" said with feeling, so the interviewer should not offer another hook. */
+export function isEmotionalGap(message: string, distress: Distress): boolean {
+  if (distress === "mild" || distress === "strong") return true;
+  const normalized = message.toLowerCase().replace(/['’]/g, "");
+  return /\b(upset|hurts|crying|tears|scared|angry|ashamed|this is hard)\b/.test(normalized);
+}
+
 export function pointForDoNotWrite(message: string, lastQuestion: string | null): string {
   const normalized = message.toLowerCase().replace(/['’]/g, "");
   const about = normalized.match(/\babout\s+([a-z0-9' ]{0,40})/);

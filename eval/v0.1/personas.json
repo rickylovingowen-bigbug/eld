@@ -172,9 +172,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "very_short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "very_short"
           }
         },
         {
@@ -189,9 +187,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "very_short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "very_short"
           }
         },
         {
@@ -206,9 +202,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm2"
@@ -232,9 +226,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "very_short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "very_short"
           },
           "trap": {
             "detail": "kitchen color",
@@ -310,9 +302,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "rich",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "rich"
           }
         },
         {
@@ -327,9 +317,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "rich",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "rich"
           },
           "reveal_hidden": [
             "hm5"
@@ -354,9 +342,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "rich",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "rich"
           },
           "reveal_hidden": [
             "hm2",
@@ -432,9 +418,7 @@
             "off_topic_chapter": "now",
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           }
         },
         {
@@ -449,9 +433,7 @@
             "off_topic_chapter": "now",
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "subjects": [
             "grandkids",
@@ -473,9 +455,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm1"
@@ -499,9 +479,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm3"
@@ -576,9 +554,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "very_short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "very_short"
           }
         },
         {
@@ -593,9 +569,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm1"
@@ -613,9 +587,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm5"
@@ -631,7 +603,7 @@
     },
     {
       "id": "p05-food-ramble-trap",
-      "review_status": "draft, biographer to review",
+      "review_status": "ready",
       "persona": {
         "name": "Patsy Delgado",
         "birth_year": 1952,
@@ -697,9 +669,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "rich",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "rich"
           }
         },
         {
@@ -714,9 +684,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm1"
@@ -742,9 +710,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "very_short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "very_short"
           },
           "trap": {
             "detail": "tortilla type",
@@ -820,9 +786,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm1"
@@ -840,9 +804,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm2",
@@ -869,9 +831,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "very_short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "very_short"
           },
           "subjects": [
             "meat",
@@ -894,16 +854,14 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "very_short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "very_short"
           }
         }
       ]
     },
     {
       "id": "p07-parents-sensitive-refuse",
-      "review_status": "draft, biographer to review",
+      "review_status": "ready",
       "persona": {
         "name": "Margaret 'Meg' O'Connor",
         "birth_year": 1948,
@@ -972,9 +930,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "very_short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "very_short"
           },
           "reveal_hidden": [
             "hm1"
@@ -987,9 +943,7 @@
               "off_topic_chapter": null,
               "wants_to_stop": false,
               "distress": "none",
-              "answer_length": "very_short",
-              "do_not_write": false,
-              "do_not_write_scope": "none"
+              "answer_length": "very_short"
             },
             {
               "refusal": false,
@@ -998,9 +952,7 @@
               "off_topic_chapter": null,
               "wants_to_stop": false,
               "distress": "none",
-              "answer_length": "short",
-              "do_not_write": false,
-              "do_not_write_scope": "none"
+              "answer_length": "short"
             }
           ],
           "sample_messages": [
@@ -1023,9 +975,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "mild",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm5",
@@ -1039,9 +989,7 @@
               "off_topic_chapter": null,
               "wants_to_stop": false,
               "distress": "mild",
-              "answer_length": "very_short",
-              "do_not_write": false,
-              "do_not_write_scope": "none"
+              "answer_length": "very_short"
             },
             {
               "refusal": false,
@@ -1050,9 +998,7 @@
               "off_topic_chapter": null,
               "wants_to_stop": false,
               "distress": "none",
-              "answer_length": "short",
-              "do_not_write": false,
-              "do_not_write_scope": "none"
+              "answer_length": "short"
             }
           ],
           "sample_messages": [
@@ -1080,9 +1026,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "mild",
-            "answer_length": "very_short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "very_short"
           },
           "expected_classifier_messages": [
             {
@@ -1092,9 +1036,7 @@
               "off_topic_chapter": null,
               "wants_to_stop": false,
               "distress": "mild",
-              "answer_length": "very_short",
-              "do_not_write": false,
-              "do_not_write_scope": "none"
+              "answer_length": "very_short"
             },
             {
               "refusal": false,
@@ -1103,9 +1045,7 @@
               "off_topic_chapter": null,
               "wants_to_stop": false,
               "distress": "none",
-              "answer_length": "short",
-              "do_not_write": false,
-              "do_not_write_scope": "none"
+              "answer_length": "short"
             }
           ],
           "sample_messages": [
@@ -1117,7 +1057,7 @@
     },
     {
       "id": "p08-parents-donotwrite-stop",
-      "review_status": "draft, biographer to review",
+      "review_status": "ready",
       "persona": {
         "name": "Raymond 'Ray' Gorski",
         "birth_year": 1943,
@@ -1182,9 +1122,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm1",
@@ -1203,9 +1141,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": true,
-            "do_not_write_scope": "point"
+            "answer_length": "short"
           }
         },
         {
@@ -1220,9 +1156,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": true,
             "distress": "none",
-            "answer_length": "very_short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "very_short"
           }
         }
       ]
@@ -1294,9 +1228,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm1",
@@ -1315,9 +1247,7 @@
             "off_topic_chapter": "work",
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           }
         },
         {
@@ -1332,9 +1262,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm4",
@@ -1417,9 +1345,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "very_short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "very_short"
           }
         },
         {
@@ -1434,9 +1360,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "very_short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "very_short"
           }
         },
         {
@@ -1451,9 +1375,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "very_short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "very_short"
           },
           "reveal_hidden": [
             "hm2"
@@ -1470,7 +1392,7 @@
     },
     {
       "id": "p11-friend-strong-stop",
-      "review_status": "draft, biographer to review",
+      "review_status": "ready",
       "persona": {
         "name": "Carolyn Hayes",
         "birth_year": 1949,
@@ -1538,9 +1460,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "very_short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "very_short"
           },
           "reveal_hidden": [
             "hm1"
@@ -1553,9 +1473,7 @@
               "off_topic_chapter": null,
               "wants_to_stop": false,
               "distress": "none",
-              "answer_length": "very_short",
-              "do_not_write": false,
-              "do_not_write_scope": "none"
+              "answer_length": "very_short"
             },
             {
               "refusal": false,
@@ -1564,9 +1482,7 @@
               "off_topic_chapter": null,
               "wants_to_stop": false,
               "distress": "none",
-              "answer_length": "very_short",
-              "do_not_write": false,
-              "do_not_write_scope": "none"
+              "answer_length": "very_short"
             }
           ],
           "sample_messages": [
@@ -1589,9 +1505,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm2"
@@ -1618,9 +1532,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "strong",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm3"
@@ -1633,9 +1545,7 @@
               "off_topic_chapter": null,
               "wants_to_stop": false,
               "distress": "none",
-              "answer_length": "short",
-              "do_not_write": false,
-              "do_not_write_scope": "none"
+              "answer_length": "short"
             },
             {
               "refusal": false,
@@ -1644,9 +1554,7 @@
               "off_topic_chapter": null,
               "wants_to_stop": false,
               "distress": "strong",
-              "answer_length": "very_short",
-              "do_not_write": false,
-              "do_not_write_scope": "none"
+              "answer_length": "very_short"
             }
           ],
           "sample_messages": [
@@ -1676,9 +1584,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": true,
             "distress": "mild",
-            "answer_length": "very_short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "very_short"
           },
           "expected_classifier_messages": [
             {
@@ -1688,9 +1594,7 @@
               "off_topic_chapter": null,
               "wants_to_stop": true,
               "distress": "none",
-              "answer_length": "very_short",
-              "do_not_write": false,
-              "do_not_write_scope": "none"
+              "answer_length": "very_short"
             },
             {
               "refusal": false,
@@ -1699,9 +1603,7 @@
               "off_topic_chapter": null,
               "wants_to_stop": false,
               "distress": "none",
-              "answer_length": "very_short",
-              "do_not_write": false,
-              "do_not_write_scope": "none"
+              "answer_length": "very_short"
             }
           ],
           "sample_messages": [
@@ -1778,9 +1680,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           }
         },
         {
@@ -1795,9 +1695,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm1"
@@ -1815,9 +1713,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm2",
@@ -1907,9 +1803,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "rich",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "rich"
           },
           "reveal_hidden": [
             "hm1",
@@ -1928,9 +1822,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "rich",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "rich"
           },
           "reveal_hidden": [
             "hm2"
@@ -1954,9 +1846,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "trap": {
             "detail": "tree location and decorations",
@@ -2032,9 +1922,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "mild",
-            "answer_length": "rich",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "rich"
           },
           "reveal_hidden": [
             "hm3",
@@ -2053,9 +1941,7 @@
             "off_topic_chapter": "now",
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "subjects": [
             "granddaughter",
@@ -2078,9 +1964,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "mild",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm1",
@@ -2158,9 +2042,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm1",
@@ -2179,9 +2061,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "subjects": [
             "never forget",
@@ -2204,9 +2084,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           }
         }
       ]
@@ -2278,9 +2156,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "very_short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "very_short"
           },
           "reveal_hidden": [
             "hm1"
@@ -2298,9 +2174,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "very_short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "very_short"
           },
           "reveal_hidden": [
             "hm2"
@@ -2318,16 +2192,14 @@
             "off_topic_chapter": "love",
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           }
         }
       ]
     },
     {
       "id": "p17-neighborhood-poverty-refuse",
-      "review_status": "draft, biographer to review",
+      "review_status": "ready",
       "persona": {
         "name": "Otis Jennings",
         "birth_year": 1941,
@@ -2392,9 +2264,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm1"
@@ -2412,9 +2282,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm5",
@@ -2433,9 +2301,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "very_short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "very_short"
           }
         },
         {
@@ -2450,9 +2316,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm2",
@@ -2537,9 +2401,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "very_short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "very_short"
           }
         },
         {
@@ -2554,9 +2416,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "very_short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "very_short"
           }
         },
         {
@@ -2571,9 +2431,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "very_short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "very_short"
           },
           "reveal_hidden": [
             "hm1"
@@ -2598,9 +2456,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "very_short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "very_short"
           },
           "trap": {
             "detail": "store name or street surface",
@@ -2677,9 +2533,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "rich",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "rich"
           },
           "reveal_hidden": [
             "hm1",
@@ -2698,9 +2552,7 @@
             "off_topic_chapter": "home",
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "rich",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "rich"
           }
         },
         {
@@ -2715,9 +2567,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm3",
@@ -2803,9 +2653,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm1",
@@ -2825,9 +2673,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "subjects": [
             "go anywhere",
@@ -2850,9 +2696,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           }
         },
         {
@@ -2867,9 +2711,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm5"
@@ -2886,7 +2728,7 @@
     },
     {
       "id": "p21-grandparents-family-mild",
-      "review_status": "draft, biographer to review",
+      "review_status": "ready",
       "persona": {
         "name": "Irene Papadopoulos",
         "birth_year": 1945,
@@ -2954,9 +2796,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm1"
@@ -2969,9 +2809,7 @@
               "off_topic_chapter": null,
               "wants_to_stop": false,
               "distress": "none",
-              "answer_length": "very_short",
-              "do_not_write": false,
-              "do_not_write_scope": "none"
+              "answer_length": "very_short"
             },
             {
               "refusal": false,
@@ -2980,9 +2818,7 @@
               "off_topic_chapter": null,
               "wants_to_stop": false,
               "distress": "none",
-              "answer_length": "short",
-              "do_not_write": false,
-              "do_not_write_scope": "none"
+              "answer_length": "short"
             }
           ],
           "sample_messages": [
@@ -3005,9 +2841,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm5"
@@ -3020,9 +2854,7 @@
               "off_topic_chapter": null,
               "wants_to_stop": false,
               "distress": "none",
-              "answer_length": "short",
-              "do_not_write": false,
-              "do_not_write_scope": "none"
+              "answer_length": "short"
             },
             {
               "refusal": false,
@@ -3031,9 +2863,7 @@
               "off_topic_chapter": null,
               "wants_to_stop": false,
               "distress": "none",
-              "answer_length": "short",
-              "do_not_write": false,
-              "do_not_write_scope": "none"
+              "answer_length": "short"
             }
           ],
           "sample_messages": [
@@ -3065,9 +2895,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "mild",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "subjects": [
             "stuck with you",
@@ -3147,9 +2975,7 @@
             "off_topic_chapter": "now",
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           }
         },
         {
@@ -3164,9 +2990,7 @@
             "off_topic_chapter": "now",
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           }
         },
         {
@@ -3181,9 +3005,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm1",
@@ -3202,7 +3024,7 @@
     },
     {
       "id": "p23-name-refuse-family",
-      "review_status": "draft, biographer to review",
+      "review_status": "ready",
       "persona": {
         "name": "Yolanda 'Yoli' Santos",
         "birth_year": 1958,
@@ -3267,9 +3089,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm1",
@@ -3288,9 +3108,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm5"
@@ -3315,9 +3133,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "subjects": [
             "named after",
@@ -3339,9 +3155,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           }
         }
       ]
@@ -3413,9 +3227,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm1",
@@ -3434,9 +3246,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": true,
-            "do_not_write_scope": "point"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm4"
@@ -3460,16 +3270,14 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           }
         }
       ]
     },
     {
       "id": "p25-trouble-joke-refuse",
-      "review_status": "draft, biographer to review",
+      "review_status": "ready",
       "persona": {
         "name": "Kenneth 'Kenny' Boyd",
         "birth_year": 1950,
@@ -3494,7 +3302,7 @@
         },
         {
           "id": "hm2",
-          "fact": "He hid in the silo afterward.",
+          "fact": "He hid in the hayloft afterward.",
           "reveal": "open question about what he did next or whether he got caught",
           "trap": false
         },
@@ -3535,9 +3343,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm1"
@@ -3546,8 +3352,8 @@
         {
           "id": "s2",
           "when": "if_asks_about",
-          "behavior": "If asked if he got caught or what happened next, he can reveal the silo and the brother, still joking a little.",
-          "sample_utterance": "I hid in the silo like that was a good plan. My brother ratted me out anyway.",
+          "behavior": "If asked if he got caught or what happened next, he can reveal the hayloft and the brother, still joking a little.",
+          "sample_utterance": "I hid in the hayloft like that was a good plan. My brother ratted me out anyway.",
           "expected_classifier": {
             "refusal": false,
             "refusal_scope": "none",
@@ -3555,9 +3361,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm2",
@@ -3582,9 +3386,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm5",
@@ -3609,9 +3411,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "very_short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "very_short"
           }
         }
       ]
@@ -3677,9 +3477,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm1"
@@ -3697,9 +3495,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "very_short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "very_short"
           },
           "reveal_hidden": [
             "hm2"
@@ -3723,9 +3519,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "strong",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm4"
@@ -3750,9 +3544,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": true,
             "distress": "mild",
-            "answer_length": "very_short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "very_short"
           }
         }
       ]
@@ -3819,9 +3611,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm1",
@@ -3840,9 +3630,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm2",
@@ -3869,9 +3657,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "trap": {
             "detail": "setting of earliest memory",
@@ -3947,9 +3733,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "rich",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "rich"
           },
           "reveal_hidden": [
             "hm1",
@@ -3970,9 +3754,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "subjects": [
             "happened next",
@@ -3996,16 +3778,14 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           }
         }
       ]
     },
     {
       "id": "p29-hard-refuse-mild",
-      "review_status": "draft, biographer to review",
+      "review_status": "ready",
       "persona": {
         "name": "Lillian 'Lil' Kovacs",
         "birth_year": 1943,
@@ -4071,9 +3851,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "mild",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm5"
@@ -4091,9 +3869,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "mild",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           }
         },
         {
@@ -4108,16 +3884,14 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "very_short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "very_short"
           }
         }
       ]
     },
     {
       "id": "p30-hard-strong-donotwrite-stop",
-      "review_status": "draft, biographer to review",
+      "review_status": "ready",
       "persona": {
         "name": "Harvey 'Harv' Dillard",
         "birth_year": 1947,
@@ -4128,7 +3902,7 @@
         "typing_style": "all lowercase, no punctuation, slow",
         "delivery": "single",
         "temperament": "plain, private, can be undone if a lightly mentioned loss is chased",
-        "parents_background": "Parents farmed through leftover Depression habits. Father had been stateside during the war with a farm deferment. Mention only in passing.",
+        "parents_background": "Parents farmed through leftover Depression habits. Father had a farm deferment during the war. Mention only in passing.",
         "persona_notes": "Harv may mention a baby brother who 'didn't stay with us long' only lightly, then pivot. If the interviewer chases the death, he goes into strong distress, says do not write about the brother, and wants to stop. Hidden names and funeral details should not be rewarded to a chasing question.",
         "age_in_2026": 79
       },
@@ -4184,9 +3958,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "reveal_hidden": [
             "hm5"
@@ -4204,9 +3976,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": true,
             "distress": "strong",
-            "answer_length": "very_short",
-            "do_not_write": true,
-            "do_not_write_scope": "point"
+            "answer_length": "very_short"
           }
         },
         {
@@ -4221,9 +3991,7 @@
             "off_topic_chapter": null,
             "wants_to_stop": false,
             "distress": "none",
-            "answer_length": "short",
-            "do_not_write": false,
-            "do_not_write_scope": "none"
+            "answer_length": "short"
           },
           "subjects": [
             "winter",

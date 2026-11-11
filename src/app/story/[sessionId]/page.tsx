@@ -29,6 +29,7 @@ export default async function StoryPage({ params }: { params: Promise<{ sessionI
     chapterId: "childhood",
     title: row.title,
     openingQuestion: row.opening_question,
+    cardHint: "",
     followUps: [],
     sensitive: row.sensitive,
     recommendByDefault: row.recommend_by_default,

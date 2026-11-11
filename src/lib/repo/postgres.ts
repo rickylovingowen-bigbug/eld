@@ -342,6 +342,7 @@ function mapTopic(row: Row): TopicContent {
     chapterId: String(row.chapter_id),
     title: titleOf(row.title),
     openingQuestion: String(row.opening_question),
+    cardHint: "",
     followUps: Array.isArray(row.follow_ups) ? (row.follow_ups as string[]) : [],
     sensitive: Boolean(row.sensitive),
     recommendByDefault: Boolean(row.recommend_by_default),

@@ -24,8 +24,14 @@ export default async function HomePage() {
           </button>
         </form>
       </div>
-      <Greeting locale={home.locale} name={home.name} firstVisit={home.firstVisit} />
-      <p className="sub">{home.firstVisit ? t.welcomeBody : t.progress(home.storyCount)}</p>
+      {home.firstVisit ? (
+        <h1 className="display welcome-line">{t.welcomeLine(home.name)}</h1>
+      ) : (
+        <>
+          <Greeting locale={home.locale} name={home.name} firstVisit={false} />
+          {home.storyCount > 0 ? <p className="sub">{t.progress(home.storyCount)}</p> : null}
+        </>
+      )}
 
       {home.continueCard ? (
         <section className="hero">
@@ -38,22 +44,23 @@ export default async function HomePage() {
         </section>
       ) : null}
 
-      {home.hero ? <TopicHero topic={home.hero} label={title(home.hero)} start={t.start} /> : null}
+      {home.hero ? <TopicHero topic={home.hero} label={title(home.hero)} hint={home.hero.cardHint} start={t.start} /> : null}
 
-      <div className="section-row">
-        <div className="overline">{t.orTry}</div>
-      </div>
+      <details className="see-all">
+        <summary className="section-row">
+          <span className="overline">{t.orTry}</span>
+          <span className="see-all-btn">{t.seeAll}</span>
+        </summary>
+        <div className="see-all-panel">
+          {home.allTopics.map((topic) => (
+            <TopicCard key={`all-${topic.id}`} topic={topic} label={title(topic)} hint={topic.cardHint} t={t} inDirectory />
+          ))}
+        </div>
+      </details>
       {home.cards.length === 0 && !home.hero && !home.continueCard ? <p>{t.allDone}</p> : null}
       {home.cards.map((topic) => (
-        <TopicCard key={topic.id} topic={topic} label={title(topic)} t={t} />
+        <TopicCard key={topic.id} topic={topic} label={title(topic)} hint={topic.cardHint} t={t} />
       ))}
-
-      <details className="sheet">
-        <summary className="text-btn">{t.seeAll}</summary>
-        {home.allTopics.map((topic) => (
-          <TopicCard key={`all-${topic.id}`} topic={topic} label={title(topic)} t={t} showStatus />
-        ))}
-      </details>
 
       <form action="/api/sessions/start" method="post">
         <input type="hidden" name="entryMode" value="free" />
@@ -72,11 +79,11 @@ export default async function HomePage() {
   );
 }
 
-function TopicHero({ topic, label, start }: { topic: TopicWithStatus; label: string; start: string }) {
+function TopicHero({ topic, label, hint, start }: { topic: TopicWithStatus; label: string; hint: string; start: string }) {
   return (
     <section className="hero">
       <h2>{label}</h2>
-      <p>{topic.openingQuestion}</p>
+      <p className="hint on-hero">{hint}</p>
       <form action="/api/sessions/start" method="post">
         <input type="hidden" name="entryMode" value="topic" />
         <input type="hidden" name="topicId" value={topic.id} />
@@ -91,20 +98,24 @@ function TopicHero({ topic, label, start }: { topic: TopicWithStatus; label: str
 function TopicCard({
   topic,
   label,
+  hint,
   t,
-  showStatus = false,
+  inDirectory = false,
 }: {
   topic: TopicWithStatus;
   label: string;
+  hint: string;
   t: (typeof dictionaries)["en"];
-  showStatus?: boolean;
+  inDirectory?: boolean;
 }) {
   return (
     <article className="card">
       <div className="card-top">
         <div>
           <h3>{label}</h3>
-          <p className="hint">{topic.sensitive ? t.sensitive : topic.openingQuestion}</p>
+          <p className="hint">{hint}</p>
+          {inDirectory && topic.status === "do_not_write" ? <p className="mark">{t.wontAsk}</p> : null}
+          {inDirectory && topic.status === "not_now" ? <p className="mark">{t.notNow}</p> : null}
         </div>
         <details className="menu">
           <summary className="icon-btn" aria-label={t.dontAsk}>
@@ -129,7 +140,13 @@ function TopicCard({
       </div>
       <div className="card-actions">
         {topic.status === "do_not_write" ? (
-          <span className="caption">{showStatus ? t.dontAsk : ""}</span>
+          <form action="/api/topics/status" method="post">
+            <input type="hidden" name="topicId" value={topic.id} />
+            <input type="hidden" name="status" value="recommendable" />
+            <button className="text-btn" type="submit">{t.askAgain}</button>
+          </form>
+        ) : topic.status === "not_now" ? (
+          <span />
         ) : (
           <form action="/api/topics/status" method="post">
             <input type="hidden" name="topicId" value={topic.id} />
@@ -139,15 +156,13 @@ function TopicCard({
             </button>
           </form>
         )}
-        {topic.status === "do_not_write" ? null : (
-          <form action="/api/sessions/start" method="post">
-            <input type="hidden" name="entryMode" value="topic" />
-            <input type="hidden" name="topicId" value={topic.id} />
-            <button className="text-btn" type="submit">
-              {t.start} <IconArrow width={20} height={20} />
-            </button>
-          </form>
-        )}
+        <form action="/api/sessions/start" method="post">
+          <input type="hidden" name="entryMode" value="topic" />
+          <input type="hidden" name="topicId" value={topic.id} />
+          <button className="text-btn" type="submit">
+            {t.start} <IconArrow width={20} height={20} />
+          </button>
+        </form>
       </div>
     </article>
   );

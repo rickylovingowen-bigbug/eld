@@ -78,6 +78,8 @@ export interface TopicContent {
   chapterId: string;
   title: { en: string; zh: string };
   openingQuestion: string;
+  /** Short line for the home card. The opening question stays on the story page. */
+  cardHint: string;
   followUps: string[];
   sensitive: boolean;
   recommendByDefault: boolean;

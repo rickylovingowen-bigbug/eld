@@ -39,6 +39,7 @@ describe("do-not-write", () => {
         doNotWriteNow: false,
         answerLength: "short",
         dontRemember: false,
+        dontRememberPrior: 0,
       },
     });
     expect(context.topic).toBeNull();

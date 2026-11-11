@@ -132,6 +132,9 @@ export async function completeTurn(
     .map((item) => item.classification);
   const refusalPoints = await repo.listRefusalPoints(input.userId, session.topicId);
   const userText = pending.map((message) => message.content).join("\n");
+  const priorDontRemember = messages.filter(
+    (message) => message.role === "user" && !pending.some((item) => item.id === message.id) && isDontRemember(message.content),
+  ).length;
   const decision = decideTurn({
     classification,
     followupsUsed: session.followupsUsed,
@@ -140,6 +143,7 @@ export async function completeTurn(
     consecutiveTopicRefusals: trailingTopicRefusals(previous, classification),
     userText,
     refusedPoints: refusalPoints,
+    priorDontRemember,
   });
 
   const calls: ModelCallRecord[] = [];
@@ -151,7 +155,15 @@ export async function completeTurn(
   ];
   let text = decision.template ?? "";
   if (decision.useModel) {
-    const rendered = await renderForSession(repo, session, input.userId, messages, classification, userText);
+    const rendered = await renderForSession(
+      repo,
+      session,
+      input.userId,
+      messages,
+      classification,
+      userText,
+      priorDontRemember,
+    );
     const first = await ai.interview(rendered);
     calls.push(first.call);
     await repo.logModelCall({ ...first.call, userId: input.userId, sessionId: session.id });
@@ -245,6 +257,7 @@ async function renderForSession(
   messages: Message[],
   classification: Classification,
   userText: string,
+  dontRememberPrior: number,
 ): Promise<{ system: string; prompt: string }> {
   const topic = session.topicId ? await repo.getTopic(session.topicId) : null;
   const blocked = await repo.listDoNotWrite(userId);
@@ -279,6 +292,7 @@ async function renderForSession(
       doNotWriteNow: classification.doNotWrite,
       answerLength: classification.answerLength,
       dontRemember: isDontRemember(userText),
+      dontRememberPrior,
     },
   });
   return renderInterviewPrompt(loadPrompts().interview, context);

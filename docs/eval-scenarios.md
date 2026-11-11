@@ -19,7 +19,7 @@ pnpm eval:run -- --case=p01-house-short-trap
 pnpm eval:run -- --include-drafts  # fold the 10 draft personas into the baseline averages
 ```
 
-Draft personas (`review_status` contains `draft`, currently p05 p07 p08 p11 p17 p21 p23 p25 p29 p30) still run. Their scores are reported separately and stay out of the baseline unless `--include-drafts` is set.
+Every persona in the current set is `review_status: ready` and counts toward the baseline. A case whose status contains `draft` would still be reported separately.
 
 With no `AI_GATEWAY_API_KEY`, the run uses the mock provider and the scripted `sample_utterance` / `sample_messages` lines. Split messages are classified one by one, then the interviewer answers once. `AI_MODE=live` uses the gateway models named in `config/models.json`. `--judge` reserves the rubric E slot; the mock run leaves `leadingQuestionJudge.score` null and reports a code heuristic for leading questions.
 

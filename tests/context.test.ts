@@ -14,6 +14,7 @@ const signals = {
   doNotWriteNow: false,
   answerLength: "short" as const,
   dontRemember: false,
+  dontRememberPrior: 0,
 };
 
 describe("context assembly", () => {
@@ -96,7 +97,20 @@ describe("one question and short answers", () => {
     });
     expect(forgot.kind).toBe("reassure_switch");
     expect(forgot.countsAsFollowUp).toBe(false);
-    expect(forgot.template?.toLowerCase()).toContain("completely fine");
+    expect(forgot.template).toContain("That's okay, a lot of people don't.");
+    expect(forgot.template).toContain("even a smell?");
+    const again = decideTurn({
+      classification: emptyClassification({ distress: "mild" }),
+      followupsUsed: 1,
+      extendedByUser: false,
+      awaiting: null,
+      consecutiveTopicRefusals: 0,
+      userText: "i still dont remember",
+      refusedPoints: [],
+      priorDontRemember: 1,
+    });
+    expect(again.template).toContain("switch to another topic");
+    expect(again.template?.toLowerCase()).not.toContain("smell");
 
     const short = decideTurn({
       classification: emptyClassification({ answerLength: "very_short" }),

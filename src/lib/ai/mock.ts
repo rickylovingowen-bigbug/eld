@@ -1,7 +1,8 @@
 import { classifyHeuristic } from "@/lib/conversation/classify";
 import {
   DISTRESS_TEMPLATE,
-  DONT_REMEMBER_TEMPLATE,
+  DONT_REMEMBER_FIRST,
+  DONT_REMEMBER_SWITCH,
   STOP_TEMPLATE,
   enforceOneQuestion,
   fallbackQuestion,
@@ -73,7 +74,12 @@ export function mockInterview(prompt: string): string {
   if (field(prompt, "Wants to stop:") === "true") return STOP_TEMPLATE;
   if (field(prompt, "Distress:") === "strong") return DISTRESS_TEMPLATE;
   if (field(prompt, "Refusal now:") === "true") return safeRefusalTemplate(points);
-  if (field(prompt, "Dont remember:") === "true") return DONT_REMEMBER_TEMPLATE;
+  if (field(prompt, "Dont remember:") === "true") {
+    const prior = Number(field(prompt, "Dont remember prior:")) || 0;
+    const distress = field(prompt, "Distress:");
+    if (prior >= 1 || (distress !== "" && distress !== "none")) return DONT_REMEMBER_SWITCH;
+    return DONT_REMEMBER_FIRST;
+  }
 
   const turns = prompt.split("\n").filter((line) => line.startsWith("Them:"));
   const lastUser = turns[turns.length - 1]?.slice("Them:".length).trim() ?? "";
@@ -85,7 +91,7 @@ export function mockInterview(prompt: string): string {
   const firstAsk = raw.split(/[?\uFF1F]/)[0]?.trim() || "What do you remember most clearly about that";
   let question = isLeading(firstAsk) ? "What do you remember most clearly about that?" : `${firstAsk.replace(/\?$/, "")}?`;
   if (field(prompt, "Answer length:") === "very_short") {
-    question = "What do you see when you picture that?";
+    question = "What's one small thing you can picture about that?";
   }
   let text = echo ? `${echo} ${question}` : question;
   text = enforceOneQuestion(text).text;

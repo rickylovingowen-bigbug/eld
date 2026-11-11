@@ -12,6 +12,7 @@ interface ChildhoodFile {
     sensitive: boolean;
     recommend_by_default: boolean;
     opening_question: string;
+    card_hint_en?: string;
     follow_ups: string[];
   }[];
 }
@@ -45,6 +46,7 @@ export function loadChildhoodTopics(): TopicContent[] {
     chapterId: file.chapter,
     title: { en: topic.topic_en, zh: topic.topic_zh },
     openingQuestion: topic.opening_question,
+    cardHint: topic.card_hint_en ?? topic.opening_question,
     followUps: topic.follow_ups,
     sensitive: topic.sensitive,
     recommendByDefault: topic.recommend_by_default,
