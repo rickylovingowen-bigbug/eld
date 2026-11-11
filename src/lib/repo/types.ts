@@ -77,5 +77,12 @@ export interface ConversationRepo {
   findOpenFreeSession(userId: string): Promise<Session | null>;
   endSession(id: string, status: Extract<SessionStatus, "ended" | "abandoned">): Promise<void>;
   setTopicStatus(userId: string, topicId: string, status: TopicStatus): Promise<void>;
+  getTopicReflection(userId: string, topicId: string): Promise<{
+    asked: boolean;
+    meaning: string | null;
+    meaningMessageId: string | null;
+  }>;
+  markReflectionAsked(userId: string, topicId: string): Promise<void>;
+  saveTopicMeaning(userId: string, topicId: string, text: string, messageId: string): Promise<void>;
   logModelCall(call: ModelCallRecord & { userId?: string; sessionId?: string | null }): Promise<string>;
 }

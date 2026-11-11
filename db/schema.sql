@@ -500,6 +500,12 @@ begin
   end if;
 end $$;
 
+-- One look-back question per topic, and the elder's answer kept verbatim.
+alter table public.topic_states
+  add column if not exists reflection_asked boolean not null default false,
+  add column if not exists meaning_text text,
+  add column if not exists meaning_message_id uuid;
+
 -- Ricky, the ten chapters, and the twelve childhood topics. Same rows as pnpm db:seed.
 insert into public.users (id, display_name, ui_locale, narration_locale, book_title)
 values ('11111111-1111-4111-8111-111111111111', 'Ricky', 'en', 'en', 'Ricky''s story')

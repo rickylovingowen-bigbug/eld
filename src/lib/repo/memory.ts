@@ -30,6 +30,7 @@ export class MemoryRepo implements ConversationRepo {
   readonly classifications = new Map<string, Classification>();
   readonly topicStatus = new Map<string, TopicStatus>();
   readonly points: StoredPoint[] = [];
+  readonly reflection = new Map<string, { asked: boolean; meaning: string | null; meaningMessageId: string | null }>();
   readonly calls: (ModelCallRecord & { id: string; sessionId?: string | null })[] = [];
   gaps: MemoryBundle["openingGap"] = null;
 
@@ -229,6 +230,27 @@ export class MemoryRepo implements ConversationRepo {
 
   async setTopicStatus(userId: string, topicId: string, status: TopicStatus): Promise<void> {
     this.topicStatus.set(statusKey(userId, topicId), status);
+  }
+
+  async getTopicReflection(userId: string, topicId: string): Promise<{
+    asked: boolean;
+    meaning: string | null;
+    meaningMessageId: string | null;
+  }> {
+    return this.reflection.get(statusKey(userId, topicId)) ?? { asked: false, meaning: null, meaningMessageId: null };
+  }
+
+  async markReflectionAsked(userId: string, topicId: string): Promise<void> {
+    const key = statusKey(userId, topicId);
+    const current = this.reflection.get(key) ?? { asked: false, meaning: null, meaningMessageId: null };
+    this.reflection.set(key, { ...current, asked: true });
+  }
+
+  async saveTopicMeaning(userId: string, topicId: string, text: string, messageId: string): Promise<void> {
+    const key = statusKey(userId, topicId);
+    const current = this.reflection.get(key) ?? { asked: true, meaning: null, meaningMessageId: null };
+    if (current.meaning) return;
+    this.reflection.set(key, { ...current, asked: true, meaning: text, meaningMessageId: messageId });
   }
 
   async logModelCall(call: ModelCallRecord & { sessionId?: string | null }): Promise<string> {

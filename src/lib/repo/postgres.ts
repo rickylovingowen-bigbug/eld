@@ -267,6 +267,45 @@ export class PostgresRepo implements ConversationRepo {
     `;
   }
 
+  async getTopicReflection(userId: string, topicId: string): Promise<{
+    asked: boolean;
+    meaning: string | null;
+    meaningMessageId: string | null;
+  }> {
+    const rows = await this.sql<Row[]>`
+      select reflection_asked, meaning_text, meaning_message_id
+      from topic_states
+      where user_id = ${userId} and topic_id = ${topicId}
+    `;
+    const row = rows[0];
+    return {
+      asked: Boolean(row?.reflection_asked),
+      meaning: (row?.meaning_text as string | null) ?? null,
+      meaningMessageId: row?.meaning_message_id ? String(row.meaning_message_id) : null,
+    };
+  }
+
+  async markReflectionAsked(userId: string, topicId: string): Promise<void> {
+    await this.sql`
+      insert into topic_states (user_id, topic_id, reflection_asked)
+      values (${userId}, ${topicId}, true)
+      on conflict (user_id, topic_id) do update
+        set reflection_asked = true, updated_at = now()
+    `;
+  }
+
+  async saveTopicMeaning(userId: string, topicId: string, text: string, messageId: string): Promise<void> {
+    await this.sql`
+      insert into topic_states (user_id, topic_id, reflection_asked, meaning_text, meaning_message_id)
+      values (${userId}, ${topicId}, true, ${text}, ${messageId})
+      on conflict (user_id, topic_id) do update
+        set reflection_asked = true,
+            meaning_text = coalesce(topic_states.meaning_text, excluded.meaning_text),
+            meaning_message_id = coalesce(topic_states.meaning_message_id, excluded.meaning_message_id),
+            updated_at = now()
+    `;
+  }
+
   async setTopicStatus(userId: string, topicId: string, status: TopicStatus): Promise<void> {
     await this.sql`
       insert into topic_states (user_id, topic_id, status)

@@ -41,6 +41,7 @@ export interface ContextParts {
     dontRemember: boolean;
     /** Earlier "I don't remember" turns on this topic, not counting the current message. */
     dontRememberPrior: number;
+    reflectionDue: boolean;
   };
 }
 
@@ -92,6 +93,7 @@ export function renderInterviewPrompt(
     distress: ctx.signals.distress,
     do_not_write_now: String(ctx.signals.doNotWriteNow),
     wants_to_stop: String(ctx.signals.wantsToStop),
+    reflection_due: String(ctx.signals.reflectionDue),
     opening_gap: ctx.openingGap?.nextQuestion ?? "",
     topic_en: ctx.topic?.titleEn ?? "Free conversation",
     opening_question: ctx.topic?.openingQuestion ?? "",
@@ -116,6 +118,7 @@ App count: dont_remember_prior = ${ctx.signals.dontRememberPrior}. That is how m
     `Dont remember: ${ctx.signals.dontRemember}`,
     `Dont remember prior: ${ctx.signals.dontRememberPrior}`,
     `Wants to stop: ${ctx.signals.wantsToStop}`,
+    `Reflection due: ${ctx.signals.reflectionDue}`,
     `Refused points: ${ctx.refusedPoints.join(" | ") || "(none)"}`,
     `Opening gap: ${ctx.openingGap?.nextQuestion ?? "(none)"}`,
     `Topic: ${ctx.topic?.titleEn ?? "free"}`,

@@ -2,6 +2,7 @@ import { loadChapters } from "@/lib/config/catalog";
 import { loadPrompts } from "@/lib/config/prompts";
 import type { ModelClient } from "@/lib/ai/mock";
 import { avoidPointsForTurn, isDontRemember, pointForDoNotWrite } from "@/lib/conversation/classify";
+import { isLookbackQuestion, isMeaningDeflection, reflectionDue } from "@/lib/conversation/reflection";
 import { assembleContext, renderInterviewPrompt, type ContextTurn } from "@/lib/conversation/context";
 import { decideTurn, trailingTopicRefusals } from "@/lib/conversation/decide";
 import {
@@ -133,6 +134,21 @@ export async function completeTurn(
   const refusalPoints = await repo.listRefusalPoints(input.userId, session.topicId);
   const userText = pending.map((message) => message.content).join("\n");
   const declined = declinedQuestion(messages, pending);
+  const topicId = session.topicId;
+  const reflection = topicId ? await repo.getTopicReflection(input.userId, topicId) : null;
+  const userMessages = messages.filter((message) => message.role === "user").map((message) => message.content);
+  const due = reflectionDue({
+    followupsUsed: session.followupsUsed,
+    alreadyAsked: reflection?.asked ?? false,
+    distress: classification.distress,
+    userMessages,
+  });
+  if (topicId && reflection?.asked && declined && isLookbackQuestion(declined) && !reflection.meaning) {
+    const answer = pending.map((message) => message.content).join("\n");
+    if (!isMeaningDeflection(answer)) {
+      await repo.saveTopicMeaning(input.userId, topicId, answer, lastUser.id);
+    }
+  }
   const priorDontRemember = messages.filter(
     (message) => message.role === "user" && !pending.some((item) => item.id === message.id) && isDontRemember(message.content),
   ).length;
@@ -163,6 +179,7 @@ export async function completeTurn(
       userText,
       priorDontRemember,
       declined,
+      due,
     );
     const first = await ai.interview(rendered);
     calls.push(first.call);
@@ -248,6 +265,9 @@ export async function completeTurn(
         ? { userId: input.userId, topicId: session.topicId }
         : undefined,
   });
+  if (topicId && isLookbackQuestion(text)) {
+    await repo.markReflectionAsked(input.userId, topicId);
+  }
 
   return {
     userMessage: lastUser,
@@ -270,6 +290,7 @@ async function renderForSession(
   userText: string,
   dontRememberPrior: number,
   declined: string | null,
+  due: boolean,
 ): Promise<{ system: string; prompt: string }> {
   const topic = session.topicId ? await repo.getTopic(session.topicId) : null;
   const blocked = await repo.listDoNotWrite(userId);
@@ -310,6 +331,7 @@ async function renderForSession(
       answerLength: classification.answerLength,
       dontRemember: isDontRemember(userText),
       dontRememberPrior,
+      reflectionDue: due,
     },
   });
   return renderInterviewPrompt(loadPrompts().interview, context);

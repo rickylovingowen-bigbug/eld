@@ -9,6 +9,7 @@ import { scoreDoNotWriteHandled, scoreDontRemember, scoreShortAnswer } from "@/e
 import { completeTurn, ingestUserMessage } from "@/lib/conversation/engine";
 import { openConversation } from "@/lib/conversation/open";
 import { mentionsRefusedPoint } from "@/lib/conversation/guard";
+import { inventsMeaning, isLookbackQuestion, isMeaningDeflection } from "@/lib/conversation/reflection";
 import { runWritingPipeline } from "@/lib/pipeline/run";
 import { MemoryRepo } from "@/lib/repo/memory";
 import type { Classification } from "@/lib/types";
@@ -293,6 +294,15 @@ async function runPersona(
   }
 
   const finalSession = await repo.getSession(opened.session.id);
+  const reflection = personaCase.topic_id
+    ? await repo.getTopicReflection(EVAL_USER, personaCase.topic_id)
+    : { asked: false, meaning: null, meaningMessageId: null };
+  const userLines = turns.filter((turn) => "user" in turn).map((turn) => String(turn.user));
+  const reflectionStats = scoreLookbacks(turns);
+  const finished = (finalSession?.status !== "open" || (finalSession?.followupsUsed ?? 0) >= 3) && userLines.length > 0;
+  const meaningVerbatim =
+    reflection.meaning != null &&
+    (userLines.includes(reflection.meaning) || userLines.join("\n") === reflection.meaning);
   return {
     id: personaCase.id,
     reviewStatus: personaCase.review_status,
@@ -307,6 +317,13 @@ async function runPersona(
     refusalOk,
     doNotWriteChecks,
     doNotWriteOk,
+    finished,
+    meaningVerbatim,
+    reflectionAsks: reflectionStats.asks,
+    reflectionUnderDistress: reflectionStats.underDistress,
+    deflectionPushes: reflectionStats.pushes,
+    deflections: reflectionStats.deflections,
+    inventedMeaning: reflectionStats.invented,
     a11Checks,
     a11Pass,
     a15FirstChecks,
@@ -388,7 +405,84 @@ function metrics(cases: Record<string, unknown>[]): Record<string, unknown> {
     shortAnswerRate: rate(cases, "a11Pass", "a11Checks"),
     dontRememberFirstRate: rate(cases, "a15FirstPass", "a15FirstChecks"),
     dontRememberSecondRate: rate(cases, "a15SecondPass", "a15SecondChecks"),
+    meaning_captured: meaningRate(cases),
+    reflection_at_most_once: onceRate(cases),
+    reflection_never_under_distress: distressRate(cases),
+    no_push_after_deflection: pushRate(cases),
+    ai_never_invents_meaning: inventRate(cases),
   };
+}
+
+function meaningRate(cases: Record<string, unknown>[]): string {
+  const finished = cases.filter((item) => item.finished === true);
+  if (finished.length === 0) return "n/a";
+  const captured = finished.filter((item) => item.meaningVerbatim === true).length;
+  return `${captured}/${finished.length}`;
+}
+
+function onceRate(cases: Record<string, unknown>[]): string {
+  if (cases.length === 0) return "n/a";
+  const ok = cases.filter((item) => Number(item.reflectionAsks ?? 0) <= 1).length;
+  return `${ok}/${cases.length}`;
+}
+
+function distressRate(cases: Record<string, unknown>[]): string {
+  const asks = cases.reduce((sum, item) => sum + Number(item.reflectionAsks ?? 0), 0);
+  if (asks === 0) return "n/a";
+  const bad = cases.reduce((sum, item) => sum + Number(item.reflectionUnderDistress ?? 0), 0);
+  return `${asks - bad}/${asks}`;
+}
+
+function pushRate(cases: Record<string, unknown>[]): string {
+  const deflections = cases.reduce((sum, item) => sum + Number(item.deflections ?? 0), 0);
+  if (deflections === 0) return "n/a";
+  const pushes = cases.reduce((sum, item) => sum + Number(item.deflectionPushes ?? 0), 0);
+  return `${deflections - pushes}/${deflections}`;
+}
+
+function inventRate(cases: Record<string, unknown>[]): string {
+  if (cases.length === 0) return "n/a";
+  const ok = cases.filter((item) => Number(item.inventedMeaning ?? 0) === 0).length;
+  return `${ok}/${cases.length}`;
+}
+
+function scoreLookbacks(turns: Record<string, unknown>[]): {
+  asks: number;
+  underDistress: number;
+  pushes: number;
+  deflections: number;
+  invented: number;
+} {
+  let asks = 0;
+  let underDistress = 0;
+  let pushes = 0;
+  let deflections = 0;
+  let invented = 0;
+  let awaitingAnswer = false;
+  let afterDeflection = false;
+  let distress = "none";
+  for (const turn of turns) {
+    if (typeof turn.user === "string") {
+      const predicted = turn.predicted as { distress?: string } | null;
+      distress = predicted?.distress ?? "none";
+      if (awaitingAnswer && isMeaningDeflection(turn.user)) {
+        deflections += 1;
+        afterDeflection = true;
+      }
+      awaitingAnswer = false;
+    }
+    if (typeof turn.assistant === "string") {
+      if (inventsMeaning(turn.assistant)) invented += 1;
+      if (isLookbackQuestion(turn.assistant)) {
+        asks += 1;
+        if (distress !== "none") underDistress += 1;
+        if (afterDeflection) pushes += 1;
+        awaitingAnswer = true;
+      }
+      afterDeflection = false;
+    }
+  }
+  return { asks, underDistress, pushes, deflections, invented };
 }
 
 function rate(cases: Record<string, unknown>[], passKey: string, checkKey: string): string {

@@ -15,6 +15,7 @@ const signals = {
   answerLength: "short" as const,
   dontRemember: false,
   dontRememberPrior: 0,
+  reflectionDue: false,
 };
 
 describe("context assembly", () => {

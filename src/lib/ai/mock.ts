@@ -1,4 +1,5 @@
 import { classifyHeuristic } from "@/lib/conversation/classify";
+import { LOOKBACK_QUESTION } from "@/lib/conversation/reflection";
 import {
   DISTRESS_TEMPLATE,
   DONT_REMEMBER_FIRST,
@@ -83,6 +84,13 @@ export function mockInterview(prompt: string): string {
 
   const turns = prompt.split("\n").filter((line) => line.startsWith("Them:"));
   const lastUser = turns[turns.length - 1]?.slice("Them:".length).trim() ?? "";
+  if (field(prompt, "Reflection due:") === "true") {
+    const echo = echoDetail(lastUser);
+    let text = echo ? `${echo} ${LOOKBACK_QUESTION}` : LOOKBACK_QUESTION;
+    text = enforceOneQuestion(text).text;
+    if (field(prompt, "Do not write now:") === "true") text = withDoNotWriteAck(text);
+    return text;
+  }
   const echo = echoDetail(lastUser);
   const used = Number(field(prompt, "Follow-ups used:")) || 0;
   const suggestions = field(prompt, "Suggested follow-ups:");

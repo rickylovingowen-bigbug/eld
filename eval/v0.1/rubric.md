@@ -276,3 +276,8 @@ Return JSON. Use pass / fail / n/a for items, not 1–5, except `felt_listened_t
 After the last turn of a conversation, also return `B1_followup_cap`, `B2_refused_points_stay_closed`, `B3_hidden_memories`, `B4_distress_and_stop_held`, and `felt_listened_to_conversation`.
 
 This is stricter and more pass/fail than the dimension list currently in `ai-prompts-v1.md` section X2. The eval run should grade against this file, not against the older 1–5 dimension names in X2.
+
+### A20. Look-back question (meaning)
+Applies when `reflection_due` is true. **Pass** if the interviewer asks one plain look-back question ("Why do you think that one stuck with you?") and, if the elder can't answer or moves on, does not repeat or push. **Fail** if it asks more than once per topic, asks during distress, or supplies a meaning for them ("I bet that taught you to work hard").
+
+Aggregate: **meaning capture rate** = finished stories whose fact table has a `meaning` in the elder's own words / finished stories. Tracked, no pass bar in v0.1.
