@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Greeting } from "@/components/greeting";
 import { IconArrow, IconBook, IconChat, IconMore } from "@/components/icons";
 import { dictionaries } from "@/i18n/dictionaries";
@@ -25,7 +26,10 @@ export default async function HomePage() {
         </form>
       </div>
       {home.firstVisit ? (
-        <h1 className="display welcome-line">{t.welcomeLine(home.name)}</h1>
+        <div className="welcome">
+          <h1 className="display">{t.welcomeTitle(home.name)}.</h1>
+          <p className="sub">{t.welcomeRest}</p>
+        </div>
       ) : (
         <>
           <Greeting locale={home.locale} name={home.name} firstVisit={false} />
@@ -44,19 +48,20 @@ export default async function HomePage() {
         </section>
       ) : null}
 
-      {home.hero ? <TopicHero topic={home.hero} label={title(home.hero)} hint={home.hero.cardHint} start={t.start} /> : null}
+      {home.hero ? (
+        <TopicHero
+          topic={home.hero}
+          label={title(home.hero)}
+          hint={home.hero.cardHint}
+          start={t.start}
+          kicker={home.firstVisit ? t.startHere : null}
+        />
+      ) : null}
 
-      <details className="see-all">
-        <summary className="section-row">
-          <span className="overline">{t.orTry}</span>
-          <span className="see-all-btn">{t.seeAll}</span>
-        </summary>
-        <div className="see-all-panel">
-          {home.allTopics.map((topic) => (
-            <TopicCard key={`all-${topic.id}`} topic={topic} label={title(topic)} hint={topic.cardHint} t={t} inDirectory />
-          ))}
-        </div>
-      </details>
+      <div className="section-row">
+        <div className="overline">{t.orTry}</div>
+        <Link className="see-all-btn" href="/topics">{t.seeAll}</Link>
+      </div>
       {home.cards.length === 0 && !home.hero && !home.continueCard ? <p>{t.allDone}</p> : null}
       {home.cards.map((topic) => (
         <TopicCard key={topic.id} topic={topic} label={title(topic)} hint={topic.cardHint} t={t} />
@@ -79,16 +84,29 @@ export default async function HomePage() {
   );
 }
 
-function TopicHero({ topic, label, hint, start }: { topic: TopicWithStatus; label: string; hint: string; start: string }) {
+function TopicHero({
+  topic,
+  label,
+  hint,
+  start,
+  kicker,
+}: {
+  topic: TopicWithStatus;
+  label: string;
+  hint: string;
+  start: string;
+  kicker: string | null;
+}) {
   return (
     <section className="hero">
+      {kicker ? <div className="kicker">{kicker}</div> : null}
       <h2>{label}</h2>
       <p className="hint on-hero">{hint}</p>
       <form action="/api/sessions/start" method="post">
         <input type="hidden" name="entryMode" value="topic" />
         <input type="hidden" name="topicId" value={topic.id} />
         <button className="btn on-hero" type="submit">
-          {start}
+          {start} <IconArrow width={20} height={20} />
         </button>
       </form>
     </section>

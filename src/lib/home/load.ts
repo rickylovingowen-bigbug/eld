@@ -27,7 +27,7 @@ export interface HomeData {
 export async function loadHome(): Promise<HomeData> {
   await ensureSeeded();
   const sql = getSql();
-  const [userRows, topicRows, sessionRows, storyRows] = await Promise.all([
+  const [userRows, topicRows, sessionRows, storyRows, storyByTopic, openTopics] = await Promise.all([
     sql<{ display_name: string; ui_locale: string }[]>`
       select display_name, ui_locale from users where id = ${RICKY_ID}
     `,
@@ -51,8 +51,19 @@ export async function loadHome(): Promise<HomeData> {
       select count(*)::int as count from stories
       where user_id = ${RICKY_ID} and chapter_id = 'childhood' and status <> 'removed'
     `,
+    sql<{ topic_id: string; count: number }[]>`
+      select topic_id, count(*)::int as count from stories
+      where user_id = ${RICKY_ID} and status <> 'removed' and topic_id is not null
+      group by topic_id
+    `,
+    sql<{ topic_id: string }[]>`
+      select distinct topic_id from sessions
+      where user_id = ${RICKY_ID} and status = 'open' and topic_id is not null
+    `,
   ]);
   const hints = new Map(loadChildhoodTopics().map((topic) => [topic.id, topic.cardHint]));
+  const storyCounts = new Map(storyByTopic.map((row) => [row.topic_id, row.count]));
+  const openTopicIds = new Set(openTopics.map((row) => row.topic_id));
   const user = userRows[0];
   const topics: TopicWithStatus[] = topicRows.map((row) => ({
     id: row.id,
@@ -65,6 +76,8 @@ export async function loadHome(): Promise<HomeData> {
     recommendByDefault: row.recommend_by_default,
     recommendRank: row.recommend_rank,
     status: row.status,
+    storyCount: storyCounts.get(row.id) ?? 0,
+    inProgress: openTopicIds.has(row.id),
   }));
   const open = sessionRows[0];
   const layout = layoutHomeTopics(topics, open?.topic_id ?? null);

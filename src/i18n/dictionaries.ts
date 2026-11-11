@@ -10,6 +10,7 @@ export interface Dictionary {
   greet: (part: string, name: string) => string;
   welcomeTitle: (name: string) => string;
   welcomeLine: (name: string) => string;
+  welcomeRest: string;
   welcomeBody: string;
   wontAsk: string;
   progress: (count: number) => string;
@@ -18,6 +19,13 @@ export interface Dictionary {
   lastTime: (text: string) => string;
   orTry: string;
   seeAll: string;
+  startHere: string;
+  allTopicsTitle: string;
+  allTopicsSub: string;
+  inProgress: string;
+  storyTag: (count: number) => string;
+  askedNotTo: string;
+  bringItBack: string;
   hideAll: string;
   notNow: string;
   start: string;
@@ -59,6 +67,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     welcomeTitle: (name) => `Welcome, ${name}`,
     welcomeLine: (name) =>
       `Welcome, ${name}. I'll ask about when you were little. Just type what comes to mind. Short answers are fine.`,
+    welcomeRest: "I'll ask about when you were little. Just type what comes to mind. Short answers are fine.",
     welcomeBody: "I'll ask about when you were growing up. You type your answers, and I'll listen.",
     wontAsk: "Won't ask again",
     progress: (count) =>
@@ -68,6 +77,13 @@ export const dictionaries: Record<Locale, Dictionary> = {
     lastTime: (text) => `Last time: ${text}`,
     orTry: "Or try one of these",
     seeAll: "See all topics",
+    startHere: "Start here",
+    allTopicsTitle: "All topics",
+    allTopicsSub: "Pick any one. There's no order.",
+    inProgress: "In progress",
+    storyTag: (count) => (count === 1 ? "1 story" : `${count} stories`),
+    askedNotTo: "You asked me not to bring up",
+    bringItBack: "Bring it back",
     hideAll: "Hide topics",
     notNow: "Not now",
     start: "Start",
@@ -106,6 +122,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     greet: (part, name) => `${part}，${name}`,
     welcomeTitle: (name) => `欢迎，${name}`,
     welcomeLine: (name) => `欢迎，${name}。我会问小时候的事。想到什么就打什么，短一点也没关系。`,
+    welcomeRest: "我会问小时候的事。想到什么就打什么，短一点也没关系。",
     welcomeBody: "我会问一些小时候的事。你打字回答就好，我听着。",
     wontAsk: "以后不问这个",
     progress: (count) => `你已经讲了 ${count} 段小时候的故事。`,
@@ -114,6 +131,13 @@ export const dictionaries: Record<Locale, Dictionary> = {
     lastTime: (text) => `上次：${text}`,
     orTry: "或者换一个",
     seeAll: "全部话头",
+    startHere: "从这里开始",
+    allTopicsTitle: "全部话头",
+    allTopicsSub: "随便挑一个，没有顺序。",
+    inProgress: "进行中",
+    storyTag: (count) => `${count} 段`,
+    askedNotTo: "你说过先别问这些",
+    bringItBack: "再问这个",
     hideAll: "收起话头",
     notNow: "先不聊",
     start: "开始",

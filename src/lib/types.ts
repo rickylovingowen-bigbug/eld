@@ -88,6 +88,8 @@ export interface TopicContent {
 
 export interface TopicWithStatus extends TopicContent {
   status: TopicStatus;
+  storyCount?: number;
+  inProgress?: boolean;
 }
 
 export type ModelStep =

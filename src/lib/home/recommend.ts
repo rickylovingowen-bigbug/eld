@@ -17,6 +17,19 @@ export function recommendableTopics(topics: TopicWithStatus[]): TopicWithStatus[
   return pool.filter((topic) => topic.status === "not_now");
 }
 
+/** Main All-topics list, then the topics the elder asked us not to bring up. */
+export function partitionTopics(topics: TopicWithStatus[]): {
+  listed: TopicWithStatus[];
+  setAside: TopicWithStatus[];
+} {
+  const byRank = (a: TopicWithStatus, b: TopicWithStatus) =>
+    (a.recommendRank ?? 999) - (b.recommendRank ?? 999);
+  return {
+    listed: topics.filter((topic) => topic.status !== "do_not_write").sort(byRank),
+    setAside: topics.filter((topic) => topic.status === "do_not_write").sort(byRank),
+  };
+}
+
 export function layoutHomeTopics(
   topics: TopicWithStatus[],
   continueTopicId: string | null,

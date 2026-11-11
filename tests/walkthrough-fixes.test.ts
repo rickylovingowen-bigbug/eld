@@ -5,7 +5,9 @@ import { describe, expect, it } from "vitest";
 import { echoDetail, mockInterview } from "@/lib/ai/mock";
 import { resolveRedirectLocation } from "@/lib/http";
 import { loadLocalEnv, parseEnv } from "@/lib/load-env";
+import { partitionTopics } from "@/lib/home/recommend";
 import { truncateWords } from "@/lib/text";
+import type { TopicWithStatus } from "@/lib/types";
 import { countQuestions } from "@/lib/conversation/guard";
 
 describe("redirects behind a tunnel", () => {
@@ -83,6 +85,35 @@ describe("mock interviewer", () => {
     expect(echoDetail("yellow kitchen. mom had the radio on")).toBe("Yellow kitchen.");
   });
 });
+
+describe("all topics list", () => {
+  it("keeps recommend order, includes hardships, and sets do-not-write aside", () => {
+    const topics = [
+      topic("childhood-hard", null, "recommendable"),
+      topic("childhood-food", 2, "recommendable"),
+      topic("childhood-house", 1, "do_not_write"),
+      topic("childhood-trouble", 10, "not_now"),
+    ];
+    const { listed, setAside } = partitionTopics(topics);
+    expect(listed.map((item) => item.id)).toEqual(["childhood-food", "childhood-trouble", "childhood-hard"]);
+    expect(setAside.map((item) => item.id)).toEqual(["childhood-house"]);
+  });
+});
+
+function topic(id: string, rank: number | null, status: TopicWithStatus["status"]): TopicWithStatus {
+  return {
+    id,
+    chapterId: "childhood",
+    title: { en: id, zh: id },
+    openingQuestion: "",
+    cardHint: "",
+    followUps: [],
+    sensitive: id === "childhood-hard",
+    recommendByDefault: rank != null,
+    recommendRank: rank,
+    status,
+  };
+}
 
 describe("script env files", () => {
   it("loads .env.local without overriding an existing variable", () => {
