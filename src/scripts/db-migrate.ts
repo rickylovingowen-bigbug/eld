@@ -1,10 +1,13 @@
 import fs from "node:fs";
 import path from "node:path";
 import postgres from "postgres";
+import { loadLocalEnv } from "@/lib/load-env";
+
+loadLocalEnv();
 
 const databaseUrl = process.env.DATABASE_URL;
 if (!databaseUrl) {
-  console.error("Set DATABASE_URL. See .env.example.");
+  console.error("Set DATABASE_URL in .env.local. See .env.example.");
   process.exit(1);
 }
 const url: string = databaseUrl;

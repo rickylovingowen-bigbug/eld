@@ -93,9 +93,68 @@ export function mockInterview(prompt: string): string {
   return text;
 }
 
-function echoDetail(text: string): string {
-  const words = text.replace(/[?!.]/g, "").trim().split(/\s+/).filter(Boolean).slice(0, 4);
-  if (words.length === 0) return "";
-  const phrase = words.join(" ");
-  return phrase.charAt(0).toUpperCase() + phrase.slice(1) + ".";
+const DANGLING = new Set([
+  "a",
+  "an",
+  "the",
+  "of",
+  "on",
+  "in",
+  "to",
+  "for",
+  "with",
+  "at",
+  "from",
+  "and",
+  "or",
+  "but",
+  "my",
+  "your",
+  "was",
+  "were",
+  "is",
+  "are",
+  "had",
+  "have",
+  "it",
+  "that",
+  "this",
+]);
+
+/** A short grammatical echo. Does not stop on a dangling article or auxiliary. */
+export function echoDetail(text: string): string {
+  const cleaned = text.replace(/\s+/g, " ").trim();
+  if (!cleaned) return "";
+  const clause = (cleaned.split(/[.!?]/)[0] ?? cleaned).split(",")[0]?.trim() ?? cleaned;
+  const words = clause.split(/\s+/).filter(Boolean);
+  const kept = closePhrase(words);
+  if (kept.length === 0) return "";
+  const phrase = kept.join(" ");
+  return `${phrase.charAt(0).toUpperCase()}${phrase.slice(1)}.`;
+}
+
+function closePhrase(words: string[]): string[] {
+  const limited = words.slice(0, 12);
+  let end = limited.length;
+  while (end > 0 && DANGLING.has(wordKey(limited[end - 1] ?? ""))) end -= 1;
+  // "it was a white" cut off before "house": pull in the next word.
+  if (
+    end >= 2 &&
+    end < words.length &&
+    ["a", "an", "the"].includes(wordKey(limited[end - 2] ?? "")) &&
+    words[end]
+  ) {
+    return trimDangling([...limited.slice(0, end), words[end] ?? ""]);
+  }
+  return limited.slice(0, end);
+}
+
+function trimDangling(words: string[]): string[] {
+  const copy = words.slice();
+  while (copy.length > 0 && DANGLING.has(wordKey(copy[copy.length - 1] ?? ""))) copy.pop();
+  return copy;
+}
+
+function wordKey(word: string): string {
+  return word.toLowerCase().replace(/[^a-z]/g, "");
 }

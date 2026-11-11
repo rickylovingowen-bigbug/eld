@@ -1,5 +1,8 @@
 import { ensureSeeded } from "@/lib/catalog-sync";
 import { closeDb } from "@/lib/db";
+import { loadLocalEnv } from "@/lib/load-env";
+
+loadLocalEnv();
 
 async function main(): Promise<void> {
   await ensureSeeded();

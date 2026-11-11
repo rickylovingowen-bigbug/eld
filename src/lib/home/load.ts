@@ -2,6 +2,7 @@ import { ensureSeeded } from "@/lib/catalog-sync";
 import { RICKY_ID } from "@/lib/constants";
 import { getSql } from "@/lib/db";
 import { layoutHomeTopics } from "@/lib/home/recommend";
+import { truncateWords } from "@/lib/text";
 import type { Locale, TopicWithStatus } from "@/lib/types";
 
 export interface ContinueCard {
@@ -78,7 +79,7 @@ export async function loadHome(): Promise<HomeData> {
           sessionId: open.id,
           topicId: open.topic_id,
           title: titleEn(open.title) || "Something else",
-          blurb: blurbSource.slice(0, 80),
+          blurb: truncateWords(blurbSource, 80),
         }
       : null,
     hero: layout.hero,

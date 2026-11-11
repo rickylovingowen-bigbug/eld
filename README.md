@@ -15,6 +15,8 @@ pnpm db:setup
 pnpm dev
 ```
 
+`pnpm db:setup` and `pnpm eval:run` read `.env.local` (and `.env`) themselves. A value already exported in the shell wins. You do not need to `export DATABASE_URL` first. `pnpm dev` loads the same file through Next.js.
+
 Open http://localhost:3000. The home page recommends childhood topics. Start one, type, and press Send. Return inserts a new line and does not send.
 
 ### Mock and live models
@@ -52,16 +54,17 @@ The eval set is `eval/v0.1/`. The format is described in `docs/eval-scenarios.md
 
 ### iPhone
 
-The app is built for a 393×852 screen. Serve it over HTTPS so Safari on a phone can open it:
+The app is built for a 393×852 screen. Safari on a phone needs HTTPS, so put a tunnel in front of the local server:
 
 ```bash
 pnpm dev
-# in another terminal, any one of:
+# in another terminal
 cloudflared tunnel --url http://localhost:3000
-ngrok http 3000
 ```
 
-Open the HTTPS URL in Safari. Text size follows the system: the story header wraps "Done for today" under the topic name, and the current question and the input stay on screen.
+`ngrok http 3000` works the same way. Open the HTTPS URL the tunnel prints, not `localhost`. Start, Not now, the language toggle, and Done for today post to the app and redirect back. Those redirects use `x-forwarded-host` and `x-forwarded-proto` when the tunnel sends them. If the tunnel only marks the scheme as HTTPS and the host is still localhost, the redirect is a relative path so the phone stays on the tunnel host.
+
+Text size follows the system: the story header wraps "Done for today" under the topic name, and the current question and the input stay on screen.
 
 ## Checks
 

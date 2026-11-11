@@ -1,6 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import { runEvalSet } from "@/eval/run-eval";
+import { loadLocalEnv } from "@/lib/load-env";
+
+loadLocalEnv();
 
 const args = process.argv.slice(2).filter((arg) => arg !== "--");
 const includeDraftsInBaseline = args.includes("--include-drafts");
