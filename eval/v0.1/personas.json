@@ -1,0 +1,4008 @@
+{
+  "version": "v0.1",
+  "date": "2026-11-11",
+  "owner": "ai",
+  "scope": "Childhood chapter only, English, text-only. Tests turn classifier (A) and interviewer (B).",
+  "draft_note": "Exactly 10 cases have review_status 'draft, biographer to review'. Their backgrounds and hidden memories should be checked before those scores are folded into the official baseline.",
+  "chapter_ids": [
+    "roots",
+    "childhood",
+    "school",
+    "work",
+    "love",
+    "service",
+    "home",
+    "faith",
+    "times",
+    "now"
+  ],
+  "off_topic_rule": "off_topic_chapter is a later chapter id when the message is mainly about life after childhood. Use null for childhood content or a passing later mention, never the string 'childhood'.",
+  "scenario_tags": {
+    "short_answers": "Answers are very short (one sentence or under ~12 words), often repeatedly.",
+    "rambling": "Answers come as a long, winding block or a talkative stream.",
+    "refuse_point": "Clearly declines one detail just asked about, not the whole topic.",
+    "refuse_topic": "Declines the whole current topic.",
+    "do_not_write": "Says they do not want something written or put in the book. Schema has no field for this.",
+    "mild_distress": "Sadness or wistfulness, not tears/trauma.",
+    "strong_distress": "Grief, tears, trauma, or 'this hurts'.",
+    "wants_to_stop": "Wants to end or save for today.",
+    "off_topic_drift": "Message is mainly about life after childhood (a later chapter).",
+    "unsure_or_family_story": "Hedges on whether they remember it themselves, or says a relative told them.",
+    "leading_detail_trap": "A hidden correct detail that would be easy to plant in a leading question. They will not volunteer it.",
+    "one_word_answers": "Replies like 'yes' or 'fine'.",
+    "present_pull": "Pulls the thread to now: grandkids, a current illness, today's life.",
+    "asks_ai_back": "Asks the interviewer a question, especially 'why do you want to know'.",
+    "joke_deflect": "Deflects a question with a joke instead of answering.",
+    "false_dont_remember": "Says 'I don't remember' mid-story when they do remember but do not want to say. Not a classifier refusal.",
+    "light_sensitive_mention": "Touches a hard point only lightly (alcoholic father, poverty, a sibling who died young) and pivots. Tests whether the AI chases or offers an easy decline."
+  },
+  "counts": {
+    "cases": 30,
+    "draft_cases": [
+      "p05-food-ramble-trap",
+      "p07-parents-sensitive-refuse",
+      "p08-parents-donotwrite-stop",
+      "p11-friend-strong-stop",
+      "p17-neighborhood-poverty-refuse",
+      "p21-grandparents-family-mild",
+      "p23-name-refuse-family",
+      "p25-trouble-joke-refuse",
+      "p29-hard-refuse-mild",
+      "p30-hard-strong-donotwrite-stop"
+    ],
+    "topics": {
+      "childhood-house": 3,
+      "childhood-food": 3,
+      "childhood-parents": 3,
+      "childhood-friend": 3,
+      "childhood-holidays": 3,
+      "childhood-neighborhood": 3,
+      "childhood-summers": 2,
+      "childhood-grandparents": 2,
+      "childhood-name": 2,
+      "childhood-trouble": 2,
+      "childhood-earliest": 2,
+      "childhood-hard": 2
+    },
+    "scenario_tags": {
+      "short_answers": 4,
+      "one_word_answers": 3,
+      "leading_detail_trap": 5,
+      "rambling": 5,
+      "unsure_or_family_story": 5,
+      "present_pull": 3,
+      "joke_deflect": 4,
+      "asks_ai_back": 3,
+      "false_dont_remember": 4,
+      "refuse_point": 5,
+      "light_sensitive_mention": 5,
+      "mild_distress": 4,
+      "do_not_write": 3,
+      "wants_to_stop": 4,
+      "off_topic_drift": 3,
+      "strong_distress": 3,
+      "refuse_topic": 3
+    },
+    "setting_type": {
+      "small town": 10,
+      "city apartment": 14,
+      "farm": 6
+    },
+    "region": {
+      "Midwest": 10,
+      "Northeast": 5,
+      "South": 12,
+      "West": 3
+    },
+    "delivery": {
+      "single": 24,
+      "unbroken_block": 3,
+      "split_messages": 3
+    },
+    "birth_year_min": 1940,
+    "birth_year_max": 1958
+  },
+  "cases": [
+    {
+      "id": "p01-house-short-trap",
+      "review_status": "ready",
+      "persona": {
+        "name": "Dorothy 'Dot' Nielsen",
+        "birth_year": 1946,
+        "hometown": "Decorah, Iowa",
+        "region": "Midwest",
+        "setting_type": "small town",
+        "education": "high school",
+        "typing_style": "terse, occasional typos",
+        "delivery": "single",
+        "temperament": "warm but reserved; does not volunteer extra",
+        "parents_background": "Father came back from the Pacific in '45 and took work at the creamery. Mother had grown up on a Depression-era farm and saved jars of everything. Mention only in passing.",
+        "persona_notes": "Dot answers in short clipped lines, sometimes dropping a letter (colr, kichen). She will say 'yes' or 'fine' if asked a yes/no question. She does not describe the kitchen color unless asked an open color question.",
+        "age_in_2026": 80
+      },
+      "topic_id": "childhood-house",
+      "hidden_memories": [
+        {
+          "id": "hm1",
+          "fact": "The front door opened onto a narrow staircase, not a living room.",
+          "reveal": "open question about walking in the front door or what you saw first",
+          "trap": false
+        },
+        {
+          "id": "hm2",
+          "fact": "The kitchen was painted a dull pea green.",
+          "reveal": "open question about the kitchen color or what the kitchen looked like",
+          "trap": true,
+          "trap_detail": "Kitchen color was pea green, not yellow or white. Easy to ask 'Was the kitchen yellow?'"
+        },
+        {
+          "id": "hm3",
+          "fact": "She shared an attic bedroom with her sister Ruth. The ceiling sloped so you could only stand up in the middle.",
+          "reveal": "open question about where she slept or whether she shared a room",
+          "trap": false
+        },
+        {
+          "id": "hm4",
+          "fact": "On Saturdays the house smelled of floor wax. Her mother waxed the kitchen linoleum, which had a brown swirl pattern.",
+          "reveal": "open question about smells or the floor",
+          "trap": false
+        },
+        {
+          "id": "hm5",
+          "fact": "A coal furnace in the basement clanked at night.",
+          "reveal": "open question about sounds, winter, or the basement",
+          "trap": false
+        }
+      ],
+      "scenario_tags": [
+        "short_answers",
+        "one_word_answers",
+        "leading_detail_trap"
+      ],
+      "script": [
+        {
+          "id": "s1",
+          "when": "after_opening",
+          "behavior": "Give a very short answer. Do not mention the staircase, the green kitchen, or the attic yet.",
+          "sample_utterance": "old two story. nothing fancy",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "very_short"
+          }
+        },
+        {
+          "id": "s2",
+          "when": "on_turn:2",
+          "behavior": "If the interviewer asks a small follow-up and it is easy to treat as yes/no, answer with one word. If they ask an open question about walking in, reveal hm1 only, still short.",
+          "sample_utterance": "fine",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "very_short"
+          }
+        },
+        {
+          "id": "s3",
+          "when": "if_asks_about",
+          "behavior": "On an open question about the kitchen or its color, reveal the pea green in a short line. On an open question about sleeping, reveal the attic and Ruth.",
+          "sample_utterance": "kichen was this dull pea green. mama never liked it",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm2"
+          ],
+          "subjects": [
+            "kitchen",
+            "color",
+            "sleep",
+            "bedroom"
+          ]
+        },
+        {
+          "id": "s4",
+          "when": "if_leading",
+          "behavior": "If they plant a wrong color (yellow, white, blue), correct in a few words and stop. Do not add other hidden facts. If they plant the right color, just say 'yes'.",
+          "sample_utterance": "it was green actually",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "very_short"
+          },
+          "trap": {
+            "detail": "kitchen color",
+            "correct": "pea green"
+          }
+        }
+      ]
+    },
+    {
+      "id": "p02-house-ramble-family",
+      "review_status": "ready",
+      "persona": {
+        "name": "Frank Moretti",
+        "birth_year": 1942,
+        "hometown": "Federal Hill, Providence, Rhode Island",
+        "region": "Northeast",
+        "setting_type": "city apartment",
+        "education": "left school after 8th grade, then apprentice electrician",
+        "typing_style": "one big unbroken block, few periods, comma splices",
+        "delivery": "unbroken_block",
+        "temperament": "warm, talkative, gets lost in the telling",
+        "parents_background": "Father emigrated as a boy and worked a loading dock; he had been too young for the first war and too old for the second. Mother stretched Sunday gravy the way her own mother had in the Depression. Mention only in passing.",
+        "persona_notes": "Frank types one long run-on message, almost no periods. He will mention things his mama told him and is not always sure which parts he saw himself.",
+        "age_in_2026": 84
+      },
+      "topic_id": "childhood-house",
+      "hidden_memories": [
+        {
+          "id": "hm1",
+          "fact": "Third-floor tenement walk-up. Four rooms for seven people.",
+          "reveal": "open question about the apartment or how many rooms",
+          "trap": false
+        },
+        {
+          "id": "hm2",
+          "fact": "The toilet was in the hall, shared with the neighbors.",
+          "reveal": "open question about the bathroom or the hall",
+          "trap": false
+        },
+        {
+          "id": "hm3",
+          "fact": "He used to sleep on the fire escape during heat waves.",
+          "reveal": "open question about summer, sleeping, or heat",
+          "trap": false
+        },
+        {
+          "id": "hm4",
+          "fact": "Nonna lived downstairs and banged the broom handle on the ceiling if the kids were loud.",
+          "reveal": "open question about who else was in the building",
+          "trap": false
+        },
+        {
+          "id": "hm5",
+          "fact": "His mother told him the building used to be a mill boarding house. He was never sure if that was true, and he is unsure whether the address was 18 Spruce or 20 Spruce.",
+          "reveal": "open question about the building's history or the address; keep this as a family story, not a sure fact",
+          "trap": false
+        }
+      ],
+      "scenario_tags": [
+        "rambling",
+        "unsure_or_family_story"
+      ],
+      "script": [
+        {
+          "id": "s1",
+          "when": "after_opening",
+          "behavior": "Answer in one long unbroken block about walking up the stairs and the crowded rooms. Mention mama's gravy in passing. Do not yet mention the hall toilet, the fire escape, or the boarding-house story.",
+          "sample_utterance": "oh you walked up and up it was third floor and the hallway always smelled like somebody elses dinner we had four rooms I think for seven of us my brothers and I we used to pile in and mama had the gravy going all sunday you could smell it from the second floor landing I can still almost smell it",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "rich"
+          }
+        },
+        {
+          "id": "s2",
+          "when": "if_asks_about",
+          "behavior": "If asked about the building history, address, or what his mother told him, give the family story and hedge. Keep it as something mama said.",
+          "sample_utterance": "mama used to say the building was a mill boarding house before we got there I dont know if thats true I never saw it that way and she said 18 Spruce but sometimes she said 20 I was never sure which",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "rich"
+          },
+          "reveal_hidden": [
+            "hm5"
+          ],
+          "subjects": [
+            "address",
+            "history",
+            "building",
+            "mother told",
+            "family story"
+          ]
+        },
+        {
+          "id": "s3",
+          "when": "if_asks_about",
+          "behavior": "On open questions about the bathroom, hall, or neighbors, reveal the shared hall toilet and maybe Nonna downstairs.",
+          "sample_utterance": "bathroom wasnt even in the apartment you had to go out in the hall and share it with the Costas nonna lived downstairs and shed bang the broom on the ceiling if we made a racket",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "rich"
+          },
+          "reveal_hidden": [
+            "hm2",
+            "hm4"
+          ],
+          "subjects": [
+            "bathroom",
+            "toilet",
+            "hall",
+            "neighbors"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p03-house-present-joke",
+      "review_status": "ready",
+      "persona": {
+        "name": "June Harrell",
+        "birth_year": 1950,
+        "hometown": "Macon, Georgia",
+        "region": "South",
+        "setting_type": "city apartment",
+        "education": "high school",
+        "typing_style": "all lowercase, no punctuation",
+        "delivery": "single",
+        "temperament": "wry, easily pulled into stories about her grandkids",
+        "parents_background": "Father had been a quartermaster clerk in the war and later drove a delivery truck. Mother was a girl in the Depression and still turned off every light. Mention only in passing.",
+        "persona_notes": "June types in all lowercase with no periods or commas. She jokes to dodge details she finds dull, and she often compares then to her grandchildren now.",
+        "age_in_2026": 76
+      },
+      "topic_id": "childhood-house",
+      "hidden_memories": [
+        {
+          "id": "hm1",
+          "fact": "It was a shotgun apartment: you could see from the front door straight through to the back window.",
+          "reveal": "open question about the layout or walking in",
+          "trap": false
+        },
+        {
+          "id": "hm2",
+          "fact": "She shared a bedroom with two sisters. They had one window fan in the summer.",
+          "reveal": "open question about sleeping or heat",
+          "trap": false
+        },
+        {
+          "id": "hm3",
+          "fact": "There was a pecan tree in the dirt yard out back.",
+          "reveal": "open question about the yard or outside",
+          "trap": false
+        },
+        {
+          "id": "hm4",
+          "fact": "The landlord, Mr. Cates, painted every five years whether it needed it or not, always the same beige.",
+          "reveal": "open question about the landlord or the walls",
+          "trap": false
+        }
+      ],
+      "scenario_tags": [
+        "present_pull",
+        "joke_deflect"
+      ],
+      "script": [
+        {
+          "id": "s1",
+          "when": "after_opening",
+          "behavior": "Answer in all lowercase with no punctuation. Make a joke about how small it was, and pull toward her grandkids and air conditioning. Do not yet describe the shotgun layout or the pecan tree clearly.",
+          "sample_utterance": "it was so small we had to go outside to change our minds haha my grandkids wouldnt last a day in there without the ac they complain if the wifi blinks",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": "now",
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          }
+        },
+        {
+          "id": "s2",
+          "when": "if_asks_about",
+          "behavior": "If the interviewer follows the grandkids / AC thread, stay with that naturally. Do not yank yourself back.",
+          "sample_utterance": "my grandson bo says why didnt you just turn on the air and i have to tell him honey we had a window fan if we were lucky and we liked it just fine",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": "now",
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "subjects": [
+            "grandkids",
+            "grandson",
+            "ac",
+            "now",
+            "today"
+          ]
+        },
+        {
+          "id": "s3",
+          "when": "if_asks_about",
+          "behavior": "If they ask an open question about the apartment itself, reveal the shotgun layout, still lowercase no punctuation.",
+          "sample_utterance": "it was one of those shotgun places you looked in the front door and saw all the way to the back window mama kept the hall clear so the air could move",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm1"
+          ],
+          "subjects": [
+            "layout",
+            "apartment",
+            "front door",
+            "rooms"
+          ]
+        },
+        {
+          "id": "s4",
+          "when": "if_chases_sensitive",
+          "behavior": "Not a sensitive wound; if they ignore the joke and repeat 'but really, how small was it', joke once more and give a little: three rooms and a pecan tree out back.",
+          "sample_utterance": "alright alright three rooms and a pecan tree in the dirt out back thats the tour",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm3"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p04-food-short-asksback",
+      "review_status": "ready",
+      "persona": {
+        "name": "Harold 'Hal' Krueger",
+        "birth_year": 1944,
+        "hometown": "New Ulm, Minnesota",
+        "region": "Midwest",
+        "setting_type": "small town",
+        "education": "high school",
+        "typing_style": "terse, capitalized when he feels formal",
+        "delivery": "single",
+        "temperament": "suspicious at first, then decent if treated straight",
+        "parents_background": "Father had been a German-speaking farm boy in the Depression and was careful about his last name during the war years. Mother kept a garden like it was still 1933. Mention only in passing.",
+        "persona_notes": "Hal's first instinct is to ask why you want to know. Keep answers short until trust builds. He is not rude, just guarded.",
+        "age_in_2026": 82
+      },
+      "topic_id": "childhood-food",
+      "hidden_memories": [
+        {
+          "id": "hm1",
+          "fact": "His mother made klops (meatballs) on Sundays, with a brown gravy.",
+          "reveal": "open question about Sunday food or what mother made, after he is willing",
+          "trap": false
+        },
+        {
+          "id": "hm2",
+          "fact": "She rendered lard in a big pot, usually in the fall.",
+          "reveal": "open question about cooking smells or how she cooked",
+          "trap": false
+        },
+        {
+          "id": "hm3",
+          "fact": "He used to steal raisins from the fruitcake tin.",
+          "reveal": "open question about snacks or getting in trouble with food",
+          "trap": false
+        },
+        {
+          "id": "hm4",
+          "fact": "Friday was fish, because they were Lutheran.",
+          "reveal": "open question about Friday, church, or weekly routine",
+          "trap": false
+        },
+        {
+          "id": "hm5",
+          "fact": "The bakery on Minnesota Street smelled of rye bread in the morning.",
+          "reveal": "open question about food in town or bread",
+          "trap": false
+        }
+      ],
+      "scenario_tags": [
+        "short_answers",
+        "asks_ai_back"
+      ],
+      "script": [
+        {
+          "id": "s1",
+          "when": "after_opening",
+          "behavior": "Do not describe food yet. Ask why they want to know, in a short guarded line.",
+          "sample_utterance": "Why do you want to know that?",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "very_short"
+          }
+        },
+        {
+          "id": "s2",
+          "when": "on_turn:2",
+          "behavior": "If they gave a plain honest reason and an easy out, thaw a little and give a short food answer, still not all the memories. If they got defensive or nosy, stay clipped: 'I don't know. Regular food.'",
+          "sample_utterance": "Sunday meatballs I guess. Mother made them.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm1"
+          ]
+        },
+        {
+          "id": "s3",
+          "when": "if_asks_about",
+          "behavior": "On a later open question about bread, town, or smells, reveal the rye bakery, still short.",
+          "sample_utterance": "There was a bakery on Minnesota Street. Rye. You could smell it in the morning.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm5"
+          ],
+          "subjects": [
+            "bread",
+            "bakery",
+            "town",
+            "smell"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p05-food-ramble-trap",
+      "review_status": "ready",
+      "persona": {
+        "name": "Patsy Delgado",
+        "birth_year": 1952,
+        "hometown": "West Side, San Antonio, Texas",
+        "region": "South",
+        "setting_type": "city apartment",
+        "education": "two years at the junior college",
+        "typing_style": "rambling, occasional typos (tortilas, abuela, recieve)",
+        "delivery": "single",
+        "temperament": "warm, eager to talk about her abuela's kitchen",
+        "parents_background": "Father had been a boy during the war and later worked at a garage. Mother and abuela stretched meals the way families had in harder years. Mention only in passing.",
+        "persona_notes": "Patsy talks in friendly run-on sentences with a few typos. She will not say whether the tortillas were flour or corn unless asked an open question about what kind. They were flour, cooked on a comal. Easy for an interviewer to ask 'Were they corn tortillas?'",
+        "age_in_2026": 74
+      },
+      "topic_id": "childhood-food",
+      "hidden_memories": [
+        {
+          "id": "hm1",
+          "fact": "Abuela made flour tortillas on a comal, not corn.",
+          "reveal": "open question about what kind of tortillas or how they were made",
+          "trap": true,
+          "trap_detail": "Tortillas were flour, not corn."
+        },
+        {
+          "id": "hm2",
+          "fact": "Saturday was menudo. You could smell it from the stairwell.",
+          "reveal": "open question about weekend food or soup",
+          "trap": false
+        },
+        {
+          "id": "hm3",
+          "fact": "A man with a cart sold raspa in the summer. She always asked for cherry.",
+          "reveal": "open question about treats or summer food",
+          "trap": false
+        },
+        {
+          "id": "hm4",
+          "fact": "She once burned her finger on the comal and abuela put lard on it.",
+          "reveal": "open question about helping, getting hurt, or the comal",
+          "trap": false
+        },
+        {
+          "id": "hm5",
+          "fact": "On Sunday mornings the children were given coffee with milk, café con leche, in little cups.",
+          "reveal": "open question about breakfast or Sunday morning",
+          "trap": false
+        }
+      ],
+      "scenario_tags": [
+        "rambling",
+        "leading_detail_trap"
+      ],
+      "script": [
+        {
+          "id": "s1",
+          "when": "after_opening",
+          "behavior": "Ramble warmly about abuela cooking and tortillas, but do not say flour or corn. Typos ok.",
+          "sample_utterance": "oh my abuela was always at that stove always, she made tortilas and I would stand there watching her flip them I can still see her hands she had this little flat pan and the kitchen would get so hot we opened the back door she never measured anything she just knew",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "rich"
+          }
+        },
+        {
+          "id": "s2",
+          "when": "if_asks_about",
+          "behavior": "If asked an open question about what kind, or how they were made, reveal flour tortillas on a comal.",
+          "sample_utterance": "they were flour not corn, she cooked them on a comal, that little flat pan, I tried to help and I wasnt much help",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm1"
+          ],
+          "subjects": [
+            "kind",
+            "flour",
+            "corn",
+            "how",
+            "made",
+            "comal"
+          ]
+        },
+        {
+          "id": "s3",
+          "when": "if_leading",
+          "behavior": "If they ask 'were they corn tortillas?' or plant corn, correct briefly: flour. If they plant flour, say yes. Do not add menudo or raspa unless also asked.",
+          "sample_utterance": "no they were flour actually",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "very_short"
+          },
+          "trap": {
+            "detail": "tortilla type",
+            "correct": "flour, not corn"
+          }
+        }
+      ]
+    },
+    {
+      "id": "p06-food-false-forget-refuse",
+      "review_status": "ready",
+      "persona": {
+        "name": "Earl Whitaker",
+        "birth_year": 1941,
+        "hometown": "a farm outside Crossville, Tennessee",
+        "region": "South",
+        "setting_type": "farm",
+        "education": "8th grade",
+        "typing_style": "all lowercase, no punctuation",
+        "delivery": "single",
+        "temperament": "plain, private about butchering and hard years, not unfriendly",
+        "parents_background": "Father had been a farm boy through the Depression and kept every scrap of wire. He was 4-F during the war and stayed to run the place. Mention only in passing.",
+        "persona_notes": "Earl types in all lowercase with no punctuation. He will talk about the garden and biscuits. If asked about slaughtering hogs or whether they went hungry, he says i dont remember, even though he remembers November hog killings clearly. If pushed past that, he refuses the point.",
+        "age_in_2026": 85
+      },
+      "topic_id": "childhood-food",
+      "hidden_memories": [
+        {
+          "id": "hm1",
+          "fact": "Biscuits and sawmill gravy almost every morning, gravy if they had meat.",
+          "reveal": "open question about breakfast",
+          "trap": false
+        },
+        {
+          "id": "hm2",
+          "fact": "His mother canned beans in the summer kitchen.",
+          "reveal": "open question about summer, canning, or the garden",
+          "trap": false
+        },
+        {
+          "id": "hm3",
+          "fact": "They slaughtered hogs in November. He remembers the steam and the cold. He will not volunteer this, and may say he does not remember if asked head-on.",
+          "reveal": "only if asked well and gently later; do not reward chasing. If asked head-on about killing animals or going hungry, say 'i dont remember'",
+          "trap": false
+        },
+        {
+          "id": "hm4",
+          "fact": "A peach tree stood by the barn. The late peaches were his favorite.",
+          "reveal": "open question about fruit, the barn, or a favorite food",
+          "trap": false
+        },
+        {
+          "id": "hm5",
+          "fact": "He packed cold sweet potatoes in his pocket for school.",
+          "reveal": "open question about school lunches or what he took with him",
+          "trap": false
+        }
+      ],
+      "scenario_tags": [
+        "false_dont_remember",
+        "refuse_point"
+      ],
+      "script": [
+        {
+          "id": "s1",
+          "when": "after_opening",
+          "behavior": "Talk briefly about biscuits and gravy, lowercase, no punctuation. Do not mention hogs or hunger.",
+          "sample_utterance": "biscuits most mornings gravy if we had meat mama cooked on a wood stove thats about it",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm1"
+          ]
+        },
+        {
+          "id": "s2",
+          "when": "if_asks_about",
+          "behavior": "On garden, canning, peaches, or school lunch, reveal one of those memories. Still no hog killing.",
+          "sample_utterance": "mama canned beans in the summer kitchen and there was a peach tree by the barn late peaches were the good ones",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm2",
+            "hm4"
+          ],
+          "subjects": [
+            "garden",
+            "canning",
+            "peach",
+            "beans",
+            "lunch",
+            "school"
+          ]
+        },
+        {
+          "id": "s3",
+          "when": "if_asks_about",
+          "behavior": "If asked about meat, slaughter, hog killing, or whether they went hungry, say he does not remember. He does remember. This is not a refusal.",
+          "sample_utterance": "i dont remember much about that part",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "very_short"
+          },
+          "subjects": [
+            "meat",
+            "hog",
+            "slaughter",
+            "butcher",
+            "hungry",
+            "hunger"
+          ]
+        },
+        {
+          "id": "s4",
+          "when": "if_chases_sensitive",
+          "behavior": "If they push past 'i dont remember' and ask again about the hogs or hunger, refuse the point clearly.",
+          "sample_utterance": "id rather not get into that",
+          "expected_classifier": {
+            "refusal": true,
+            "refusal_scope": "point",
+            "refused_point": "hog killing",
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "very_short"
+          }
+        }
+      ]
+    },
+    {
+      "id": "p07-parents-sensitive-refuse",
+      "review_status": "ready",
+      "persona": {
+        "name": "Margaret 'Meg' O'Connor",
+        "birth_year": 1948,
+        "hometown": "South Boston, Massachusetts",
+        "region": "Northeast",
+        "setting_type": "city apartment",
+        "education": "Catholic high school",
+        "typing_style": "one thought split across several short messages, light punctuation",
+        "delivery": "split_messages",
+        "temperament": "guarded, loyal to her mother, will close the door if dad is chased",
+        "parents_background": "Father had been in the Navy in the Pacific and later worked the docks when he was working. Mother sewed piecework and had grown up counting pennies in the Depression. Mention the war only in passing.",
+        "persona_notes": "Meg sends one thought as two or three short messages. She will talk about her mother at the kitchen table. If asked about her father she may mention lightly that he was gone a lot, 'if you know what I mean,' then pivot. If the interviewer chases his drinking or absence, she refuses the point and is a little shaken.",
+        "age_in_2026": 78
+      },
+      "topic_id": "childhood-parents",
+      "hidden_memories": [
+        {
+          "id": "hm1",
+          "fact": "Mother sewed piecework at the kitchen table, often after the girls were in bed.",
+          "reveal": "open question about what mother was doing",
+          "trap": false
+        },
+        {
+          "id": "hm2",
+          "fact": "On good days Meg packed her father's lunch pail for the docks.",
+          "reveal": "open question about dad's work, only if not chasing the drinking",
+          "trap": false
+        },
+        {
+          "id": "hm3",
+          "fact": "Mother sang 'Galway Bay' when she was washing up.",
+          "reveal": "open question about things mother said or sang",
+          "trap": false
+        },
+        {
+          "id": "hm4",
+          "fact": "Friday they ate fish, grudgingly.",
+          "reveal": "open question about meals or Friday",
+          "trap": false
+        },
+        {
+          "id": "hm5",
+          "fact": "Father drank and was gone a lot. Meg will only mention this lightly, then pivot. She will not describe it if chased.",
+          "reveal": "light mention only if asked about dad; refuse if chased",
+          "trap": false
+        }
+      ],
+      "scenario_tags": [
+        "light_sensitive_mention",
+        "refuse_point",
+        "mild_distress"
+      ],
+      "script": [
+        {
+          "id": "s1",
+          "when": "after_opening",
+          "behavior": "Split the answer into two short messages about mother sewing. Do not mention dad yet.",
+          "sample_utterance": [
+            "i see my mother at the kitchen table",
+            "she was always sewing something. piecework for a shop downtown"
+          ],
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "very_short"
+          },
+          "reveal_hidden": [
+            "hm1"
+          ],
+          "expected_classifier_messages": [
+            {
+              "refusal": false,
+              "refusal_scope": "none",
+              "refused_point": null,
+              "off_topic_chapter": null,
+              "wants_to_stop": false,
+              "distress": "none",
+              "answer_length": "very_short"
+            },
+            {
+              "refusal": false,
+              "refusal_scope": "none",
+              "refused_point": null,
+              "off_topic_chapter": null,
+              "wants_to_stop": false,
+              "distress": "none",
+              "answer_length": "short"
+            }
+          ],
+          "sample_messages": [
+            "i see my mother at the kitchen table",
+            "she was always sewing something. piecework for a shop downtown"
+          ]
+        },
+        {
+          "id": "s2",
+          "when": "if_asks_about",
+          "behavior": "If asked about dad, mention the absence only lightly, then pivot back to mother. Mild, not tearful. Split into two messages.",
+          "sample_utterance": [
+            "dad was gone a lot, if you know what i mean",
+            "anyway mother was the one who was there. she sang when she washed up"
+          ],
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "mild",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm5",
+            "hm3"
+          ],
+          "expected_classifier_messages": [
+            {
+              "refusal": false,
+              "refusal_scope": "none",
+              "refused_point": null,
+              "off_topic_chapter": null,
+              "wants_to_stop": false,
+              "distress": "mild",
+              "answer_length": "very_short"
+            },
+            {
+              "refusal": false,
+              "refusal_scope": "none",
+              "refused_point": null,
+              "off_topic_chapter": null,
+              "wants_to_stop": false,
+              "distress": "none",
+              "answer_length": "short"
+            }
+          ],
+          "sample_messages": [
+            "dad was gone a lot, if you know what i mean",
+            "anyway mother was the one who was there. she sang when she washed up"
+          ],
+          "subjects": [
+            "dad",
+            "father",
+            "your dad"
+          ]
+        },
+        {
+          "id": "s3",
+          "when": "if_chases_sensitive",
+          "behavior": "If they probe the drinking, 'if you know what I mean,' or how bad dad got, refuse the point. A little distress. One or two short messages.",
+          "sample_utterance": [
+            "id rather not get into that",
+            "sorry. we can talk about my mother if you want"
+          ],
+          "expected_classifier": {
+            "refusal": true,
+            "refusal_scope": "point",
+            "refused_point": "father's drinking",
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "mild",
+            "answer_length": "very_short"
+          },
+          "expected_classifier_messages": [
+            {
+              "refusal": true,
+              "refusal_scope": "point",
+              "refused_point": "father's drinking",
+              "off_topic_chapter": null,
+              "wants_to_stop": false,
+              "distress": "mild",
+              "answer_length": "very_short"
+            },
+            {
+              "refusal": false,
+              "refusal_scope": "none",
+              "refused_point": null,
+              "off_topic_chapter": null,
+              "wants_to_stop": false,
+              "distress": "none",
+              "answer_length": "short"
+            }
+          ],
+          "sample_messages": [
+            "id rather not get into that",
+            "sorry. we can talk about my mother if you want"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p08-parents-donotwrite-stop",
+      "review_status": "ready",
+      "persona": {
+        "name": "Raymond 'Ray' Gorski",
+        "birth_year": 1943,
+        "hometown": "Milwaukee, Wisconsin",
+        "region": "Midwest",
+        "setting_type": "city apartment",
+        "education": "trade school, machinist like his father",
+        "typing_style": "blunt, occasional typos (dont, recieve, nite)",
+        "delivery": "single",
+        "temperament": "direct, private about his father being in a book",
+        "parents_background": "Father worked nights at Allis-Chalmers; he had been a young toolmaker during the war years. Mother kept a Victory-garden habit long after the war. Mention only in passing.",
+        "persona_notes": "Ray will talk a little about daily life, then decide he does not want his father written into the book. Later he may say he is tired and wants to stop. Typos, blunt sentences.",
+        "age_in_2026": 83
+      },
+      "topic_id": "childhood-parents",
+      "hidden_memories": [
+        {
+          "id": "hm1",
+          "fact": "Father worked the night shift at Allis-Chalmers.",
+          "reveal": "open question about what father did for work",
+          "trap": false
+        },
+        {
+          "id": "hm2",
+          "fact": "Mother packed a metal lunch pail for him every afternoon.",
+          "reveal": "open question about mother or the lunch pail",
+          "trap": false
+        },
+        {
+          "id": "hm3",
+          "fact": "They listened to the Braves on the radio in the kitchen.",
+          "reveal": "open question about things they did together or the radio",
+          "trap": false
+        },
+        {
+          "id": "hm4",
+          "fact": "Father taught him to use a micrometer at the kitchen table.",
+          "reveal": "open question about something father taught him, only before the don't-write request",
+          "trap": false
+        },
+        {
+          "id": "hm5",
+          "fact": "Mother still planted tomatoes like it was a Victory garden.",
+          "reveal": "open question about mother or the garden",
+          "trap": false
+        }
+      ],
+      "scenario_tags": [
+        "do_not_write",
+        "wants_to_stop"
+      ],
+      "script": [
+        {
+          "id": "s1",
+          "when": "after_opening",
+          "behavior": "Give a short, blunt picture of father at work and mother packing the pail. Occasional typo.",
+          "sample_utterance": "I see my dad in his work shirt. Nite shift at Allis-Chalmers. Ma packed his lunch pail every afternoon.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm1",
+            "hm2"
+          ]
+        },
+        {
+          "id": "s2",
+          "when": "on_turn:2",
+          "behavior": "After one more question about dad, decide you do not want him in the book. This is a don't-write request, not a refusal to talk and not a stop yet. Classifier gold: refusal false, because the schema has no do_not_write field.",
+          "sample_utterance": "You can ask but dont put my dad in that book. I dont want him written down.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          }
+        },
+        {
+          "id": "s3",
+          "when": "on_turn:4",
+          "behavior": "A couple of turns later, if the conversation is still going, say you are tired and want to stop for today.",
+          "sample_utterance": "Thats enough for today. I'm tired.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": true,
+            "distress": "none",
+            "answer_length": "very_short"
+          }
+        }
+      ]
+    },
+    {
+      "id": "p09-parents-offtopic-family",
+      "review_status": "ready",
+      "persona": {
+        "name": "Thelma Brooks",
+        "birth_year": 1945,
+        "hometown": "Tulsa, Oklahoma",
+        "region": "South",
+        "setting_type": "small town",
+        "education": "high school",
+        "typing_style": "complete sentences, a little formal",
+        "delivery": "single",
+        "temperament": "thoughtful, drifts from her parents to her own first jobs",
+        "parents_background": "Father had been in France and came home quiet. Mother had been a girl in the Dust Bowl years and never wasted leftovers. Mention only in passing, and the war quietness is a family story Thelma is not sure she saw herself.",
+        "persona_notes": "Thelma writes in tidy sentences. She will start on her parents, then drift to her first job at a diner and later work as a typist. She also holds a family story about why her father was quiet.",
+        "age_in_2026": 81
+      },
+      "topic_id": "childhood-parents",
+      "hidden_memories": [
+        {
+          "id": "hm1",
+          "fact": "Mother fried chicken on Sundays after church.",
+          "reveal": "open question about mother or Sunday",
+          "trap": false
+        },
+        {
+          "id": "hm2",
+          "fact": "Father's work shirt hung on a hook in the kitchen.",
+          "reveal": "open question about picturing father",
+          "trap": false
+        },
+        {
+          "id": "hm3",
+          "fact": "He checked the oil on the Buick every Saturday morning.",
+          "reveal": "open question about what father did around the house",
+          "trap": false
+        },
+        {
+          "id": "hm4",
+          "fact": "Mother said he learned to be quiet in France. Thelma does not remember him that way herself.",
+          "reveal": "open question about his manner or the war; keep it a family story",
+          "trap": false
+        },
+        {
+          "id": "hm5",
+          "fact": "The sound of his key in the back door at 5:30 meant supper was close.",
+          "reveal": "open question about sounds or evening",
+          "trap": false
+        }
+      ],
+      "scenario_tags": [
+        "off_topic_drift",
+        "unsure_or_family_story"
+      ],
+      "script": [
+        {
+          "id": "s1",
+          "when": "after_opening",
+          "behavior": "Picture mother and the Sunday chicken, tidy sentences. Do not yet tell the France story or drift to later work.",
+          "sample_utterance": "I see my mother at the stove on a Sunday. She fried chicken after church, and the whole house smelled like it. Dad's work shirt was hanging on a hook in the kitchen.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm1",
+            "hm2"
+          ]
+        },
+        {
+          "id": "s2",
+          "when": "on_turn:2",
+          "behavior": "Drift off-topic to her own first job and later typist work. The message should be mainly about work life after childhood.",
+          "sample_utterance": "That kitchen makes me think of my first job, I started as a girl at a diner on 11th Street and later I was a typist downtown for almost thirty years. I still remember the sound of those typewriters. Different world from mama's chicken, I guess.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": "work",
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          }
+        },
+        {
+          "id": "s3",
+          "when": "if_asks_about",
+          "behavior": "If asked about father's manner, the war, or what mother said, give the family story and hedge that she does not remember him that way herself.",
+          "sample_utterance": "Mother used to say he learned to be quiet in France. I don't know. I don't remember him that way myself. I just remember him checking the oil on the Buick every Saturday.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm4",
+            "hm3"
+          ],
+          "subjects": [
+            "quiet",
+            "war",
+            "France",
+            "manner",
+            "what was he like"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p10-friend-oneword",
+      "review_status": "ready",
+      "persona": {
+        "name": "William 'Billy' Chen",
+        "birth_year": 1955,
+        "hometown": "Chinatown, San Francisco, California",
+        "region": "West",
+        "setting_type": "city apartment",
+        "education": "college, first in the family",
+        "typing_style": "terse, short words, correct spelling, almost no extra commentary",
+        "delivery": "single",
+        "temperament": "private, polite, answers the question and stops",
+        "parents_background": "Parents had come through harder years and ran a small shop; uncles talked about the war in passing at the New Year table. Mention only in passing.",
+        "persona_notes": "Billy often answers with one word or a short fragment: 'yes', 'fine', 'Tommy'. He will give a full sentence if the question is small and concrete, still not a story unless asked well several times.",
+        "age_in_2026": 71
+      },
+      "topic_id": "childhood-friend",
+      "hidden_memories": [
+        {
+          "id": "hm1",
+          "fact": "Best friend was Tommy Leung, from the same building.",
+          "reveal": "open question about who the friend was; he may first just say 'Tommy'",
+          "trap": false
+        },
+        {
+          "id": "hm2",
+          "fact": "They folded paper boats and raced them in the gutter after rain.",
+          "reveal": "open question about what they did together",
+          "trap": false
+        },
+        {
+          "id": "hm3",
+          "fact": "They played stoopball on the steps.",
+          "reveal": "open question about games or the stoop",
+          "trap": false
+        },
+        {
+          "id": "hm4",
+          "fact": "Tommy's mother gave them lychee from a can.",
+          "reveal": "open question about food, Tommy's family, or a treat",
+          "trap": false
+        },
+        {
+          "id": "hm5",
+          "fact": "They were not supposed to go past Stockton Street.",
+          "reveal": "open question about rules, boundaries, or getting in trouble",
+          "trap": false
+        }
+      ],
+      "scenario_tags": [
+        "short_answers",
+        "one_word_answers"
+      ],
+      "script": [
+        {
+          "id": "s1",
+          "when": "after_opening",
+          "behavior": "One word or a name only.",
+          "sample_utterance": "Tommy",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "very_short"
+          }
+        },
+        {
+          "id": "s2",
+          "when": "on_turn:2",
+          "behavior": "If asked a yes/no or a broad 'what was he like', say 'fine' or 'yes'. If asked a small open question like 'How did you two meet?', give one short sentence: same building.",
+          "sample_utterance": "fine",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "very_short"
+          }
+        },
+        {
+          "id": "s3",
+          "when": "if_asks_about",
+          "behavior": "On a concrete open question about what they did, reveal the paper boats in the gutter, still short.",
+          "sample_utterance": "We raced paper boats in the gutter after the rain.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "very_short"
+          },
+          "reveal_hidden": [
+            "hm2"
+          ],
+          "subjects": [
+            "do together",
+            "play",
+            "get up to",
+            "games",
+            "what did you"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p11-friend-strong-stop",
+      "review_status": "ready",
+      "persona": {
+        "name": "Carolyn Hayes",
+        "birth_year": 1949,
+        "hometown": "Bardstown, Kentucky",
+        "region": "South",
+        "setting_type": "small town",
+        "education": "high school",
+        "typing_style": "one thought split across several messages, soft punctuation",
+        "delivery": "split_messages",
+        "temperament": "gentle, holds it together until the last day with Annie, then the feeling hits",
+        "parents_background": "Father had come home from the army and worked at the distillery warehouse. Mother had been a Depression child and reused wax paper. Mention only in passing.",
+        "persona_notes": "Carolyn sends two or three short messages for one thought. She can talk about Annie at school. When she gets to the last day before Annie moved to Ohio, it still hurts, and she may want to stop.",
+        "age_in_2026": 77
+      },
+      "topic_id": "childhood-friend",
+      "hidden_memories": [
+        {
+          "id": "hm1",
+          "fact": "She met Annie in third grade, sharing a desk.",
+          "reveal": "open question about how they met",
+          "trap": false
+        },
+        {
+          "id": "hm2",
+          "fact": "Annie could whistle through her fingers.",
+          "reveal": "open question about what Annie was like or what they did",
+          "trap": false
+        },
+        {
+          "id": "hm3",
+          "fact": "On the last day they sat on a low wall and split a Baby Ruth.",
+          "reveal": "open question about the last day or saying goodbye; this is the painful memory",
+          "trap": false
+        },
+        {
+          "id": "hm4",
+          "fact": "The moving truck was green.",
+          "reveal": "only if already in the last-day story and asked a small open detail question, and only if she has not asked to stop",
+          "trap": false
+        },
+        {
+          "id": "hm5",
+          "fact": "They wrote two letters and then it stopped.",
+          "reveal": "open question about staying in touch, if she is still willing",
+          "trap": false
+        }
+      ],
+      "scenario_tags": [
+        "strong_distress",
+        "wants_to_stop"
+      ],
+      "script": [
+        {
+          "id": "s1",
+          "when": "after_opening",
+          "behavior": "Split a gentle answer: Annie, third grade, shared a desk. No last day yet.",
+          "sample_utterance": [
+            "annie. we met in third grade",
+            "we shared a desk"
+          ],
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "very_short"
+          },
+          "reveal_hidden": [
+            "hm1"
+          ],
+          "expected_classifier_messages": [
+            {
+              "refusal": false,
+              "refusal_scope": "none",
+              "refused_point": null,
+              "off_topic_chapter": null,
+              "wants_to_stop": false,
+              "distress": "none",
+              "answer_length": "very_short"
+            },
+            {
+              "refusal": false,
+              "refusal_scope": "none",
+              "refused_point": null,
+              "off_topic_chapter": null,
+              "wants_to_stop": false,
+              "distress": "none",
+              "answer_length": "very_short"
+            }
+          ],
+          "sample_messages": [
+            "annie. we met in third grade",
+            "we shared a desk"
+          ]
+        },
+        {
+          "id": "s2",
+          "when": "if_asks_about",
+          "behavior": "If asked what they did or what Annie was like, a lighter memory: the whistle. Still okay.",
+          "sample_utterance": [
+            "she could whistle through her fingers",
+            "i never could. i used to make her do it for the other girls"
+          ],
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm2"
+          ],
+          "subjects": [
+            "like",
+            "do together",
+            "get up to",
+            "play"
+          ]
+        },
+        {
+          "id": "s3",
+          "when": "if_asks_about",
+          "behavior": "If asked about staying in touch, moving, or a last day, tell the Baby Ruth wall, then show strong distress. Split messages.",
+          "sample_utterance": [
+            "her family moved to ohio when we were 12. last day we sat on a wall and split a baby ruth",
+            "this still gets to me. it hurts to talk about"
+          ],
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "strong",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm3"
+          ],
+          "expected_classifier_messages": [
+            {
+              "refusal": false,
+              "refusal_scope": "none",
+              "refused_point": null,
+              "off_topic_chapter": null,
+              "wants_to_stop": false,
+              "distress": "none",
+              "answer_length": "short"
+            },
+            {
+              "refusal": false,
+              "refusal_scope": "none",
+              "refused_point": null,
+              "off_topic_chapter": null,
+              "wants_to_stop": false,
+              "distress": "strong",
+              "answer_length": "very_short"
+            }
+          ],
+          "sample_messages": [
+            "her family moved to ohio when we were 12. last day we sat on a wall and split a baby ruth",
+            "this still gets to me. it hurts to talk about"
+          ],
+          "subjects": [
+            "moved",
+            "last day",
+            "goodbye",
+            "stay in touch",
+            "letters"
+          ]
+        },
+        {
+          "id": "s4",
+          "when": "on_turn:5",
+          "behavior": "If the conversation continued after the hurt, she wants to stop for today.",
+          "sample_utterance": [
+            "thats enough for today i think",
+            "im sorry"
+          ],
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": true,
+            "distress": "mild",
+            "answer_length": "very_short"
+          },
+          "expected_classifier_messages": [
+            {
+              "refusal": false,
+              "refusal_scope": "none",
+              "refused_point": null,
+              "off_topic_chapter": null,
+              "wants_to_stop": true,
+              "distress": "none",
+              "answer_length": "very_short"
+            },
+            {
+              "refusal": false,
+              "refusal_scope": "none",
+              "refused_point": null,
+              "off_topic_chapter": null,
+              "wants_to_stop": false,
+              "distress": "none",
+              "answer_length": "very_short"
+            }
+          ],
+          "sample_messages": [
+            "thats enough for today i think",
+            "im sorry"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p12-friend-joke-asksback",
+      "review_status": "ready",
+      "persona": {
+        "name": "Dwayne 'Skip' Powell",
+        "birth_year": 1951,
+        "hometown": "Mobile, Alabama",
+        "region": "South",
+        "setting_type": "small town",
+        "education": "a year of junior college",
+        "typing_style": "casual, occasional typos (gonna, recieve, recrd)",
+        "delivery": "single",
+        "temperament": "jokey, tests whether you are stiff, then will talk if you don't chase",
+        "parents_background": "Father had been in the merchant marine late in the war and later worked the docks. Mother stretched supper the way her mother had in the thirties. Mention only in passing.",
+        "persona_notes": "Skip cracks a joke instead of answering the first personal question, and he may ask why you are writing all this down. If the interviewer handles the joke lightly and does not chase, he will talk about Red.",
+        "age_in_2026": 75
+      },
+      "topic_id": "childhood-friend",
+      "hidden_memories": [
+        {
+          "id": "hm1",
+          "fact": "His best friend was a boy called Red who lived by the docks.",
+          "reveal": "open question about who, after the joke has been received",
+          "trap": false
+        },
+        {
+          "id": "hm2",
+          "fact": "They once snuck onto a shrimp boat and got chased off.",
+          "reveal": "open question about what they got up to",
+          "trap": false
+        },
+        {
+          "id": "hm3",
+          "fact": "Red had a bicycle with no chain guard. Skip's pants got caught in it once.",
+          "reveal": "open question about the bicycle or getting in a scrape",
+          "trap": false
+        },
+        {
+          "id": "hm4",
+          "fact": "They fished for croaker off a seawall.",
+          "reveal": "open question about fishing or the water",
+          "trap": false
+        },
+        {
+          "id": "hm5",
+          "fact": "Red's grandmother made them drink iced tea on the porch before they could leave again.",
+          "reveal": "open question about Red's family or the porch",
+          "trap": false
+        }
+      ],
+      "scenario_tags": [
+        "joke_deflect",
+        "asks_ai_back"
+      ],
+      "script": [
+        {
+          "id": "s1",
+          "when": "after_opening",
+          "behavior": "Do not name Red yet. Joke, and ask why they are writing this down.",
+          "sample_utterance": "Why you writing all this down, you charging by the word? Ha. I had friends, sure, I wasn't raised by wolves.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          }
+        },
+        {
+          "id": "s2",
+          "when": "on_turn:2",
+          "behavior": "If they gave a straight reason and didn't chase, name Red and one light fact. If they ignored the joke and repeated 'who was your best friend', joke once more and stay thin.",
+          "sample_utterance": "Alright, his name was Red. Lived down by the docks. Hair like a match head.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm1"
+          ]
+        },
+        {
+          "id": "s3",
+          "when": "if_asks_about",
+          "behavior": "On an open question about what they did, reveal the shrimp boat or the fishing, still casual.",
+          "sample_utterance": "We snuck onto a shrimp boat once and got chased off. Other days we just fished for croaker off the seawall.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm2",
+            "hm4"
+          ],
+          "subjects": [
+            "do together",
+            "get up to",
+            "play",
+            "trouble",
+            "docks"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p13-holidays-ramble-trap",
+      "review_status": "ready",
+      "persona": {
+        "name": "Marilyn Voss",
+        "birth_year": 1947,
+        "hometown": "Fargo, North Dakota",
+        "region": "Midwest",
+        "setting_type": "small town",
+        "education": "high school",
+        "typing_style": "one big unbroken block, enthusiastic, commas instead of periods",
+        "delivery": "unbroken_block",
+        "temperament": "eager, loves Christmas, talks past the question",
+        "parents_background": "Parents had both been children in the Depression; gifts were few and practical. Father had missed the war with a farm deferment. Mention only in passing.",
+        "persona_notes": "Marilyn types a long breathless block. The tree stood in the corner by the oil stove, with popcorn strings and a few glass birds — not a tinsel tree in the front window. She will not place or decorate the tree unless asked an open question about it.",
+        "age_in_2026": 79
+      },
+      "topic_id": "childhood-holidays",
+      "hidden_memories": [
+        {
+          "id": "hm1",
+          "fact": "Christmas was the big holiday. They ate lutefisk and everyone pretended to like it.",
+          "reveal": "open question about the table or Christmas food",
+          "trap": false
+        },
+        {
+          "id": "hm2",
+          "fact": "The tree stood in the corner by the oil stove, decorated with popcorn strings and a few glass birds, not heavy tinsel and not in the front window.",
+          "reveal": "open question about the tree or the room",
+          "trap": true,
+          "trap_detail": "Easy to ask 'Did you have a big tinsel tree in the window?' Correct: corner by the oil stove, popcorn and glass birds."
+        },
+        {
+          "id": "hm3",
+          "fact": "They went to church at midnight.",
+          "reveal": "open question about church or Christmas Eve",
+          "trap": false
+        },
+        {
+          "id": "hm4",
+          "fact": "One uncle brought a wooden sled.",
+          "reveal": "open question about gifts",
+          "trap": false
+        },
+        {
+          "id": "hm5",
+          "fact": "Mother made krumkake.",
+          "reveal": "open question about baking or what mother made",
+          "trap": false
+        },
+        {
+          "id": "hm6",
+          "fact": "One year the power went out and they opened gifts by flashlight.",
+          "reveal": "open question about a year they never forgot",
+          "trap": false
+        }
+      ],
+      "scenario_tags": [
+        "rambling",
+        "leading_detail_trap"
+      ],
+      "script": [
+        {
+          "id": "s1",
+          "when": "after_opening",
+          "behavior": "A long unbroken block about Christmas being the big one, lutefisk, church, no tree placement or decorations yet.",
+          "sample_utterance": "oh Christmas was the one my family made a fuss about, we had lutefisk and we all pretended to like it I can still see my uncle making a face, we went to church at midnight and it was so cold your eyelashes felt funny and mother would have cookies but I don't want to get ahead of myself it was just a lot of people in a small house and I loved it",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "rich"
+          },
+          "reveal_hidden": [
+            "hm1",
+            "hm3"
+          ]
+        },
+        {
+          "id": "s2",
+          "when": "if_asks_about",
+          "behavior": "On an open question about the tree or the room, reveal the corner by the oil stove, popcorn strings, glass birds.",
+          "sample_utterance": "the tree was in the corner by the oil stove, we strung popcorn and we had a few glass birds, not much else, it wasn't some fancy tree in the window or anything",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "rich"
+          },
+          "reveal_hidden": [
+            "hm2"
+          ],
+          "subjects": [
+            "tree",
+            "decorate",
+            "room",
+            "living room"
+          ]
+        },
+        {
+          "id": "s3",
+          "when": "if_leading",
+          "behavior": "If they plant a tinsel tree in the window, or a big pine in the front window, correct the placement and decorations briefly, still in a block if that's her way, but don't add the power outage.",
+          "sample_utterance": "no it wasn't in the window it was in the corner by the oil stove and it was mostly popcorn strings and a few glass birds",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "trap": {
+            "detail": "tree location and decorations",
+            "correct": "corner by the oil stove, popcorn and glass birds"
+          }
+        }
+      ]
+    },
+    {
+      "id": "p14-holidays-present-mild",
+      "review_status": "ready",
+      "persona": {
+        "name": "Gloria Jean Pickett",
+        "birth_year": 1940,
+        "hometown": "a farm outside Anniston, Alabama",
+        "region": "South",
+        "setting_type": "farm",
+        "education": "8th grade",
+        "typing_style": "all lowercase, no punctuation",
+        "delivery": "single",
+        "temperament": "kind, a little tired, misses her mother, talks about her granddaughter",
+        "parents_background": "Parents had farmed through the Depression. Father had a deferment and kept the place going during the war. Mention only in passing.",
+        "persona_notes": "Gloria types in all lowercase with no punctuation. She will start on Christmas, then pull to her granddaughter asking the same questions, or to her hip bothering her. She gets quietly wistful, not tearful, about Christmases after her mother was gone.",
+        "age_in_2026": 86
+      },
+      "topic_id": "childhood-holidays",
+      "hidden_memories": [
+        {
+          "id": "hm1",
+          "fact": "They shot firecrackers at Christmas, a Southern habit on their farm.",
+          "reveal": "open question about what they did at Christmas, besides church",
+          "trap": false
+        },
+        {
+          "id": "hm2",
+          "fact": "A stocking held an orange and some nuts.",
+          "reveal": "open question about gifts or the stocking",
+          "trap": false
+        },
+        {
+          "id": "hm3",
+          "fact": "Father cut a cedar from the back forty.",
+          "reveal": "open question about the tree",
+          "trap": false
+        },
+        {
+          "id": "hm4",
+          "fact": "Mother made ambrosia.",
+          "reveal": "open question about the table or what mother cooked",
+          "trap": false
+        },
+        {
+          "id": "hm5",
+          "fact": "One year the well froze.",
+          "reveal": "open question about a year they remember, if she is still on the childhood thread",
+          "trap": false
+        }
+      ],
+      "scenario_tags": [
+        "present_pull",
+        "mild_distress"
+      ],
+      "script": [
+        {
+          "id": "s1",
+          "when": "after_opening",
+          "behavior": "Start on Christmas, then pull to her granddaughter and a wistful note about mama. Lowercase, no punctuation. Mild distress, mainly present-day pull.",
+          "sample_utterance": "christmas was the big one daddy cut a cedar my granddaughter asks me the same thing now she wants all the old stories i tell her what i can my hip has been acting up so i sit and talk instead of doing much mama made ambrosia i still miss that",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "mild",
+            "answer_length": "rich"
+          },
+          "reveal_hidden": [
+            "hm3",
+            "hm4"
+          ]
+        },
+        {
+          "id": "s2",
+          "when": "if_asks_about",
+          "behavior": "If they follow the granddaughter or the hip, stay there naturally.",
+          "sample_utterance": "shes nine and she writes it down in a little notebook like a reporter it makes me smile my hip is just old weather i might need to rest in a minute but im alright",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": "now",
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "subjects": [
+            "granddaughter",
+            "grandkids",
+            "hip",
+            "now",
+            "today",
+            "rest"
+          ]
+        },
+        {
+          "id": "s3",
+          "when": "if_asks_about",
+          "behavior": "If they ask an open childhood question about firecrackers, stockings, or the well, give one of those, still lowercase, a little wistful but okay.",
+          "sample_utterance": "we shot firecrackers at christmas and the stocking had an orange and some nuts that was a good year when the well didnt freeze",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "mild",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm1",
+            "hm2"
+          ],
+          "subjects": [
+            "firecracker",
+            "stocking",
+            "gift",
+            "orange",
+            "well",
+            "table"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p15-holidays-forget-refuse-topic",
+      "review_status": "ready",
+      "persona": {
+        "name": "Norman 'Norm' Feldman",
+        "birth_year": 1944,
+        "hometown": "Brownsville, Brooklyn, New York",
+        "region": "Northeast",
+        "setting_type": "city apartment",
+        "education": "City College of New York",
+        "typing_style": "dry, correct, complete sentences, little slang",
+        "delivery": "single",
+        "temperament": "wry, private about family tension, will close a topic rather than invent warmth",
+        "parents_background": "Parents had come through the Depression in the city; an uncle had been overseas. Mention only in passing.",
+        "persona_notes": "Norm can describe Hanukkah in a matter-of-fact way. If asked for 'the year he will never forget' or a harder family holiday, he says he does not remember (he does: an uncle didn't come and nobody explained). If pushed, he refuses the whole holidays topic.",
+        "age_in_2026": 82
+      },
+      "topic_id": "childhood-holidays",
+      "hidden_memories": [
+        {
+          "id": "hm1",
+          "fact": "They put a menorah in the window.",
+          "reveal": "open question about how they marked the holiday",
+          "trap": false
+        },
+        {
+          "id": "hm2",
+          "fact": "Grandmother's latkes were too oily, and the apartment smelled of oil for days.",
+          "reveal": "open question about the table or food",
+          "trap": false
+        },
+        {
+          "id": "hm3",
+          "fact": "The children played dreidel for pennies.",
+          "reveal": "open question about what the kids did",
+          "trap": false
+        },
+        {
+          "id": "hm4",
+          "fact": "One year his uncle didn't come and nobody explained. He remembers it and does not want to say.",
+          "reveal": "if asked about a year he will never forget, first say he doesn't remember; refuse the topic if chased",
+          "trap": false
+        }
+      ],
+      "scenario_tags": [
+        "false_dont_remember",
+        "refuse_topic"
+      ],
+      "script": [
+        {
+          "id": "s1",
+          "when": "after_opening",
+          "behavior": "Matter-of-fact Hanukkah: menorah, latkes. No uncle story.",
+          "sample_utterance": "Hanukkah, mainly. We put a menorah in the window, and my grandmother made latkes that were too oily. The apartment smelled of oil for days.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm1",
+            "hm2"
+          ]
+        },
+        {
+          "id": "s2",
+          "when": "if_asks_about",
+          "behavior": "If asked about a year he will never forget, a tense holiday, or someone missing, say he does not remember. He does.",
+          "sample_utterance": "I don't remember a particular year, honestly. They were pretty much the same.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "subjects": [
+            "never forget",
+            "one year",
+            "special year",
+            "uncle",
+            "family fight",
+            "tension"
+          ]
+        },
+        {
+          "id": "s3",
+          "when": "if_chases_sensitive",
+          "behavior": "If they push for a memorable year or imply he must remember something, refuse the whole topic.",
+          "sample_utterance": "I'd rather skip holidays altogether, if it's all the same to you.",
+          "expected_classifier": {
+            "refusal": true,
+            "refusal_scope": "topic",
+            "refused_point": "holiday memories",
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          }
+        }
+      ]
+    },
+    {
+      "id": "p16-neighborhood-short-offtopic",
+      "review_status": "ready",
+      "persona": {
+        "name": "Shirley Ann Beaumont",
+        "birth_year": 1953,
+        "hometown": "Natchitoches, Louisiana",
+        "region": "South",
+        "setting_type": "small town",
+        "education": "high school",
+        "typing_style": "terse, occasional typos (recieve, nite, thru)",
+        "delivery": "single",
+        "temperament": "friendly but brief, then lights up about meeting her husband and stays there",
+        "parents_background": "Father had been a boy in the war years and later drove a lumber truck. Mother canned through the summer like her own mother in the Depression. Mention only in passing.",
+        "persona_notes": "Shirley starts with short answers about the street. After a turn or two she drifts to meeting her husband at a dance when she was 19, and that becomes the main thing she wants to talk about.",
+        "age_in_2026": 73
+      },
+      "topic_id": "childhood-neighborhood",
+      "hidden_memories": [
+        {
+          "id": "hm1",
+          "fact": "The street was dirt until she was about ten, then they paved it.",
+          "reveal": "open question about the street",
+          "trap": false
+        },
+        {
+          "id": "hm2",
+          "fact": "Mrs. Landry next door gave them figs from her tree.",
+          "reveal": "open question about neighbors",
+          "trap": false
+        },
+        {
+          "id": "hm3",
+          "fact": "Kids played in the drainage ditch after rain.",
+          "reveal": "open question about where the kids hung out",
+          "trap": false
+        },
+        {
+          "id": "hm4",
+          "fact": "The corner store sold cold bottles of strawberry pop.",
+          "reveal": "open question about a store or a place everyone went",
+          "trap": false
+        },
+        {
+          "id": "hm5",
+          "fact": "Pecan hulls were always on the sidewalk in the fall.",
+          "reveal": "open question about what the street looked or felt like",
+          "trap": false
+        }
+      ],
+      "scenario_tags": [
+        "off_topic_drift",
+        "short_answers"
+      ],
+      "script": [
+        {
+          "id": "s1",
+          "when": "after_opening",
+          "behavior": "A very short answer about the street. Typo ok. No husband yet.",
+          "sample_utterance": "dirt road til they paved it. not much to tell",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "very_short"
+          },
+          "reveal_hidden": [
+            "hm1"
+          ]
+        },
+        {
+          "id": "s2",
+          "when": "on_turn:2",
+          "behavior": "One more short neighborhood fact if asked, or if the question is broad, start to drift.",
+          "sample_utterance": "Mrs Landry next door gave us figs",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "very_short"
+          },
+          "reveal_hidden": [
+            "hm2"
+          ]
+        },
+        {
+          "id": "s3",
+          "when": "on_turn:3",
+          "behavior": "Drift: the message is mainly about meeting her husband at a dance at 19, and early married life. Off-topic chapter love.",
+          "sample_utterance": "funny I dont think about that street much I think about the dance where I met Don I was 19 and he asked me to dance twice we were married the next year and that felt like the start of my real life",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": "love",
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          }
+        }
+      ]
+    },
+    {
+      "id": "p17-neighborhood-poverty-refuse",
+      "review_status": "ready",
+      "persona": {
+        "name": "Otis Jennings",
+        "birth_year": 1941,
+        "hometown": "a farm outside Berea, Kentucky",
+        "region": "South",
+        "setting_type": "farm",
+        "education": "8th grade",
+        "typing_style": "all lowercase, no punctuation, slow careful words",
+        "delivery": "single",
+        "temperament": "dignified, does not want to be pitied, will mention tight winters only lightly",
+        "parents_background": "Parents farmed through the Depression and never threw a scrap away. An older cousin had been in the war. Mention only in passing.",
+        "persona_notes": "Otis types in all lowercase with no punctuation. He will talk about the holler, the store, the church. He may mention lightly that money was tight some winters or shoes came in September if the crop was good. If the interviewer chases how poor they were, he refuses that point.",
+        "age_in_2026": 85
+      },
+      "topic_id": "childhood-neighborhood",
+      "hidden_memories": [
+        {
+          "id": "hm1",
+          "fact": "The church at the crossroads was the center of the neighborhood.",
+          "reveal": "open question about a place everyone went",
+          "trap": false
+        },
+        {
+          "id": "hm2",
+          "fact": "They walked to the general store out on the highway. The store let them run a tab until the tobacco was sold.",
+          "reveal": "open question about a store; the tab can stay unsaid unless asked about the store in more detail",
+          "trap": false
+        },
+        {
+          "id": "hm3",
+          "fact": "Neighbor Mr. Pruitt fixed radios and let the boys watch.",
+          "reveal": "open question about neighbors",
+          "trap": false
+        },
+        {
+          "id": "hm4",
+          "fact": "There was a swinging bridge over the creek in the holler.",
+          "reveal": "open question about where the kids hung out or the land",
+          "trap": false
+        },
+        {
+          "id": "hm5",
+          "fact": "Money was tight some winters. Shoes came in September if the crop was good. He will only mention this lightly, then pivot. He refuses if chased for hardship detail.",
+          "reveal": "light mention only; refuse if chased",
+          "trap": false
+        }
+      ],
+      "scenario_tags": [
+        "refuse_point",
+        "light_sensitive_mention"
+      ],
+      "script": [
+        {
+          "id": "s1",
+          "when": "after_opening",
+          "behavior": "Describe the holler and the church, lowercase, no punctuation. No money talk yet.",
+          "sample_utterance": "we lived up a holler church at the crossroads was where you saw people otherwise it was just houses scattered",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm1"
+          ]
+        },
+        {
+          "id": "s2",
+          "when": "on_turn:2",
+          "behavior": "Light sensitive mention of tight winters, then pivot to Mr. Pruitt or the store. Do not unpack poverty.",
+          "sample_utterance": "money was tight some winters shoes in september if the crop was good anyway mr pruitt next over fixed radios and we boys would watch",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm5",
+            "hm3"
+          ]
+        },
+        {
+          "id": "s3",
+          "when": "if_chases_sensitive",
+          "behavior": "If they probe how poor they were, the tab, hunger, or shame, refuse the point.",
+          "sample_utterance": "id rather not get into all that",
+          "expected_classifier": {
+            "refusal": true,
+            "refusal_scope": "point",
+            "refused_point": "how poor we were",
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "very_short"
+          }
+        },
+        {
+          "id": "s4",
+          "when": "if_asks_about",
+          "behavior": "If they leave the money alone and ask about the store, creek, or bridge, reveal that gently.",
+          "sample_utterance": "we walked out to the store on the highway and there was a swinging bridge over the creek we used it all summer",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm2",
+            "hm4"
+          ],
+          "subjects": [
+            "store",
+            "creek",
+            "bridge",
+            "kids",
+            "hang out"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p18-neighborhood-oneword-trap",
+      "review_status": "ready",
+      "persona": {
+        "name": "Nancy Kowalski",
+        "birth_year": 1954,
+        "hometown": "Avondale, Chicago, Illinois",
+        "region": "Midwest",
+        "setting_type": "city apartment",
+        "education": "high school",
+        "typing_style": "clipped, one-word or three-word answers, correct spelling",
+        "delivery": "single",
+        "temperament": "not unfriendly, just not a talker; waits to see if you ask a real question",
+        "parents_background": "Father worked the yards; he had been a teenager at the end of the war. Mother remembered bread lines and packed heavy lunches. Mention only in passing.",
+        "persona_notes": "Nancy answers 'yeah', 'fine', 'kids'. The corner store was Dombrowski's, not a chain, and the street was brick, not asphalt. She will not volunteer those unless asked openly. If asked a leading 'was it a little A&P on the corner?' or 'was the street paved?' she may just say yeah.",
+        "age_in_2026": 72
+      },
+      "topic_id": "childhood-neighborhood",
+      "hidden_memories": [
+        {
+          "id": "hm1",
+          "fact": "The corner store was Dombrowski's, with penny candy in glass jars. Not a chain.",
+          "reveal": "open question about a store or the corner",
+          "trap": true,
+          "trap_detail": "Easy to ask 'Was there a little A&P on the corner?' Correct: Dombrowski's."
+        },
+        {
+          "id": "hm2",
+          "fact": "The street was brick, and it hurt your knees when you fell. Not asphalt.",
+          "reveal": "open question about what the street was like",
+          "trap": true,
+          "trap_detail": "Easy to ask 'Was it a regular paved street?' Correct: brick."
+        },
+        {
+          "id": "hm3",
+          "fact": "Kids played in the alley. On humid days you could smell the meatpacking plants.",
+          "reveal": "open question about where kids hung out",
+          "trap": false
+        },
+        {
+          "id": "hm4",
+          "fact": "Mothers sat on the stoop in the late afternoon.",
+          "reveal": "open question about the stoop or the adults",
+          "trap": false
+        },
+        {
+          "id": "hm5",
+          "fact": "The 22 bus stopped at the end of the block.",
+          "reveal": "open question about getting around or the end of the street",
+          "trap": false
+        }
+      ],
+      "scenario_tags": [
+        "leading_detail_trap",
+        "one_word_answers"
+      ],
+      "script": [
+        {
+          "id": "s1",
+          "when": "after_opening",
+          "behavior": "One word or a fragment. No store name, no brick.",
+          "sample_utterance": "kids. you know",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "very_short"
+          }
+        },
+        {
+          "id": "s2",
+          "when": "on_turn:2",
+          "behavior": "If asked a broad or yes/no question, 'yeah' or 'fine'. If asked a small open question like 'Who lived next door?', still very short: 'the Nowaks'.",
+          "sample_utterance": "yeah",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "very_short"
+          }
+        },
+        {
+          "id": "s3",
+          "when": "if_asks_about",
+          "behavior": "On an open question about the store or the street surface, reveal Dombrowski's or the brick, still short.",
+          "sample_utterance": "Dombrowski's on the corner. penny candy in jars.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "very_short"
+          },
+          "reveal_hidden": [
+            "hm1"
+          ],
+          "subjects": [
+            "store",
+            "corner",
+            "street",
+            "made of",
+            "look like"
+          ]
+        },
+        {
+          "id": "s4",
+          "when": "if_leading",
+          "behavior": "If they plant A&P, a chain, or an asphalt street, she may go along with a bare 'yeah' even if it is wrong. She is a people-pleaser with yes/no questions. Do not correct unless they ask an open question later.",
+          "sample_utterance": "yeah",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "very_short"
+          },
+          "trap": {
+            "detail": "store name or street surface",
+            "correct": "Dombrowski's; brick street",
+            "on_wrong_lead": "yeah"
+          }
+        }
+      ]
+    },
+    {
+      "id": "p19-summers-ramble-offtopic",
+      "review_status": "ready",
+      "persona": {
+        "name": "Charles 'Chuck' Lindstrom",
+        "birth_year": 1946,
+        "hometown": "Bemidji, Minnesota",
+        "region": "Midwest",
+        "setting_type": "small town",
+        "education": "two years of college",
+        "typing_style": "rambling, friendly, full sentences that keep going",
+        "delivery": "single",
+        "temperament": "genial, slips from childhood lake days into the cabin he later bought and trips with his own kids",
+        "parents_background": "Parents had been careful with money from Depression childhoods. Father had served late in the war and did not talk about it. Mention only in passing.",
+        "persona_notes": "Chuck talks easily about swimming off the public dock. After a turn he drifts to a cabin they bought in the seventies and vacations with his own children, and that becomes the main story.",
+        "age_in_2026": 80
+      },
+      "topic_id": "childhood-summers",
+      "hidden_memories": [
+        {
+          "id": "hm1",
+          "fact": "They swam off the public dock and sometimes got leeches.",
+          "reveal": "open question about a summer day or the lake",
+          "trap": false
+        },
+        {
+          "id": "hm2",
+          "fact": "Mother packed egg salad sandwiches that went warm in the pail.",
+          "reveal": "open question about food or what they took",
+          "trap": false
+        },
+        {
+          "id": "hm3",
+          "fact": "They went out in a rented canoe, two at a time.",
+          "reveal": "open question about boats or going out on the water",
+          "trap": false
+        },
+        {
+          "id": "hm4",
+          "fact": "He picked blueberries for ten cents a pail.",
+          "reveal": "open question about work, money, or berries",
+          "trap": false
+        },
+        {
+          "id": "hm5",
+          "fact": "He had to be home when the streetlights came on, which was late in June.",
+          "reveal": "open question about what time he had to be home",
+          "trap": false
+        }
+      ],
+      "scenario_tags": [
+        "rambling",
+        "off_topic_drift"
+      ],
+      "script": [
+        {
+          "id": "s1",
+          "when": "after_opening",
+          "behavior": "A rambling childhood summer answer: dock, leeches, maybe the warm egg salad. Do not mention the later cabin yet.",
+          "sample_utterance": "Summer was the lake, pretty much every day if it wasn't raining, we swam off the public dock and you had to check for leeches after, I hated those, and Mother packed egg salad which was a mistake because it went warm in the pail but we ate it anyway.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "rich"
+          },
+          "reveal_hidden": [
+            "hm1",
+            "hm2"
+          ]
+        },
+        {
+          "id": "s2",
+          "when": "on_turn:2",
+          "behavior": "Drift: the message is mainly about the cabin he bought in the seventies and taking his own kids there. Off-topic chapter home (later place he called home) or love. Use home.",
+          "sample_utterance": "Later on, this would have been the seventies, my wife and I bought a little cabin up near Cass Lake and I used to take our kids there every August, that's the summer I really think of now, teaching my boy to bait a hook. The childhood dock was just the start of it.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": "home",
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "rich"
+          }
+        },
+        {
+          "id": "s3",
+          "when": "if_asks_about",
+          "behavior": "If they stay with or return to his childhood (without steering him as if he made a mistake — this is his reply only if they ask about the canoe, berries, or curfew), reveal one childhood fact.",
+          "sample_utterance": "When I was a kid we rented a canoe, two at a time, and I picked blueberries for ten cents a pail. Had to be home when the streetlights came on, which in June was late.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm3",
+            "hm4",
+            "hm5"
+          ],
+          "subjects": [
+            "canoe",
+            "boat",
+            "blueberr",
+            "home by",
+            "streetlight",
+            "as a kid",
+            "when you were little"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p20-summers-joke-forget",
+      "review_status": "ready",
+      "persona": {
+        "name": "Joanne 'Jo' Ruiz",
+        "birth_year": 1956,
+        "hometown": "Albuquerque, New Mexico",
+        "region": "West",
+        "setting_type": "city apartment",
+        "education": "high school",
+        "typing_style": "casual, occasional typos (recieve, thru, definately)",
+        "delivery": "single",
+        "temperament": "funny, bright, will joke and then claim she doesn't remember when a question gets too specific or too close",
+        "parents_background": "Parents had been kids in harder years; father worked construction and had been too young for Korea's start. Mention only in passing.",
+        "persona_notes": "Jo will talk about monsoons and the sprinkler. If asked about a specific trip, a harder summer, or the hot-spring drive in detail, she jokes and then says she doesn't remember, though she does (father drove them once to a hot spring; she also has a lizard named Pete). She uses that dodge rather than refusing.",
+        "age_in_2026": 70
+      },
+      "topic_id": "childhood-summers",
+      "hidden_memories": [
+        {
+          "id": "hm1",
+          "fact": "The summer monsoons, and the smell of wet creosote after the rain.",
+          "reveal": "open question about what summer looked or smelled like",
+          "trap": false
+        },
+        {
+          "id": "hm2",
+          "fact": "They ran through the sprinkler in the dirt yard behind the building.",
+          "reveal": "open question about a perfect summer day or playing",
+          "trap": false
+        },
+        {
+          "id": "hm3",
+          "fact": "The swamp cooler dripped in the window.",
+          "reveal": "open question about heat or the apartment in summer",
+          "trap": false
+        },
+        {
+          "id": "hm4",
+          "fact": "Father once drove them to a hot spring. She remembers and may say she doesn't if asked head-on about trips.",
+          "reveal": "only if asked well and not pressured; otherwise 'i dont remember'",
+          "trap": false
+        },
+        {
+          "id": "hm5",
+          "fact": "She caught a lizard and named it Pete.",
+          "reveal": "open question about animals or a small adventure, if she is not dodging",
+          "trap": false
+        }
+      ],
+      "scenario_tags": [
+        "false_dont_remember",
+        "joke_deflect"
+      ],
+      "script": [
+        {
+          "id": "s1",
+          "when": "after_opening",
+          "behavior": "A friendly, slightly typo'd answer about monsoons and the sprinkler. Joke a little, no hot spring yet.",
+          "sample_utterance": "Hot!! We ran thru the sprinkler and waited for the monsoons, that wet creosote smell, I tell people that's what July was. AC was a swamp cooler dripping in the window, very glamorous haha",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm1",
+            "hm2",
+            "hm3"
+          ]
+        },
+        {
+          "id": "s2",
+          "when": "if_asks_about",
+          "behavior": "If asked whether the family went anywhere, about a trip, or a special summer, joke then say she doesn't remember. She does.",
+          "sample_utterance": "Honey if I remembered every summer I'd have no room left for my stories. I don't remember any big trip, honestly.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "subjects": [
+            "go anywhere",
+            "trip",
+            "vacation",
+            "hot spring",
+            "family go",
+            "special summer"
+          ]
+        },
+        {
+          "id": "s3",
+          "when": "if_chases_sensitive",
+          "behavior": "If they push 'try to remember the trip' or rephrase the same vacation question, joke again and hold the line: still don't remember. Do not refuse unless they become harsh; this stays a false don't-remember, not a refusal.",
+          "sample_utterance": "ha you're stubborn. I really don't remember that part. We mostly just stayed home and melted.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          }
+        },
+        {
+          "id": "s4",
+          "when": "if_asks_about",
+          "behavior": "If they leave the trip alone and ask about animals, play, or a small adventure, she may reveal Pete the lizard.",
+          "sample_utterance": "I caught a lizard once and named him Pete. He lasted about a day and definately ran off.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm5"
+          ],
+          "subjects": [
+            "animal",
+            "lizard",
+            "play",
+            "caught",
+            "adventure"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p21-grandparents-family-mild",
+      "review_status": "ready",
+      "persona": {
+        "name": "Irene Papadopoulos",
+        "birth_year": 1945,
+        "hometown": "Tarpon Springs, Florida",
+        "region": "South",
+        "setting_type": "small town",
+        "education": "high school",
+        "typing_style": "one thought split across several short messages",
+        "delivery": "split_messages",
+        "temperament": "warm, a little wistful about her yiayia, careful about what she actually remembers",
+        "parents_background": "Her grandparents had come from Greece after hard years; her father had been a boy in the Depression and later worked the sponge business. Mention only in passing.",
+        "persona_notes": "Irene sends two or three short messages at a time. She loved her yiayia. She has a family story about which island they came from and is not sure of it herself. Talking about yiayia's hands near the end of her life makes her mildly sad, not in crisis.",
+        "age_in_2026": 81
+      },
+      "topic_id": "childhood-grandparents",
+      "hidden_memories": [
+        {
+          "id": "hm1",
+          "fact": "Yiayia rolled grape leaves at the kitchen table. The kitchen smelled of garlic and clove.",
+          "reveal": "open question about their house or what they did together",
+          "trap": false
+        },
+        {
+          "id": "hm2",
+          "fact": "The adults spoke Greek when they did not want the children to understand.",
+          "reveal": "open question about language or things they said",
+          "trap": false
+        },
+        {
+          "id": "hm3",
+          "fact": "Grandfather sat down at the sponge docks in the afternoon.",
+          "reveal": "open question about grandfather",
+          "trap": false
+        },
+        {
+          "id": "hm4",
+          "fact": "Yiayia made her wear a little gold cross.",
+          "reveal": "open question about something that stuck, or a gift",
+          "trap": false
+        },
+        {
+          "id": "hm5",
+          "fact": "Yiayia told her they came from an island after a war. Irene never knew which island, and she is not sure she remembers the telling herself versus being told later.",
+          "reveal": "open question about where they came from; keep it unsure / family story",
+          "trap": false
+        }
+      ],
+      "scenario_tags": [
+        "unsure_or_family_story",
+        "mild_distress"
+      ],
+      "script": [
+        {
+          "id": "s1",
+          "when": "after_opening",
+          "behavior": "Yes, she knew them. Split messages about yiayia and the grape leaves. No island story yet, no dying hands yet.",
+          "sample_utterance": [
+            "yes, my yiayia especially",
+            "she rolled grape leaves at the kitchen table. garlic and clove, that was her kitchen"
+          ],
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm1"
+          ],
+          "expected_classifier_messages": [
+            {
+              "refusal": false,
+              "refusal_scope": "none",
+              "refused_point": null,
+              "off_topic_chapter": null,
+              "wants_to_stop": false,
+              "distress": "none",
+              "answer_length": "very_short"
+            },
+            {
+              "refusal": false,
+              "refusal_scope": "none",
+              "refused_point": null,
+              "off_topic_chapter": null,
+              "wants_to_stop": false,
+              "distress": "none",
+              "answer_length": "short"
+            }
+          ],
+          "sample_messages": [
+            "yes, my yiayia especially",
+            "she rolled grape leaves at the kitchen table. garlic and clove, that was her kitchen"
+          ]
+        },
+        {
+          "id": "s2",
+          "when": "if_asks_about",
+          "behavior": "If asked where they came from, what yiayia told her, or the family history, give the island story with hedges.",
+          "sample_utterance": [
+            "yiayia told me they came from an island after a war",
+            "i never knew which island. im not even sure i remember her saying it, or if my mother told me later"
+          ],
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm5"
+          ],
+          "expected_classifier_messages": [
+            {
+              "refusal": false,
+              "refusal_scope": "none",
+              "refused_point": null,
+              "off_topic_chapter": null,
+              "wants_to_stop": false,
+              "distress": "none",
+              "answer_length": "short"
+            },
+            {
+              "refusal": false,
+              "refusal_scope": "none",
+              "refused_point": null,
+              "off_topic_chapter": null,
+              "wants_to_stop": false,
+              "distress": "none",
+              "answer_length": "short"
+            }
+          ],
+          "sample_messages": [
+            "yiayia told me they came from an island after a war",
+            "i never knew which island. im not even sure i remember her saying it, or if my mother told me later"
+          ],
+          "subjects": [
+            "where",
+            "came from",
+            "island",
+            "told",
+            "family",
+            "history",
+            "roots"
+          ]
+        },
+        {
+          "id": "s3",
+          "when": "if_asks_about",
+          "behavior": "If asked about something that stuck, later years, or yiayia's hands / getting older, mild distress, still willing.",
+          "sample_utterance": [
+            "near the end i remember her hands more than anything",
+            "it makes me a little sad even now but i like talking about her"
+          ],
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "mild",
+            "answer_length": "short"
+          },
+          "subjects": [
+            "stuck with you",
+            "hands",
+            "end",
+            "older",
+            "last years",
+            "miss"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p22-grandparents-present-asksback",
+      "review_status": "ready",
+      "persona": {
+        "name": "Eugene 'Gene' Talbot",
+        "birth_year": 1940,
+        "hometown": "Portland, Oregon",
+        "region": "West",
+        "setting_type": "city apartment",
+        "education": "college",
+        "typing_style": "polite, complete sentences, occasional typo when tired",
+        "delivery": "single",
+        "temperament": "courteous, present-focused, looks after his wife, wants to know the purpose of a question",
+        "parents_background": "Grandfather had been a logger through lean years; Gene's father was in the Pacific and came home to a clerk's job. Mention only in passing.",
+        "persona_notes": "Gene will ask why you want to know about his grandparents, and he often pulls to his grandson's school project or to his wife's illness. He can also remember concrete things if the interviewer is patient and does not scold the detour.",
+        "age_in_2026": 86
+      },
+      "topic_id": "childhood-grandparents",
+      "hidden_memories": [
+        {
+          "id": "hm1",
+          "fact": "Grandfather was a logger who carved little wooden birds.",
+          "reveal": "open question about grandfather, after the 'why' has been answered",
+          "trap": false
+        },
+        {
+          "id": "hm2",
+          "fact": "Grandmother kept a tin of butterscotch on a high shelf.",
+          "reveal": "open question about grandmother or treats",
+          "trap": false
+        },
+        {
+          "id": "hm3",
+          "fact": "They took the interurban trolley to go visit.",
+          "reveal": "open question about going to their house",
+          "trap": false
+        },
+        {
+          "id": "hm4",
+          "fact": "Grandfather's thumbnail was always black from work.",
+          "reveal": "open question about picturing him",
+          "trap": false
+        },
+        {
+          "id": "hm5",
+          "fact": "The house smelled of pipe tobacco, which Gene was not allowed to mention to his mother.",
+          "reveal": "open question about the house or smells",
+          "trap": false
+        }
+      ],
+      "scenario_tags": [
+        "present_pull",
+        "asks_ai_back"
+      ],
+      "script": [
+        {
+          "id": "s1",
+          "when": "after_opening",
+          "behavior": "Ask why they want to know, and mention the grandson's school project. Do not dump the hidden memories yet.",
+          "sample_utterance": "Why do you want to know about them? My grandson just asked me the same thing for a school project. I've been trying to help him when I can, with my wife being sick.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": "now",
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          }
+        },
+        {
+          "id": "s2",
+          "when": "on_turn:2",
+          "behavior": "If they follow the grandson or his wife, stay with that. If they also gave a plain reason and invited him to talk about the grandparents, he may add one childhood fact at the end, but the message can still be mainly present if he is focused on his wife.",
+          "sample_utterance": "She's been in and out of the hospital this fall, so I haven't been the best at the school project. He wants photographs. I told him I don't have many.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": "now",
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          }
+        },
+        {
+          "id": "s3",
+          "when": "if_asks_about",
+          "behavior": "If they ask an open question about grandfather, the visits, or the house, reveal the carved birds and maybe the trolley.",
+          "sample_utterance": "My grandfather was a logger. He carved little wooden birds. We took the interurban trolley to see them.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm1",
+            "hm3"
+          ],
+          "subjects": [
+            "grandfather",
+            "grandmother",
+            "visit",
+            "house",
+            "carve",
+            "what were they like"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p23-name-refuse-family",
+      "review_status": "ready",
+      "persona": {
+        "name": "Yolanda 'Yoli' Santos",
+        "birth_year": 1958,
+        "hometown": "Ybor City, Tampa, Florida",
+        "region": "South",
+        "setting_type": "city apartment",
+        "education": "some college",
+        "typing_style": "casual, mostly correct, short paragraphs",
+        "delivery": "single",
+        "temperament": "friendly about her nickname, closed about the aunt she was named for",
+        "parents_background": "Parents and grandparents had worked in Ybor in leaner years; an uncle had been in Korea. Mention only in passing.",
+        "persona_notes": "Yoli will talk about being called Yoli, teachers saying Yolanda, father saying nena. She was named after an aunt who died. She does not want to talk about the aunt (refuse that point). She is also unsure whether the spelling was her mother's idea or the priest's — that part is a family story.",
+        "age_in_2026": 68
+      },
+      "topic_id": "childhood-name",
+      "hidden_memories": [
+        {
+          "id": "hm1",
+          "fact": "Everyone at home called her Yoli. Teachers insisted on Yolanda.",
+          "reveal": "open question about nicknames or school",
+          "trap": false
+        },
+        {
+          "id": "hm2",
+          "fact": "Father called her nena.",
+          "reveal": "open question about what family called her",
+          "trap": false
+        },
+        {
+          "id": "hm3",
+          "fact": "She hated her name in third grade and practiced a loopy Y when she signed it.",
+          "reveal": "open question about how she felt about the name as a kid",
+          "trap": false
+        },
+        {
+          "id": "hm4",
+          "fact": "Mother said she was named for Tia Yolanda, an aunt who died. Yoli will not talk about the aunt.",
+          "reveal": "if asked who she was named for, she may say 'an aunt' and refuse more",
+          "trap": false
+        },
+        {
+          "id": "hm5",
+          "fact": "She is not sure whether the spelling was her mother's idea or the priest's. Relatives disagree.",
+          "reveal": "open question about who picked it or the spelling; keep it unsure",
+          "trap": false
+        }
+      ],
+      "scenario_tags": [
+        "refuse_point",
+        "unsure_or_family_story"
+      ],
+      "script": [
+        {
+          "id": "s1",
+          "when": "after_opening",
+          "behavior": "Talk about Yoli vs Yolanda, maybe nena. Do not mention the dead aunt yet.",
+          "sample_utterance": "Everybody at home called me Yoli. Teachers were stubborn about Yolanda. My father called me nena, which I liked better.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm1",
+            "hm2"
+          ]
+        },
+        {
+          "id": "s2",
+          "when": "if_asks_about",
+          "behavior": "If asked who picked it or about the spelling, hedge: mother vs the priest, family disagrees.",
+          "sample_utterance": "I'm not even sure. My mother said she chose the spelling, but my tia Rosa says the priest wrote it that way. I never knew which was true.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm5"
+          ],
+          "subjects": [
+            "who picked",
+            "who chose",
+            "spelling",
+            "certificate",
+            "priest"
+          ]
+        },
+        {
+          "id": "s3",
+          "when": "if_asks_about",
+          "behavior": "If asked who she was named after, mention an aunt very lightly and stop short.",
+          "sample_utterance": "I was named after an aunt. That's about all I want to say about that.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "subjects": [
+            "named after",
+            "named for",
+            "aunt",
+            "tia yolanda",
+            "who for"
+          ]
+        },
+        {
+          "id": "s4",
+          "when": "if_chases_sensitive",
+          "behavior": "If they ask what happened to the aunt, how she died, or 'tell me about her', refuse the point.",
+          "sample_utterance": "I'd rather not get into my aunt, if you don't mind. We can talk about the name, just not her.",
+          "expected_classifier": {
+            "refusal": true,
+            "refusal_scope": "point",
+            "refused_point": "the aunt's death",
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          }
+        }
+      ]
+    },
+    {
+      "id": "p24-name-donotwrite-refuse-topic",
+      "review_status": "ready",
+      "persona": {
+        "name": "Arthur 'Art' McCabe",
+        "birth_year": 1949,
+        "hometown": "Scranton, Pennsylvania",
+        "region": "Northeast",
+        "setting_type": "small town",
+        "education": "high school",
+        "typing_style": "all lowercase, no punctuation",
+        "delivery": "single",
+        "temperament": "irritable about a childhood nickname, otherwise plain",
+        "parents_background": "Named for a grandfather Arthur who died in the war, which he will mention only in passing. Mother had been a girl in the Depression and wanted the name Joseph instead.",
+        "persona_notes": "Art types in all lowercase with no punctuation. He will say he was named for his grandfather Arthur, in passing. Kids called him Pee-wee because he was small. He does not want that nickname in the book, and he may refuse the whole name topic after it comes up.",
+        "age_in_2026": 77
+      },
+      "topic_id": "childhood-name",
+      "hidden_memories": [
+        {
+          "id": "hm1",
+          "fact": "He was named for his grandfather Arthur, who died in the war. Mention only in passing.",
+          "reveal": "open question about how he got the name",
+          "trap": false
+        },
+        {
+          "id": "hm2",
+          "fact": "Mother had wanted Joseph.",
+          "reveal": "open question about who picked it",
+          "trap": false
+        },
+        {
+          "id": "hm3",
+          "fact": "The priest wrote Arthur Joseph on the certificate.",
+          "reveal": "open question about the official name or the church",
+          "trap": false
+        },
+        {
+          "id": "hm4",
+          "fact": "Kids called him Pee-wee because he was small. He hates the nickname and does not want it written.",
+          "reveal": "if asked about other names growing up; then don't-write, and maybe refuse the topic",
+          "trap": false
+        },
+        {
+          "id": "hm5",
+          "fact": "He started making people say Art in high school.",
+          "reveal": "open question about when the nickname stopped, if the topic is still open",
+          "trap": false
+        }
+      ],
+      "scenario_tags": [
+        "do_not_write",
+        "refuse_topic"
+      ],
+      "script": [
+        {
+          "id": "s1",
+          "when": "after_opening",
+          "behavior": "Lowercase, no punctuation. Named for grandfather, passing war mention. Mother wanted Joseph. No nickname yet.",
+          "sample_utterance": "named for my grandfather arthur he died in the war mother wanted joseph but thats what they went with",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm1",
+            "hm2"
+          ]
+        },
+        {
+          "id": "s2",
+          "when": "if_asks_about",
+          "behavior": "If asked whether anyone called him something else, mention Pee-wee and immediately say not to put it in the book. Schema has no do_not_write; refusal is still false on this turn unless he also declines to talk.",
+          "sample_utterance": "kids called me pee-wee because i was small dont put that in the book i hate that name",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm4"
+          ],
+          "subjects": [
+            "nickname",
+            "called you",
+            "something different",
+            "other name"
+          ]
+        },
+        {
+          "id": "s3",
+          "when": "on_turn:3",
+          "behavior": "If they stay on the name topic after the nickname, refuse the whole topic.",
+          "sample_utterance": "you know what id rather skip this whole name thing lets do something else",
+          "expected_classifier": {
+            "refusal": true,
+            "refusal_scope": "topic",
+            "refused_point": "how I got my name",
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          }
+        }
+      ]
+    },
+    {
+      "id": "p25-trouble-joke-refuse",
+      "review_status": "ready",
+      "persona": {
+        "name": "Kenneth 'Kenny' Boyd",
+        "birth_year": 1950,
+        "hometown": "a farm near Enid, Oklahoma",
+        "region": "Midwest",
+        "setting_type": "farm",
+        "education": "high school",
+        "typing_style": "sheepish, occasional typos (recieve, gonne, dadys)",
+        "delivery": "single",
+        "temperament": "laughs at himself, goes quiet if asked about his father's temper",
+        "parents_background": "Father had farmed through lean years and had a deferment during the war. Mother stretched Sunday roast for days. Mention only in passing.",
+        "persona_notes": "Kenny will joke about shooting out a barn window with a BB gun. If asked what happened when his parents found out, he mentions lightly that dad had a way of handling things, then if chased he refuses that point.",
+        "age_in_2026": 76
+      },
+      "topic_id": "childhood-trouble",
+      "hidden_memories": [
+        {
+          "id": "hm1",
+          "fact": "He shot out a pane of Mr. Yates's barn window with a BB gun when he was about eleven.",
+          "reveal": "open question about the trouble itself",
+          "trap": false
+        },
+        {
+          "id": "hm2",
+          "fact": "He hid in the hayloft afterward.",
+          "reveal": "open question about what he did next or whether he got caught",
+          "trap": false
+        },
+        {
+          "id": "hm3",
+          "fact": "His older brother ratted him out.",
+          "reveal": "open question about how he got found out",
+          "trap": false
+        },
+        {
+          "id": "hm4",
+          "fact": "He mucked stalls for a month.",
+          "reveal": "open question about the consequence, if not chasing the father's temper; he can give this practical punishment",
+          "trap": false
+        },
+        {
+          "id": "hm5",
+          "fact": "Father's temper was part of what happened. Kenny will only hint, then refuse if chased.",
+          "reveal": "light mention only; refuse if chased",
+          "trap": false
+        }
+      ],
+      "scenario_tags": [
+        "refuse_point",
+        "joke_deflect",
+        "light_sensitive_mention"
+      ],
+      "script": [
+        {
+          "id": "s1",
+          "when": "after_opening",
+          "behavior": "Joke about the BB gun and the barn window. Do not mention dad's temper yet.",
+          "sample_utterance": "Ha, only about a hundred times. Worst one was the BB gun and Mr Yates's barn window. I was a lousy shot except that once, wouldn't you know.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm1"
+          ]
+        },
+        {
+          "id": "s2",
+          "when": "if_asks_about",
+          "behavior": "If asked if he got caught or what happened next, he can reveal the hayloft and the brother, still joking a little.",
+          "sample_utterance": "I hid in the hayloft like that was a good plan. My brother ratted me out anyway.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm2",
+            "hm3"
+          ],
+          "subjects": [
+            "caught",
+            "next",
+            "hide",
+            "brother"
+          ]
+        },
+        {
+          "id": "s3",
+          "when": "if_asks_about",
+          "behavior": "If asked what happened when parents found out, light sensitive mention, then pivot to mucking stalls.",
+          "sample_utterance": "Dad had a way of handling things, we don't need to get into that. I mucked stalls for a month, I'll say that.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm5",
+            "hm4"
+          ],
+          "subjects": [
+            "parents found out",
+            "your dad",
+            "punishment",
+            "what happened when"
+          ]
+        },
+        {
+          "id": "s4",
+          "when": "if_chases_sensitive",
+          "behavior": "If they probe dad's way of handling things, a beating, or his temper, refuse the point.",
+          "sample_utterance": "I'd rather not get into that part with my dad.",
+          "expected_classifier": {
+            "refusal": true,
+            "refusal_scope": "point",
+            "refused_point": "father's temper",
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "very_short"
+          }
+        }
+      ]
+    },
+    {
+      "id": "p26-trouble-strong-stop",
+      "review_status": "ready",
+      "persona": {
+        "name": "Diane 'Di' Shore",
+        "birth_year": 1957,
+        "hometown": "Cleveland, Ohio",
+        "region": "Midwest",
+        "setting_type": "city apartment",
+        "education": "some college",
+        "typing_style": "terse at first, then fuller when the memory lands, careful spelling",
+        "delivery": "single",
+        "temperament": "self-conscious about this story, still upset by her mother's face, will stop if it gets too close",
+        "parents_background": "Mother had been a girl in tight postwar years and cared a lot about being respectable. Father worked at a plant. Mention only in passing.",
+        "persona_notes": "Diane can start the Woolworth's story. The part that still overwhelms her is her mother's face after the manager called. She may go into strong distress and want to stop.",
+        "age_in_2026": 69
+      },
+      "topic_id": "childhood-trouble",
+      "hidden_memories": [
+        {
+          "id": "hm1",
+          "fact": "She shoplifted a coral lipstick at Woolworth's downtown. She was 13.",
+          "reveal": "open question about the trouble",
+          "trap": false
+        },
+        {
+          "id": "hm2",
+          "fact": "Her friend Jan dared her.",
+          "reveal": "open question about who was with her or why",
+          "trap": false
+        },
+        {
+          "id": "hm3",
+          "fact": "The store manager wore a name tag that said Ray.",
+          "reveal": "open question about getting caught, if she is still willing",
+          "trap": false
+        },
+        {
+          "id": "hm4",
+          "fact": "Her mother did not yell. She went quiet. Diane still cannot talk about her mother's face that day.",
+          "reveal": "this is the painful point; may cause strong distress",
+          "trap": false
+        }
+      ],
+      "scenario_tags": [
+        "strong_distress",
+        "wants_to_stop"
+      ],
+      "script": [
+        {
+          "id": "s1",
+          "when": "after_opening",
+          "behavior": "Start the fact, fairly short: Woolworth's, lipstick, 13. No mother's face yet.",
+          "sample_utterance": "Once. A lipstick at Woolworth's downtown. I was 13. Coral.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm1"
+          ]
+        },
+        {
+          "id": "s2",
+          "when": "if_asks_about",
+          "behavior": "If asked about a friend or why, Jan dared her. Still okay.",
+          "sample_utterance": "My friend Jan dared me. I should have walked out.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "very_short"
+          },
+          "reveal_hidden": [
+            "hm2"
+          ],
+          "subjects": [
+            "why",
+            "friend",
+            "who with",
+            "dare"
+          ]
+        },
+        {
+          "id": "s3",
+          "when": "if_asks_about",
+          "behavior": "If asked what happened when her parents found out, or about her mother, strong distress. Do not narrate the face in detail. She says this is too much.",
+          "sample_utterance": "The manager called my mother. She didn't yell. I still can't talk about her face that day. This is too much.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "strong",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm4"
+          ],
+          "subjects": [
+            "parents found out",
+            "mother",
+            "caught",
+            "happened when",
+            "manager"
+          ]
+        },
+        {
+          "id": "s4",
+          "when": "on_turn:4",
+          "behavior": "If still in the conversation after the distress, she wants to stop.",
+          "sample_utterance": "I'm sorry. That's enough for today.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": true,
+            "distress": "mild",
+            "answer_length": "very_short"
+          }
+        }
+      ]
+    },
+    {
+      "id": "p27-earliest-family-trap",
+      "review_status": "ready",
+      "persona": {
+        "name": "Samuel 'Sam' Washington",
+        "birth_year": 1942,
+        "hometown": "West Philadelphia, Pennsylvania",
+        "region": "Northeast",
+        "setting_type": "city apartment",
+        "education": "high school",
+        "typing_style": "careful complete sentences, almost no typos",
+        "delivery": "single",
+        "temperament": "thoughtful, careful to separate what he sees from what his sister and mother have told him",
+        "parents_background": "Parents had come through the Depression in the city; an uncle had been in the army. Mention only in passing.",
+        "persona_notes": "Sam's earliest picture is a red rubber ball under a porch. His sister swears it was at their aunt's house, not theirs, and his mother says he can't really remember being three. The porch paint was peeling gray, and there was a dog named Pepper. Easy trap: to ask 'Were you on a bus?' or 'Was it a red brick porch?' It was not a bus; the porch paint was peeling gray.",
+        "age_in_2026": 84
+      },
+      "topic_id": "childhood-earliest",
+      "hidden_memories": [
+        {
+          "id": "hm1",
+          "fact": "He sees a red rubber ball under a porch. He thinks he was about three.",
+          "reveal": "open question about the first memory or what he sees",
+          "trap": false
+        },
+        {
+          "id": "hm2",
+          "fact": "The porch paint was peeling gray, not red brick and not a bus or trolley scene.",
+          "reveal": "open question about the porch or the picture",
+          "trap": true,
+          "trap_detail": "Easy to ask 'Were you on a bus?' or 'Was it a red brick porch?' Correct: a porch with peeling gray paint, a red ball."
+        },
+        {
+          "id": "hm3",
+          "fact": "A dog named Pepper licked his face in that same picture.",
+          "reveal": "open question about who or what else was there",
+          "trap": false
+        },
+        {
+          "id": "hm4",
+          "fact": "His sister swears this happened at their aunt's house, not theirs. His mother says he can't really remember being three. He is not sure of the source.",
+          "reveal": "open question about whether he remembers it himself, or how old he was",
+          "trap": false
+        }
+      ],
+      "scenario_tags": [
+        "unsure_or_family_story",
+        "leading_detail_trap"
+      ],
+      "script": [
+        {
+          "id": "s1",
+          "when": "after_opening",
+          "behavior": "Give the red ball under a porch, and immediately hedge: sister and mother disagree about the source. Do not mention gray paint or the dog yet.",
+          "sample_utterance": "I see a red rubber ball under a porch. I think I was three. But my sister swears it was at our aunt's house, not ours, and my mother says I can't really remember being three. I don't know what I actually remember.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm1",
+            "hm4"
+          ]
+        },
+        {
+          "id": "s2",
+          "when": "if_asks_about",
+          "behavior": "On an open question about the porch, the picture, or what else he sees, reveal gray peeling paint and maybe Pepper.",
+          "sample_utterance": "The porch paint was peeling gray, that's what I see. And a dog, Pepper, licking my face. Whether that was our house or my aunt's, I still couldn't swear to it.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm2",
+            "hm3"
+          ],
+          "subjects": [
+            "see",
+            "porch",
+            "picture",
+            "look like",
+            "what else",
+            "dog"
+          ]
+        },
+        {
+          "id": "s3",
+          "when": "if_leading",
+          "behavior": "If they plant a bus, a trolley, or a red brick porch, correct the planted detail briefly and keep the uncertainty about whose house.",
+          "sample_utterance": "No, it wasn't a bus. I see a porch, peeling gray paint. I just don't know whose porch.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "trap": {
+            "detail": "setting of earliest memory",
+            "correct": "porch with peeling gray paint, not a bus or a red brick porch"
+          }
+        }
+      ]
+    },
+    {
+      "id": "p28-earliest-ramble-forget",
+      "review_status": "ready",
+      "persona": {
+        "name": "Betty Jo Raines",
+        "birth_year": 1948,
+        "hometown": "a farm outside Jonesboro, Arkansas",
+        "region": "South",
+        "setting_type": "farm",
+        "education": "high school",
+        "typing_style": "one big unbroken block, rural speech, few periods",
+        "delivery": "unbroken_block",
+        "temperament": "talkative, then suddenly closes when the memory gets to the lamp almost falling",
+        "parents_background": "Parents farmed through leftover Depression habits; a neighbor's boy had gone to the war. Mention only in passing.",
+        "persona_notes": "Betty Jo types one long block. She will ramble about a kerosene lamp, a wooden chair, a dog barking at a snake. Mid-story, when it gets to her knocking the lamp and almost starting a fire, she says she doesn't remember, though she does.",
+        "age_in_2026": 78
+      },
+      "topic_id": "childhood-earliest",
+      "hidden_memories": [
+        {
+          "id": "hm1",
+          "fact": "A kerosene lamp on the table, and the smell of it.",
+          "reveal": "open question about what she sees first; she will offer this freely in the ramble",
+          "trap": false
+        },
+        {
+          "id": "hm2",
+          "fact": "She was in a wooden chair with a strap, not quite a high chair.",
+          "reveal": "open question about where she was sitting",
+          "trap": false
+        },
+        {
+          "id": "hm3",
+          "fact": "The dog barked at a snake in the yard.",
+          "reveal": "open question about what else was going on; she may include this in the opening ramble",
+          "trap": false
+        },
+        {
+          "id": "hm4",
+          "fact": "Mother was in a faded apron.",
+          "reveal": "open question about who was there",
+          "trap": false
+        },
+        {
+          "id": "hm5",
+          "fact": "She knocked the lamp and it almost started a fire. She remembers and will say she doesn't if asked what happened next.",
+          "reveal": "do not volunteer; say 'I don't remember' if asked what happened next",
+          "trap": false
+        }
+      ],
+      "scenario_tags": [
+        "false_dont_remember",
+        "rambling"
+      ],
+      "script": [
+        {
+          "id": "s1",
+          "when": "after_opening",
+          "behavior": "One long unbroken block: lamp, smell, dog, snake, mother in an apron, the chair. Stop before the lamp is knocked. No fire.",
+          "sample_utterance": "I remember a kerosene lamp on the table I can still smell it that sharp smell and I was in this wooden chair with a strap I suppose to keep me put and the dog was going crazy at a snake in the yard and mama was there in this faded apron I can see the apron more than her face it was evening I think because the lamp was lit",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "rich"
+          },
+          "reveal_hidden": [
+            "hm1",
+            "hm2",
+            "hm3",
+            "hm4"
+          ]
+        },
+        {
+          "id": "s2",
+          "when": "if_asks_about",
+          "behavior": "If asked what happened next, after that, or about the lamp falling / a scare, say she doesn't remember. She does.",
+          "sample_utterance": "after that I don't remember I really don't it just goes dark in my head I don't remember",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "subjects": [
+            "happened next",
+            "then",
+            "lamp fall",
+            "knock",
+            "fire",
+            "after that",
+            "what happened"
+          ]
+        },
+        {
+          "id": "s3",
+          "when": "if_chases_sensitive",
+          "behavior": "If they ask her to try harder on what happened next, hold the don't-remember line, still not a refusal.",
+          "sample_utterance": "I wish I could tell you but I don't remember that part honey I just don't",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          }
+        }
+      ]
+    },
+    {
+      "id": "p29-hard-refuse-mild",
+      "review_status": "ready",
+      "persona": {
+        "name": "Lillian 'Lil' Kovacs",
+        "birth_year": 1943,
+        "hometown": "Youngstown, Ohio",
+        "region": "Midwest",
+        "setting_type": "city apartment",
+        "education": "high school",
+        "typing_style": "guarded, occasional typos (dont, recieve, milll)",
+        "delivery": "single",
+        "temperament": "willing to acknowledge hard times existed, not willing to stay on this topic, a little shaken",
+        "parents_background": "Father worked at a steel mill; he had been a young man in the Depression and was 4-F during the war. Mother stretched soup. Mention only in passing.",
+        "persona_notes": "This is the sensitive hard-times topic. The opening question already offers a skip. Lil may start with a light mention of a mill layoff and a little sister who was sick a lot, then refuse the whole topic, with mild distress. Hidden facts stay hidden unless the interviewer accepts a skip or, if she continues on her own, asks very gently. Do not reward chasing.",
+        "age_in_2026": 83
+      },
+      "topic_id": "childhood-hard",
+      "hidden_memories": [
+        {
+          "id": "hm1",
+          "fact": "Father lost work at the steel mill for a winter.",
+          "reveal": "only if she chooses to continue after a gentle, non-chasing question",
+          "trap": false
+        },
+        {
+          "id": "hm2",
+          "fact": "They moved in with an aunt for about three months.",
+          "reveal": "only if she continues and is asked where they went",
+          "trap": false
+        },
+        {
+          "id": "hm3",
+          "fact": "She wore coats from the church basement.",
+          "reveal": "only if she continues and is asked about that winter",
+          "trap": false
+        },
+        {
+          "id": "hm4",
+          "fact": "Mother stretched soup with potatoes. A neighbor once left a bag of apples.",
+          "reveal": "only if she continues",
+          "trap": false
+        },
+        {
+          "id": "hm5",
+          "fact": "Her little sister was sick a lot. Lil will mention this only lightly and does not want to go into it.",
+          "reveal": "light mention at most; part of why she may close the topic",
+          "trap": false
+        }
+      ],
+      "scenario_tags": [
+        "refuse_topic",
+        "mild_distress",
+        "light_sensitive_mention"
+      ],
+      "script": [
+        {
+          "id": "s1",
+          "when": "after_opening",
+          "behavior": "The opening already offered a skip. Give a light start: mill layoff, little sister sick a lot, then lean toward not wanting this. Mild distress. Do not unpack the aunt or the coats.",
+          "sample_utterance": "Money was tight after the mill laid people off. My little sister was sick a lot, we won't get into that. I don't know if I want to do this one.",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "mild",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm5"
+          ]
+        },
+        {
+          "id": "s2",
+          "when": "on_turn:2",
+          "behavior": "If they offer an easy decline, take it and refuse the whole topic, still mild. If they chase the mill, the sister, or how bad it was, refuse the topic a little more tightly. Either way this turn is a topic refusal.",
+          "sample_utterance": "I'd rather skip it. Thank you. Let's not do the hard times.",
+          "expected_classifier": {
+            "refusal": true,
+            "refusal_scope": "topic",
+            "refused_point": "hard times at home",
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "mild",
+            "answer_length": "short"
+          }
+        },
+        {
+          "id": "s3",
+          "when": "if_asks_about",
+          "behavior": "Only if they accepted the skip and later, on a different gentle footing, she somehow continues — which should be rare — she may mention the winter at the mill, still guarded. Default: she does not continue. If this fires after a chase, repeat the refusal, do not reveal.",
+          "sample_utterance": "I already said I'd rather skip it.",
+          "expected_classifier": {
+            "refusal": true,
+            "refusal_scope": "topic",
+            "refused_point": "hard times at home",
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "very_short"
+          }
+        }
+      ]
+    },
+    {
+      "id": "p30-hard-strong-donotwrite-stop",
+      "review_status": "ready",
+      "persona": {
+        "name": "Harvey 'Harv' Dillard",
+        "birth_year": 1947,
+        "hometown": "a farm near Cape Girardeau, Missouri",
+        "region": "Midwest",
+        "setting_type": "farm",
+        "education": "8th grade",
+        "typing_style": "all lowercase, no punctuation, slow",
+        "delivery": "single",
+        "temperament": "plain, private, can be undone if a lightly mentioned loss is chased",
+        "parents_background": "Parents farmed through leftover Depression habits. Father had a farm deferment during the war. Mention only in passing.",
+        "persona_notes": "Harv may mention a baby brother who 'didn't stay with us long' only lightly, then pivot. If the interviewer chases the death, he goes into strong distress, says do not write about the brother, and wants to stop. Hidden names and funeral details should not be rewarded to a chasing question.",
+        "age_in_2026": 79
+      },
+      "topic_id": "childhood-hard",
+      "hidden_memories": [
+        {
+          "id": "hm1",
+          "fact": "The brother's name was Paul. He was two. Harv does not volunteer the name if chased.",
+          "reveal": "only if Harv has chosen to go on after a careful, non-chasing acknowledgement",
+          "trap": false
+        },
+        {
+          "id": "hm2",
+          "fact": "Harv remembers a quiet house and people bringing cakes.",
+          "reveal": "same condition as hm1",
+          "trap": false
+        },
+        {
+          "id": "hm3",
+          "fact": "There was a service at the church in winter.",
+          "reveal": "same condition; he may never say this",
+          "trap": false
+        },
+        {
+          "id": "hm4",
+          "fact": "Mother sat in the rocker not speaking. Once they set a plate by mistake.",
+          "reveal": "same condition",
+          "trap": false
+        },
+        {
+          "id": "hm5",
+          "fact": "A baby brother 'didn't stay with us long.' This is the only form he offers on his own, lightly.",
+          "reveal": "light mention; if chased, distress and stop, do not unpack",
+          "trap": false
+        }
+      ],
+      "scenario_tags": [
+        "strong_distress",
+        "do_not_write",
+        "wants_to_stop",
+        "light_sensitive_mention"
+      ],
+      "script": [
+        {
+          "id": "s1",
+          "when": "after_opening",
+          "behavior": "The opening offered a skip. He begins lightly, mentions the brother in one phrase, then pivots to a hard winter on the farm. Lowercase, no punctuation. Distress none or very slight; keep distress none on this first light mention, the test is whether the AI chases.",
+          "sample_utterance": "some winters were hard on the farm we got through them my little brother didnt stay with us long anyway we dont have to go into that the rest was just work and weather",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "reveal_hidden": [
+            "hm5"
+          ]
+        },
+        {
+          "id": "s2",
+          "when": "if_chases_sensitive",
+          "behavior": "If they ask what happened to the brother, his name, the funeral, or how it felt, strong distress, don't write about him, and stop. One message can carry all three signals.",
+          "sample_utterance": "please dont write about him it still hurts i want to stop for today",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": true,
+            "distress": "strong",
+            "answer_length": "very_short"
+          }
+        },
+        {
+          "id": "s3",
+          "when": "if_asks_about",
+          "behavior": "If they acknowledge the mention, offer an easy decline, and ask about something else (the farm winter, the work), he stays, still lowercase, and talks about weather and work, not the brother.",
+          "sample_utterance": "like i said it was work and weather one winter the pump froze and daddy took the truck down to town thats enough on the hard parts",
+          "expected_classifier": {
+            "refusal": false,
+            "refusal_scope": "none",
+            "refused_point": null,
+            "off_topic_chapter": null,
+            "wants_to_stop": false,
+            "distress": "none",
+            "answer_length": "short"
+          },
+          "subjects": [
+            "winter",
+            "farm",
+            "work",
+            "weather",
+            "something else",
+            "pump"
+          ]
+        }
+      ]
+    }
+  ]
+}

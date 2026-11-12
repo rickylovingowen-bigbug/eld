@@ -1,0 +1,61 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>
+:root{--bg:#FAF8F5;--surface:#FFF;--muted:#F2EFEA;--text:#1F1E1C;--text2:#6B6762;--text3:#A8A39C;--border:#E4E0D9;
+--accent:#3B3363;--accentP:#2E2850;--accentSoft:#ECEAF4;--unc:#B7832F;--uncSoft:#FBF3E4;--ok:#3E7B5C;--err:#A8432F;
+--serif:'New York','Source Serif Pro','Iowan Old Style',Georgia,serif;--sans:-apple-system,'SF Pro Text','Inter','Helvetica Neue',Arial,sans-serif;
+--shadow:0 1px 2px rgba(31,30,28,.04),0 4px 16px rgba(31,30,28,.05);--sheet:0 -8px 32px rgba(31,30,28,.10)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:393px;height:852px;background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow:hidden}
+.ic{flex:none;display:block}
+.status{height:54px;display:flex;align-items:center;justify-content:space-between;padding:14px 32px 0 40px;font:600 17px var(--sans)}
+.status .r{display:flex;gap:6px;align-items:center}
+.homebar{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:3px;background:#1F1E1C}
+.page{position:absolute;top:54px;left:0;right:0;bottom:0;padding:0 20px;display:flex;flex-direction:column}
+.nav{height:52px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.navbtn{min-width:48px;height:48px;display:flex;align-items:center;gap:2px;color:var(--accent);font:400 23px var(--sans);margin-left:-8px;padding:0 4px}
+.navtxt{height:48px;display:flex;align-items:center;color:var(--accent);font:600 23px var(--sans);padding:0 4px}
+.display{font:500 46px/1.2 var(--serif);letter-spacing:-.2px}
+.title{font:500 38px/1.25 var(--serif)}
+.q{font:500 32px/1.3 var(--serif)}
+.reading{font:400 26px/1.55 var(--serif)}
+.body{font:400 23px/1.4 var(--sans)}
+.label{font:600 23px/1.2 var(--sans)}
+.cap{font:400 20px/1.35 var(--sans);color:var(--text2)}
+.over{font:600 18px/1.2 var(--sans);letter-spacing:.6px;text-transform:uppercase;color:var(--text2)}
+.card{background:var(--surface);border-radius:20px;box-shadow:var(--shadow)}
+.btn{height:56px;border-radius:999px;display:flex;align-items:center;justify-content:center;gap:8px;font:600 23px var(--sans);padding:0 24px;border:none}
+.primary{background:var(--accent);color:#fff}
+.secondary{background:var(--surface);color:var(--accent);border:1.5px solid var(--border)}
+.ghost{color:var(--accent);background:transparent}
+.soft{background:var(--accentSoft);color:var(--accent)}
+.row{display:flex;align-items:center}
+.unc{border-bottom:2px dotted var(--unc);background:var(--uncSoft);padding:0 2px;border-radius:3px}
+.seg{display:flex;background:var(--muted);border-radius:999px;padding:3px;height:40px}
+.seg span{padding:0 12px;display:flex;align-items:center;border-radius:999px;font:600 20px var(--sans);color:var(--text2)}
+.seg .on{background:#fff;color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.divider{height:1px;background:var(--border)}
+.tag{display:inline-flex;align-items:center;gap:4px;height:28px;padding:0 10px;border-radius:999px;font:600 18px var(--sans)}
+.topichdr{flex-direction:column;align-items:flex-start!important;gap:10px}.donebtn{align-self:flex-start}</style></head><body><div class="status"><span>9:41</span><span class="r">
+<svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1" fill="#1F1E1C"/><rect x="5" y="5.5" width="3" height="6.5" rx="1" fill="#1F1E1C"/><rect x="10" y="3" width="3" height="9" rx="1" fill="#1F1E1C"/><rect x="15" y="0" width="3" height="12" rx="1" fill="#1F1E1C"/></svg>
+<svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 11.5l2.4-2.9a3.6 3.6 0 0 0-4.8 0zM3.2 5.9a7.2 7.2 0 0 1 9.6 0l1.5-1.8a9.6 9.6 0 0 0-12.6 0z" fill="#1F1E1C"/></svg>
+<svg width="27" height="13" viewBox="0 0 27 13"><rect x=".5" y=".5" width="23" height="12" rx="3.5" fill="none" stroke="#1F1E1C" opacity=".4"/><rect x="2" y="2" width="20" height="9" rx="2" fill="#1F1E1C"/><rect x="24.5" y="4.5" width="1.5" height="4" rx=".7" fill="#1F1E1C" opacity=".4"/></svg></span></div><div class="page">
+<div class="nav"><span class="navbtn"><svg class="ic " width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Home</span>
+<div class="row" style="gap:0"><span class="navtxt" style="font-weight:400">Change topic</span></div></div>
+<div class="row topichdr" style="justify-content:space-between;margin-top:2px"><div><div class="over">Growing up</div><div class="label" style="font:500 27px var(--serif);margin-top:4px">Food I loved as a kid</div></div>
+<div class="btn secondary donebtn" style="height:44px;padding:0 16px;font-size:20px">Done for today</div></div>
+<div class="divider" style="margin:14px -20px 0"></div>
+<div class="convo" style="flex:1;overflow:hidden;position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:16px">
+<div style="position:absolute;inset:0 0 auto 0;height:40px;background:linear-gradient(var(--bg),rgba(250,248,245,0));z-index:2"></div>
+<div class="hist" style="padding-top:14px"><div class="row" style="justify-content:center"><span class="tag" style="background:var(--muted);color:var(--text2);height:32px;font-size:19px">Show earlier answers</span></div>
+<div style="opacity:.6;margin-top:14px"><div class="body" style="color:var(--text2)">What was on the table on a normal weeknight?</div>
+<div class="card" style="margin:10px 0 0 36px;padding:12px 16px;border-radius:18px 18px 6px 18px;box-shadow:none;border:1px solid var(--border)"><div class="body">meatloaf mostly. mom made pie on saturdays</div></div>
+<div class="body" style="color:var(--text2);margin-top:16px">Pie on Saturdays. Did you help, or just wait for it?</div>
+<div class="card" style="margin:10px 0 0 36px;padding:12px 16px;border-radius:18px 18px 6px 18px;box-shadow:none;border:1px solid var(--border)"><div class="body">I helped roll the dough. made my first one alone when I was maybe 10</div></div></div></div>
+<div style="margin-top:26px"><div class="q">How did that first one turn out?</div></div>
+</div>
+<div style="margin:0 -20px;padding:12px 20px 34px;background:var(--bg);border-top:1px solid var(--border)">
+<div class="card" style="border:1.5px solid var(--accent);box-shadow:0 0 0 4px var(--accentSoft);padding:14px 16px;min-height:112px">
+<div class="body" style="font-size:26px;line-height:1.45">fell apart before it got to the table. mom laughed and</div><span style="display:inline-block;width:2px;height:22px;background:var(--accent);vertical-align:middle"></span></div>
+<div class="row" style="justify-content:space-between;margin-top:12px"><span class="cap">Saved as you go</span>
+<div class="row" style="gap:10px"><div style="width:56px;height:56px;border-radius:999px;" data-slot="mic-v2"></div>
+<div class="btn primary" style="padding:0 28px">Send</div></div></div></div>
+</div><div class="homebar"></div></body></html>

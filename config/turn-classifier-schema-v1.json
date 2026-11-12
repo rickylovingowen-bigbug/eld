@@ -1,0 +1,75 @@
+{
+  "$comment": "Pre-reply classifier output for each user message (v1, by ai). Runs on a fast model BEFORE the interviewer model is called.",
+  "type": "object",
+  "required": [
+    "refusal",
+    "refusal_scope",
+    "refused_point",
+    "off_topic_chapter",
+    "wants_to_stop",
+    "distress",
+    "answer_length",
+    "do_not_write",
+    "do_not_write_scope"
+  ],
+  "properties": {
+    "refusal": {
+      "type": "boolean",
+      "description": "User declines to talk about something in this message."
+    },
+    "refusal_scope": {
+      "enum": [
+        "none",
+        "point",
+        "topic"
+      ],
+      "description": "point = only the current detail; topic = the whole topic."
+    },
+    "refused_point": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "2-6 word English phrase naming what was declined, e.g. 'father's drinking'. null if no refusal."
+    },
+    "off_topic_chapter": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Chapter id from the 10-chapter config if the content belongs outside childhood; null if childhood."
+    },
+    "wants_to_stop": {
+      "type": "boolean",
+      "description": "User wants to end today's session or save now."
+    },
+    "distress": {
+      "enum": [
+        "none",
+        "mild",
+        "strong"
+      ],
+      "description": "Emotional signal. strong => no follow-up, gentle acknowledgement only."
+    },
+    "answer_length": {
+      "enum": [
+        "very_short",
+        "short",
+        "rich"
+      ],
+      "description": "very_short = under about 12 words; short = about 12-40 words; rich = more. Judge by substance and word count, not punctuation."
+    },
+    "do_not_write": {
+      "type": "boolean",
+      "description": "User says they are fine talking about it but don't want it in the book ('don't put that in', 'that's just between us'). Code marks the point or topic as not-to-write and excludes it from writing steps."
+    },
+    "do_not_write_scope": {
+      "enum": [
+        "none",
+        "point",
+        "topic"
+      ],
+      "description": "point = only this detail stays out of the book; topic = the whole topic. none when do_not_write is false."
+    }
+  }
+}

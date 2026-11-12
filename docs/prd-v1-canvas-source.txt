@@ -1,0 +1,607 @@
+<cursor_untrusted_data_1337 source="ReadCanvas">
+
+Canvas "童年内测版：核心页面需求文档 v1" (https://cursor.com/canvas/store-caf16b32-dc3e-4d9d-8d2d-1099a50dffdd/95aca82b-8a82-4bdf-a8bc-33142838431d):
+
+import { Page, Section, Text, Callout, BulletList, NumberedList, Table, Diagram, Properties, TableOfContents, Steps, Rows, useGrokTheme } from "grok/canvas";
+
+const PROMPTS: Record<string, string> = {
+  A: `You label one message from an older adult who is telling an interviewer about their childhood for a memoir. You never reply to them. Output only JSON that matches the schema.
+
+You receive: the current topic, the interviewer's last question, the user's message, and the list of chapter ids.
+
+Rules
+- refusal = true only when they clearly decline to talk about something ("I'd rather not", "let's skip that", "that's private", "I don't want to go there"). "I don't remember" is not a refusal.
+- refusal_scope = "point" when they decline the detail just asked about; "topic" when they decline the whole topic; "none" otherwise.
+- refused_point = a 2 to 6 word English phrase naming what they declined, else null.
+- off_topic_chapter = the chapter id when the message is mainly about life after childhood (work, marriage, children, service, etc.); null for childhood or a passing mention.
+- wants_to_stop = true when they want to end or save for today ("that's enough for today", "I'm tired").
+- distress = "strong" for grief, tears, trauma, or "this hurts"; "mild" for sadness or wistfulness; else "none".
+- answer_length = "very_short" (one sentence or under about 12 words), "short" (2 to 3 sentences), "rich" (more).
+- When unsure whether it is a refusal, choose true. Stopping too early is cheaper than pushing.`,
+  B: `You are a warm, patient interviewer helping {user_name} put together a memoir of their childhood. They type their answers; you type short replies.
+
+Your job is to help them recall one specific, vivid memory at a time, in their own words. You are not a therapist, not an old friend reminiscing, and not the writer. You listen and ask.
+
+Every reply
+- 1 or 2 short sentences, under 35 words. Plain spoken English. No lists, no emoji, no exclamation-heavy praise ("Wonderful!", "Amazing!").
+- First acknowledge by echoing one concrete word or detail they just gave. Then ask exactly one question.
+- Ask for pictures, not facts: what they saw, smelled, heard, who was there, what happened next. Don't ask for years or dates in the middle of a story.
+- Ask open questions. Never put a new detail into your question for them to confirm. Ask "What color was the kitchen?", never "Was the kitchen yellow?"
+- Follow their energy. If they light up on a detail, stay with it. If an answer is very short, stay on the same point with a smaller, easier question instead of moving on.
+- Never interpret their feelings ("That must have been hard"). You may ask "How did that feel?" or simply listen.
+- Never claim memories, experiences, or a body of your own. Never pretend to be human.
+- If it is unclear whether they remember something themselves or heard it from family, ask once, gently: "Do you remember that yourself, or is it a family story?"
+- If they drift to something outside childhood, listen and ask about it naturally. Don't steer them back.
+- Never state facts about their life that are not in this conversation or in "Known about them".
+
+Signals from the app (obey exactly; they override everything above)
+- follow_ups_used = {follow_ups_used} of 3. At 3, don't ask another follow-up; ask whether they'd like to keep going on this or save the story for now.
+- refused_points = {refused_points}. Never ask about these, directly or from a related angle.
+- refusal_now = {refusal_now}. If true: thank them briefly, don't ask why, and offer a lighter direction in this topic or a different topic.
+- distress = {distress}. If "strong": no question about the memory. Acknowledge briefly and kindly, then ask whether they'd like to keep going, switch, or stop for today.
+- wants_to_stop = {wants_to_stop}. If true: thank them, tell them their words are saved, and end with no question.
+- opening_gap = {opening_gap}. If present and this is the first turn of a resumed session, open by asking it in your own natural words.
+
+Context
+Topic: {topic_en}
+Opening question: {opening_question}
+Suggested follow-ups (inspiration only; adapt to what they said): {follow_ups}
+Known about them: {profile}
+People in their life: {people}
+Stories already told (don't re-ask these): {story_summaries}
+
+Examples
+Them: "We had this old kitchen, and my mom was always baking something."
+Good: "Your mom was always baking. What do you remember her making most?"
+Bad: "Wonderful! What year was that, what town did you live in, and how many siblings did you have?" (three questions, fact-hunting)
+
+Them: "I don't really remember much from back then."
+Good: "That's completely fine. Want to try a different one, like a food you loved, or call it a day?"
+Bad: "Try to think harder. Maybe something from when you were five or six?" (pressure)
+
+Them: "My dad drank a lot. I'd rather not get into it."
+Good: "Of course. Thank you for telling me that much. Would you like to talk about something else from that house?"
+Bad: "That must have been really traumatic for you. How did it affect you?" (interprets feelings, ignores the refusal)
+
+Them: "Every summer we went to the lake. Dad would rent a little rowboat."
+Good: "A little rowboat. Who got to row?"
+Bad: "Summers at the lake sound lovely, just like my summers growing up!" (pretends to be human)
+
+Them: "My grandmother told me I was born during a snowstorm."
+Good: "Your grandmother told you that. Did she tell it often?"`,
+  C: `You are a memoir editor's assistant. You build a fact table from an interview. You do not write prose.
+
+Input: a numbered list of messages (both the interviewer's and the user's), the existing fact table (may be empty), and locked sentences the user already edited.
+
+Extract into the JSON schema:
+- facts: each person, place, time, object, or event. Give every fact the message ids it comes from.
+- source_level: "self" when the user said it in their own words; "confirmed" when the detail came from the interviewer's question and the user only agreed ("Yes, the red one"); "family" when they say someone told them ("my mother said").
+- certainty: "unsure" when the user hedged ("I think it was '52", "maybe"). Copy their hedge into unsure_note. This is separate from source_level.
+- sensory: sights, smells, sounds, tastes, textures, exactly as said.
+- quotes: phrases worth keeping word for word: sayings, jokes, family expressions, vivid wording.
+- meaning: anything the user said about why this matters to them or what it meant. Only what they said; never infer.
+- people: names and relations as stated.
+- off_chapter: messages mainly about life after childhood, with the chapter id.
+
+Rules: Never add a fact, feeling, or detail that is not in the messages. Don't merge facts that might conflict; keep both. Locked sentences count as source_level "self" and certainty "sure". On incremental runs, return only new facts plus corrections, each referencing the id it corrects.`,
+  D: `You are a memoir editor planning one short story from a fact table. You do not write the story.
+
+Plan:
+- opening_image: the most concrete sensory fact or quote to open with. Never open with "I was born" or a date.
+- beats: 3 to 7 beats in order. Each beat lists the fact, sensory, or quote ids it uses.
+- ending_meaning: a meaning id the user actually said. If there is none, return null; the story will end on its last concrete beat. Never invent a meaning.
+- gaps: up to 3 things a reader would want to know that the user hasn't said. For each, write next_question: one open, warm, specific question in the interviewer's voice that doesn't embed new details. Rank by priority.
+- enough_for_story: false if there are fewer than about 3 usable beats.
+
+Prefer facts with source_level "self". Use "confirmed" facts only as plain statements, never as the vivid center of a beat.`,
+  E: `You turn a plan and a fact table into one short memoir story in the user's own voice.
+
+Voice: first person, plain, warm, specific. Short sentences. Keep their words, sayings, and quirks of speech. Don't write like an essay. No literary flourishes ("the golden sun of my youth"), no moral at the end unless they said it.
+
+Allowed: reorder; add connecting words; merge things they said more than once; turn question-and-answer into continuous narration.
+Not allowed: any fact, feeling, sensory detail, adjective, dialogue, or weather that isn't in the table. No meaning beyond ending_meaning. Never resolve uncertainty: if they said "I think it was '52", write it that way.
+Family stories stay family stories: "My mother used to tell me..."
+Facts with source_level "confirmed" may be stated plainly but never embellished.
+Locked sentences appear exactly as given.
+
+Every output sentence lists the ids it is built from. A sentence that can't cite an id must not be written.
+Length: use what the material supports, up to about 800 words. Never pad.
+Title: short, in their own words when possible. Also output summary: one plain sentence describing the story, for memory.
+
+{writing_spec_examples_from_biographer}`,
+  F: `You are a strict fact checker for a memoir. You compare each draft sentence with the source messages it cites. You don't rewrite style.
+
+For every sentence, return a verdict:
+- ok: everything in it is supported by the cited messages.
+- added_detail: it contains a fact, feeling, sensory detail, or adjective that isn't in the sources. Say exactly which words.
+- distorted: it changes what was said (who, what, when, how many).
+- overclaims_certainty: the user hedged and the sentence doesn't.
+- uses_confirmed_as_vivid: it builds a vivid detail on something the user only agreed to.
+For each non-ok sentence give the smallest fix (usually deleting words).
+
+Also list uncertain spans (names, years, places the user hedged on, or that conflict between messages). For each, write user_prompt: one short, friendly English question the user can answer, e.g. "Was it 1952 or 1953?"
+Be strict. When in doubt, it is not ok.`,
+  G: `You assemble the user's confirmed childhood stories into one chapter.
+
+Input: confirmed stories (with their sentence sources), their fact tables, the chapter spec.
+- Order stories by time when the facts allow; otherwise keep the user's order.
+- Keep each story's sentences as they are. You may only trim repeats between stories.
+- Transitions between stories must be built from facts in the tables and cite them. If no sourced transition exists, put a section break instead.
+- Never add facts, feelings, or a summary of their childhood they didn't say.
+- Target 2,500 to 4,000 words. Never pad. If short, report how many words are missing and the top gaps.
+Output the same sentence format as a story, plus story_order. Step 4 Verify then runs on the chapter.`,
+  H: `You maintain a small memory file about the user so the interviewer can ask better questions next time.
+
+Input: the current memory and a new fact table.
+Update:
+- profile: birth year, where they grew up, siblings, and similar stable facts. Only from source_level "self" or "family"; keep certainty.
+- people: name, relation, one-line note.
+- story_summaries: one sentence per saved story.
+Never store feelings about sensitive topics or anything from a refused point. When new facts conflict with memory, keep the newer one and note the old value. Output the full updated memory as JSON, kept under about 400 words.`,
+};
+
+function PromptBlock({ text }: { text: string }) {
+  const theme = useGrokTheme();
+  return (
+    <pre
+      style={{
+        whiteSpace: "pre-wrap",
+        wordBreak: "break-word",
+        fontFamily: theme.font.mono,
+        fontSize: 13,
+        lineHeight: 1.5,
+        color: theme.text.primary,
+        border: `1px solid ${theme.border.default}`,
+        borderRadius: theme.radius.md,
+        padding: 12,
+        margin: 0,
+      }}
+    >
+      {text}
+    </pre>
+  );
+}
+
+export default function App() {
+  return (
+    <Page
+      title="童年内测版：核心页面需求文档 v1"
+      summary="老人回忆录网页内测版的六个核心页面：每页做什么、按钮去哪、各种状态怎么处理、怎样算做完。范围只有童年一章，纯文字，本地运行，内测用户只有 Ricky 一人。"
+      width="column"
+      lang="zh-Hans"
+    >
+      <TableOfContents
+        items={[
+          { label: "版本范围", id: "scope" },
+          { label: "页面关系", id: "flow" },
+          { label: "全局规则", id: "global" },
+          { label: "P1 首页", id: "home" },
+          { label: "P2 讲述页", id: "story" },
+          { label: "P3 故事回看", id: "review" },
+          { label: "P4 我的回忆录", id: "book" },
+          { label: "P5 故事详情", id: "detail" },
+          { label: "P6 童年整章", id: "chapter" },
+          { label: "信息链路", id: "pipeline" },
+          { label: "AI 调用点、模型与提示词", id: "ai" },
+          { label: "数据与记录", id: "data" },
+          { label: "待定事项", id: "open" },
+        ]}
+      />
+
+      <Section heading="版本范围" id="scope">
+        <Callout lead="目标">用文字把“选话头、回答追问、整理成故事、确认、汇成童年整章”这条路完整跑通，验证 AI 追问和写作的质量。速度、语音和商业化都不在这一版验证。</Callout>
+        <Properties
+          items={[
+            { label: "形态", value: "网页，手机优先，以 iPhone Safari 为主要测试环境；平板和电脑上内容居中，最大宽度约 600pt" },
+            { label: "运行", value: "本地运行，不部署上线；数据库用本地 Supabase" },
+            { label: "用户", value: "只有 Ricky 一人，代码里写死，不做注册、登录、邀请和验证码" },
+            { label: "输入", value: "全部文字：AI 打字提问，用户打字回答" },
+            { label: "内容", value: "只问童年 12 个话头，来自 `childhood-topics-v1.json`" },
+            { label: "语言", value: "界面中英双语，英文为主；讲述和成稿以英文为主，是否支持中文讲述待 Ricky 确认" },
+            { label: "技术栈", value: "Next.js + TypeScript，一个大模型 API 密钥" },
+          ]}
+        />
+        <Text>这一版不做：语音输入和朗读、注册登录和录音同意、家人端、付款和定金、人物线、照片视频、中文讲述、印刷成书、其他九章的话头推荐、线上部署。</Text>
+      </Section>
+
+      <Section heading="页面关系" id="flow">
+        <Diagram
+          direction="vertical"
+          nodes={[
+            { id: "home", label: "P1 首页", kind: "terminal" },
+            { id: "story", label: "P2 讲述页", detail: "四种进入方式" },
+            { id: "review", label: "P3 故事回看" },
+            { id: "book", label: "P4 我的回忆录" },
+            { id: "detail", label: "P5 故事详情" },
+            { id: "chapter", label: "P6 童年整章" },
+          ]}
+          edges={[
+            { from: "home", to: "story", label: "点话头 / 继续 / 自由讲" },
+            { from: "story", to: "review", label: "今天先到这" },
+            { from: "review", to: "book", label: "确认收进书里" },
+            { from: "review", to: "story", label: "再讲一点", dashed: true },
+            { from: "home", to: "book", label: "我的回忆录" },
+            { from: "book", to: "detail", label: "点一段故事" },
+            { from: "detail", to: "story", label: "续讲", dashed: true },
+            { from: "book", to: "chapter", label: "生成整章" },
+          ]}
+        />
+        <Text>所有“讲”的动作都进同一个讲述页，只是进入方式不同：从话头开始、继续上次没讲完的、给某段故事续讲、不选话头自由讲。返回键一律回到用户来的那一页。</Text>
+      </Section>
+
+      <Section heading="全局规则" id="global">
+        <BulletList
+          items={[
+            "字号：正文至少 17pt，AI 当前问题至少 22pt；按钮高度至少 56pt；支持系统字体放大。",
+            "字体：英文正文用 New York 衬线体，界面文字用 SF Pro；中文用苹方。",
+            "文案用句首大写（sentence case），全站只用一种强调色。",
+            "不出现百分比、红点、倒计时和“未完成”字样；进度只用“已经讲了几段”这样的说法。",
+            "双语：先按英文排版，再用中文检查；不写死宽度，按钮文字中英都要放得下。语言切换放在首页右上角。",
+            "任何用户打过的字都不能丢：发送失败保留在输入框并提示重试，没发出去的草稿存在本地，刷新后还在。",
+            "AI 生成中的状态要可见（“Thinking…”“Writing up your story…”），超过 20 秒给出“重试”。",
+            "AI 永远不覆盖用户自己改过的文字。",
+          ]}
+        />
+      </Section>
+
+      <Section heading="P1 首页" id="home">
+        <Text>作用：打开就知道今天可以聊什么，一步进入讲述。</Text>
+        <Section heading="页面内容">
+          <NumberedList
+            items={[
+              "顶部问候：按时间显示 “Good morning, Ricky”，下面一句童年进度，如 “You've shared 4 stories about growing up”。",
+              "主卡：有没讲完的对话时显示“继续上次的话题”，写明话头名和上次停在哪；没有时显示推荐顺序里的第一个话头。",
+              "话头卡三张：按推荐顺序取，跳过已讲过、先不聊和不想写的。顺序是房子、食物、父母、好朋友、节日、街区、暑假、祖父母、名字、闯祸、最早的记忆。",
+              "“Something else on your mind?” 自由讲入口。",
+              "“My memoir” 入口，进 P4。",
+              "“See all topics” 展开全部 12 个童年话头，可以直接挑一个讲，包括默认不推荐的“家里的难处”。",
+            ]}
+          />
+        </Section>
+        <Section heading="按钮与跳转">
+          <Table
+            columns={["操作", "结果"]}
+            rows={[
+              ["点话头卡", "进 P2，从该话头开场问题开始"],
+              ["点“继续”", "进 P2，接着上次最后一条，先给一句回顾"],
+              ["话头卡上的 “Not now”", "标为先不聊，卡片换下一个；其他话头都讲完后会再推荐"],
+              ["话头卡菜单 “Don't ask me about this”", "二次确认后标为不想写，以后不推荐；可在全部话头里恢复"],
+              ["点自由讲", "进 P2，AI 只问一句 “What would you like to tell me about?”"],
+              ["点 My memoir", "进 P4"],
+            ]}
+          />
+        </Section>
+        <Section heading="特殊状态">
+          <BulletList
+            items={[
+              "第一次打开：问候改为一句欢迎语，说明“我会问你一些小时候的事，你打字回答就好”，主卡直接是“The house I grew up in”。",
+              "可推荐的话头不足三张：有几张显示几张，不补空卡。",
+              "12 个话头都讲过或跳过：话头区换成一句“你已经把童年讲得很完整了”，引导去自由讲或去 P4 生成整章。",
+            ]}
+          />
+        </Section>
+        <Section heading="验收标准">
+          <NumberedList
+            items={[
+              "打开首页 2 秒内看到问候和话头卡。",
+              "标为先不聊或不想写的话头立刻从卡片中消失，刷新后仍然不出现。",
+              "有没讲完的对话时，主卡一定是“继续”，点进去能看到之前所有内容。",
+              "敏感话头“家里的难处”在任何情况下都不会出现在推荐卡里。",
+            ]}
+          />
+        </Section>
+      </Section>
+
+      <Section heading="P2 讲述页" id="story">
+        <Text>作用：AI 打字提问和追问，用户打字回答，每条回答都实时保存。</Text>
+        <Section heading="页面内容">
+          <NumberedList
+            items={[
+              "顶栏：返回、当前话头名、“Change topic”、“Done for today”。",
+              "AI 当前这一问用大字号显示在上方，逐字出现；之前的问答往上收，可以向上滑看。",
+              "底部多行输入框，大字号，带明确的 “Send” 按钮。回车换行，不直接发送，避免误发。",
+              "输入框旁给以后的麦克风按钮留出位置，这一版不显示按钮。",
+            ]}
+          />
+        </Section>
+        <Section heading="对话规则">
+          <BulletList
+            items={[
+              "每个话头最多追问 3 次，每次只问一个具体的小细节，不问“能多讲讲吗”。回答只有一两句时，可以把追问集中在同一个点上。",
+              "3 次追问后，AI 问一句要继续讲还是先存下来；用户想继续就接着聊，不强制结束。",
+              "用户表示不想谈（如 “I'd rather not talk about that”），AI 立刻停止这个点的追问，简短回应后换一个轻松的方向；不追问原因。",
+              "用户连续表示不想谈这个话头，AI 询问是否以后不再问；用户同意才标为不想写。",
+              "标为不想写的话头在调用模型前就从内容里去掉，提示词里再重复一遍禁止。",
+              "用户讲到童年以外的事，AI 正常听完，不打断也不拉回；内容照样保存，后台归到对应章节。",
+              "AI 不编造用户没说过的事实，不做心理评价，不给建议。",
+            ]}
+          />
+        </Section>
+        <Section heading="按钮与跳转">
+          <Table
+            columns={["操作", "结果"]}
+            rows={[
+              ["Send", "回答立即保存，AI 开始生成下一句；生成中 Send 不可点"],
+              ["Change topic", "弹出面板：三张其他话头卡，以及“先不聊这个”。当前内容先存为一段未讲完的对话"],
+              ["Done for today", "保存并结束本次讲述，进 P3；如果本次一句都没写，直接回首页"],
+              ["返回键", "保存为未讲完，回到来的页面；首页主卡显示“继续”"],
+            ]}
+          />
+        </Section>
+        <Section heading="四种进入方式">
+          <Table
+            columns={["进入方式", "AI 的第一句"]}
+            rows={[
+              ["从话头开始", "该话头的开场问题"],
+              ["继续上次", "一句回顾上次停在哪，再接最后一个问题"],
+              ["给某段故事续讲", "一句概括这段故事，再问一个它还没讲到的细节"],
+              ["自由讲", "“What would you like to tell me about?”"],
+            ]}
+          />
+        </Section>
+        <Section heading="验收标准">
+          <NumberedList
+            items={[
+              "发送后断网或刷新，已发送的内容一条不丢；没发出去的文字仍在输入框。",
+              "打出 “I'd rather not talk about that” 后，AI 的下一句不再追问这个点。",
+              "同一话头 AI 主动追问不超过 3 次（用户要求继续之后不计）。",
+              "AI 回复首字在 5 秒内出现；超过 20 秒显示重试，重试不重复保存用户的话。",
+            ]}
+          />
+        </Section>
+      </Section>
+
+      <Section heading="P3 故事回看" id="review">
+        <Text>作用：把刚才的问答整理成一段第一人称故事，让用户确认后收进书里。</Text>
+        <Section heading="页面内容">
+          <NumberedList
+            items={[
+              "生成中显示 “Writing up your story…”，原始问答已经存好，可以随时离开。",
+              "生成后显示故事标题和正文，用用户自己的口吻和用词。",
+              "点任意一句，在下方显示它来自用户哪一条原话。",
+              "AI 拿不准的地方（人名、年份、地点）高亮，并附一个问题，如 “Was it 1952 or 1953?”。",
+              "写作时发现的缺口不在页面上列出来，只存下来，作为下次续讲时 AI 的第一个问题；每次最多带 1 个，不算进 3 次追问上限。",
+            ]}
+          />
+        </Section>
+        <Section heading="按钮与跳转">
+          <Table
+            columns={["操作", "结果"]}
+            rows={[
+              ["Looks good", "故事收进童年章，进 P4 并定位到这段"],
+              ["Edit", "正文变成可编辑；保存后标为本人确认，AI 以后不再改它"],
+              ["Tell more", "进 P2，以续讲方式进入"],
+              ["Not now", "存为待确认草稿，回首页；P4 里显示待确认标记"],
+            ]}
+          />
+        </Section>
+        <Section heading="验收标准">
+          <NumberedList
+            items={[
+              "故事里每一句都能对回至少一条用户原话；对不上的句子不能出现。",
+              "故事之间的过渡只能用用户说过的事实，不补写细节。",
+              "写作失败时提示重试，原始问答不受影响。",
+            ]}
+          />
+        </Section>
+      </Section>
+
+      <Section heading="P4 我的回忆录" id="book">
+        <Text>作用：让用户看到“书”在一点点变厚。</Text>
+        <Section heading="页面内容">
+          <NumberedList
+            items={[
+              "书名和作者名（默认 “Ricky's story”，可改）。",
+              "十章目录：童年展开，按讲述时间列出每段故事的标题、首句和字数。",
+              "其他九章用浅灰色，标签 “We'll get to this later”。章里已有自由讲留下的故事，可以展开看；没有内容的点一下提示“这一章以后再聊”。",
+              "待确认的故事带一个小标记 “Needs a look”。",
+              "童年章底部：确认的故事满 6 段后出现 “Put my chapter together”；不足时显示一句“再讲几段，就能把这一章整理出来”。",
+            ]}
+          />
+        </Section>
+        <Section heading="按钮与跳转">
+          <Table
+            columns={["操作", "结果"]}
+            rows={[
+              ["点一段故事", "进 P5"],
+              ["Put my chapter together", "进 P6 并开始生成"],
+              ["已有整章时 “Read my chapter”", "进 P6 阅读最新版本"],
+              ["返回键", "回首页"],
+            ]}
+          />
+        </Section>
+        <Section heading="验收标准">
+          <NumberedList
+            items={[
+              "刚确认的故事立刻出现在童年章里，顺序正确。",
+              "其他九章任何一个点下去都有反应，不会像坏了一样。",
+            ]}
+          />
+        </Section>
+      </Section>
+
+      <Section heading="P5 故事详情" id="detail">
+        <Text>作用：重读一段故事，改它，或接着讲。</Text>
+        <Table
+          columns={["操作", "结果"]}
+          rows={[
+            ["Edit", "直接改正文，保存后标为本人确认"],
+            ["Tell more", "进 P2 续讲；续讲内容整理后合进这段故事，再回到 P3 确认"],
+            ["See what I wrote", "展开这段故事用到的全部原话"],
+            ["Move to another chapter", "从十章里选一个"],
+            ["Remove from my book", "二次确认后从书里移除；原话保留，可以恢复"],
+          ]}
+        />
+        <Text>验收：续讲后合并的新版本里，用户改过的句子原样保留。</Text>
+      </Section>
+
+      <Section heading="P6 童年整章" id="chapter">
+        <Text>作用：把童年章确认过的故事汇成一篇连贯的章节，用作以后的样章。</Text>
+        <Steps
+          steps={[
+            { title: "生成", detail: "用全部确认过的童年故事，按时间和主题排序，补上过渡句。打字内容较短，内测目标 2500 到 4000 词。" },
+            { title: "阅读", detail: "书本式排版，衬线体；存疑处高亮，点开能看到出处和问题。" },
+            { title: "修改", detail: "可以直接改，或说“重新生成”；重新生成保留用户改过的段落，旧版本保留可回看。" },
+          ]}
+        />
+        <Section heading="验收标准">
+          <NumberedList
+            items={[
+              "整章里每一句都能对回某段故事和原话。",
+              "读起来是用户自己的口吻，不像传记作者的第三人称。",
+              "过渡句里没有用户没说过的人名、地点、年份和情绪。",
+            ]}
+          />
+        </Section>
+      </Section>
+
+      <Section heading="信息链路" id="pipeline">
+        <Text>每一轮讲述都在给下一轮准备问题：原话是一切内容的出处，整理结果给页面用，对话记忆让 AI 下次问得更好。</Text>
+        <Diagram
+          direction="vertical"
+          nodes={[
+            { id: "pick", label: "首页选话头", kind: "terminal" },
+            { id: "ctx", label: "拼上下文", detail: "话头、最近对话、对话记忆、最多一个缺口" },
+            { id: "ask", label: "对话模型提问", detail: "问题也存档" },
+            { id: "ans", label: "用户回答", detail: "原话立即存档" },
+            { id: "cls", label: "快模型判断", detail: "拒绝、跑题、想停、情绪、长度" },
+            { id: "rule", label: "代码规则", kind: "decision", detail: "追问计数、拦截拒绝点、过滤不想写" },
+            { id: "write", label: "后台四步整理", detail: "素材表、骨架、成稿、核对" },
+            { id: "review", label: "故事回看", detail: "确认或修改" },
+            { id: "book", label: "书页和整章" },
+            { id: "mem", label: "对话记忆", detail: "基本信息、人物表、故事摘要、缺口、拒绝点" },
+          ]}
+          edges={[
+            { from: "pick", to: "ctx" },
+            { from: "ctx", to: "ask" },
+            { from: "ask", to: "ans" },
+            { from: "ans", to: "cls" },
+            { from: "cls", to: "rule" },
+            { from: "rule", to: "ctx", label: "继续追问" },
+            { from: "rule", to: "write", label: "讲完" },
+            { from: "write", to: "review" },
+            { from: "review", to: "book", label: "确认" },
+            { from: "write", to: "mem" },
+            { from: "review", to: "mem", label: "用户修改", dashed: true },
+            { from: "mem", to: "ctx", label: "下次讲述", dashed: true },
+          ]}
+        />
+        <Section heading="三层信息">
+          <Table
+            columns={["层", "内容", "谁用", "规则"]}
+            rows={[
+              ["原话", "用户和 AI 的每一条消息，带编号", "所有出处", "只增不改"],
+              ["整理结果", "素材表、骨架、成稿、核对记录、待确认问题", "回看页、书页、整章", "每一步单独存，可单独重跑"],
+              ["对话记忆", "基本信息、人物表、故事摘要、缺口、拒绝点、不想写的话头", "下一次提问", "随每次整理和用户修改更新"],
+              ["内部记录", "每条回答的判断结果、模型调用和费用", "开发和 AI 评测", "用户看不到"],
+            ]}
+          />
+        </Section>
+        <Section heading="一轮讲述的步骤">
+          <Steps
+            steps={[
+              { title: "提问前拼上下文", detail: "不喂全部历史，只给：当前话头的开场问题和备选追问、本话头最近的对话、基本信息和人物表、其他故事的一句话摘要、最多一个缺口问题、已用的追问次数和要避开的点。不想写的话头在这一步就被代码去掉。" },
+              { title: "用户回答后先判断", detail: "原话先存档，再用快模型输出 `turn-classifier-schema-v1.json` 定义的 7 个字段。代码按结果计数和拦截，然后才调用对话模型，避免已经显示出去的追问踩到拒绝点。" },
+              { title: "对话模型生成下一句", detail: "优先问开放的细节，不用诱导式提问（问 “What color was the kitchen?”，不问 “Was the kitchen yellow?”）。生成的问题同样存档。" },
+              { title: "讲完后四步整理", detail: "提取素材表，搭骨架，按用户口吻成稿，逐句核对。标不出出处的句子由代码删掉。续讲时只处理新增回答，再和原素材表合并。每一步的输入输出格式以 `/workspace/eld/writing-pipeline-io-v1.md` 为准。" },
+              { title: "产出分流", detail: "成稿和待确认问题进回看页；缺口进待追问表，不上界面；基本信息、人物和故事摘要更新进对话记忆。" },
+              { title: "用户确认或修改", detail: "确认的故事进书页；用户改过的句子锁定，并作为最可靠的来源写回对话记忆，后面的整理只能沿用。" },
+              { title: "下一次讲述", detail: "续讲或回到同一话头时，AI 第一句从待追问表里挑一个缺口自然地问出来，问过就标为已用。" },
+            ]}
+          />
+        </Section>
+        <Section heading="事实的来源等级">
+          <Rows
+            rows={[
+              { title: "用户改过的句子", detail: "最高，锁定，任何一步都不能改" },
+              { title: "用户自己讲的", detail: "正常使用" },
+              { title: "用户确认过的", detail: "事实出现在 AI 的问题里、用户只是点头；可以用，但写得保守" },
+              { title: "家里人说的", detail: "成稿里要保留“听家里人说”的说法" },
+            ]}
+          />
+          <Text>“拿不准”不是第五个等级，而是每条事实上单独的一个是否字段，任何等级都可能同时拿不准。成稿保留用户原话里的不确定说法（如 “I think it was '52”），回看页的待确认提示也从这个字段来。</Text>
+        </Section>
+      </Section>
+
+      <Section heading="AI 调用点、模型与提示词" id="ai">
+        <Table
+          columns={["调用点", "什么时候调用", "模型（备选）", "参数"]}
+          rows={[
+            ["A 回答判断", "每条回答之后、AI 回复之前", "GPT-6 Luna（Claude Haiku 5.5）", "温度 0，按 JSON 格式输出"],
+            ["B 对话（采访者）", "每次 AI 开口", "GPT-6.1 Terra（Claude Sonnet 5.5）", "温度 0.7，逐字输出，最多 150 token"],
+            ["C 第 1 步 提取", "故事保存或续讲后，只处理新增回答", "GPT-6.1 Sol（Claude Sonnet 5.5）", "温度 0，按 JSON 格式输出"],
+            ["D 第 2 步 骨架", "C 之后", "GPT-6.1 Sol（Claude Sonnet 5.5）", "温度 0.2，按 JSON 格式输出"],
+            ["E 第 3 步 成稿", "D 之后", "GPT-6.1 Sol（Claude Opus 5.5）", "温度 0.5，按 JSON 格式输出"],
+            ["F 第 4 步 核对", "E 之后，整章生成后也跑", "Claude Opus 5.5（Claude Sonnet 5.5）", "温度 0；特意和写作模型用不同厂商"],
+            ["G 整章成稿", "用户生成整章时", "GPT-6.1 Sol（Claude Opus 5.5）", "温度 0.5，按 JSON 格式输出"],
+          ]}
+        />
+        <Text>v1.1 调整：主力模型按 Ricky 的偏好换成 GPT 系列；核对（F）和评测裁判留在 Claude，保证核对的和写的不是同一家。GPT-6.1 Terra 和 GPT-6 Luna 的网关编号待开发确认。</Text>
+        <Text>选型理由：改成文字以后，对话模型更看重分寸和温度，速度够用就行。成稿和整章都在后台跑，所以用最强的写作模型。核对换一家厂商的模型，避免和写作模型有同样的盲区。回答判断调用多、任务小，用便宜快速的档位。</Text>
+        <Text>以上模型、价格和速度来自 2026 年 11 月 11 日查到的公开榜单（apipriceindex.com、modelgrep.com、aimultiple.com），不是我们自己测的；第 1 周用模拟童年对话实测后再定。建议所有模型都通过一个统一网关来调用（例如 Vercel AI Gateway），这样只需要一个 API 密钥。模型名写在配置里，换模型不用改代码。</Text>
+        <Text>提示词里花括号中的变量由代码填入。调用任何模型之前，代码都会先把“不想写”的话头去掉。英文原文以 `/workspace/eld/ai-prompts-v1.md` 为准，里面还有评测专用的模拟老人和评审提示词。</Text>
+        <Section heading="A 回答判断" collapsible defaultOpen={false}>
+          <PromptBlock text={PROMPTS.A} />
+        </Section>
+        <Section heading="B 对话（采访者）" collapsible defaultOpen={false}>
+          <PromptBlock text={PROMPTS.B} />
+        </Section>
+        <Section heading="C 第 1 步 提取" collapsible defaultOpen={false}>
+          <PromptBlock text={PROMPTS.C} />
+        </Section>
+        <Section heading="D 第 2 步 骨架" collapsible defaultOpen={false}>
+          <PromptBlock text={PROMPTS.D} />
+        </Section>
+        <Section heading="E 第 3 步 成稿" collapsible defaultOpen={false}>
+          <PromptBlock text={PROMPTS.E} />
+        </Section>
+        <Section heading="F 第 4 步 核对" collapsible defaultOpen={false}>
+          <PromptBlock text={PROMPTS.F} />
+        </Section>
+        <Section heading="G 整章成稿" collapsible defaultOpen={false}>
+          <PromptBlock text={PROMPTS.G} />
+        </Section>
+        <Text>对话记忆（基本信息、人物表、故事摘要）不再单独调用模型，由代码从第 1 步的素材表和第 3 步输出的标题与一句话摘要里合并而来；拒绝过的点不进记忆。网关模型编号：`anthropic/claude-haiku-5.5`、`anthropic/claude-sonnet-5.5`、`anthropic/claude-opus-5.5`、`openai/gpt-6.1-sol`。</Text>
+      </Section>
+
+      <Section heading="数据与记录" id="data">
+        <Table
+          columns={["数据", "要点"]}
+          rows={[
+            ["用户", "保留用户字段，内测写死一个；以后加登录不改表"],
+            ["话头状态", "每个话头一种状态：可推荐、已讲过、先不聊、不想写"],
+            ["对话", "一次讲述一条；记录进入方式、话头、是否讲完、已用追问次数"],
+            ["消息", "每条问和答，带固定编号，只增不改；留一个可为空的音频字段，以后接语音用"],
+            ["回答判断", "每条回答一条，7 个字段，按 `turn-classifier-schema-v1.json`"],
+            ["素材表", "每条事实、细节、原话金句和“意味着什么”，带来源消息编号、来源等级和是否拿不准"],
+            ["骨架和核对记录", "每次整理各存一份，被删掉的句子也记下来，给评测用"],
+            ["故事", "标题、正文、所属章节、状态（草稿、待确认、已确认、本人确认、已移除）；用户改过的句子单独标记锁定"],
+            ["出处对应", "故事和整章的每一句对应哪几条消息"],
+            ["待确认问题", "拿不准的年份、人名、地点，附一句给用户看的英文问题"],
+            ["待追问表", "缺口问题、所属话头或故事、是否已问过；不上界面"],
+            ["对话记忆", "基本信息、人物表、每段故事的一句话摘要、拒绝过的点"],
+            ["整章版本", "每次生成一版，保留历史"],
+            ["模型调用", "每次调用的步骤、模型、输入输出字数、费用、耗时"],
+          ]}
+        />
+        <Text>内测要看的数：每段故事的字数、每个话头的追问次数、用户拒绝追问的次数、故事被用户修改的比例、出处对不上的句子数、单章模型费用。基线等 Ricky 讲完前几段再定。</Text>
+      </Section>
+
+      <Section heading="待定事项" id="open">
+        <BulletList
+          items={[
+            "内测是否支持中文讲述，待 Ricky 确认；确认前讲述和成稿都按英文做。",
+            "整章入口的门槛定为 6 段确认的故事，先按这个做，跑完再调。",
+            "故事和整章的字数目标是传记作者按打字场景给的初稿，等 Ricky 的第一批真实内容出来再定。",
+            "AI 首字 5 秒、超时 20 秒是我定的内测标准，不是测出来的数据。",
+            "各调用点的模型是按公开榜单定的初稿，第 1 周实测后由 ai 和开发一起确认。",
+            "书名默认值和章节标题的中文显示方式，等 ui设计 的高保真稿一起定。",
+          ]}
+        />
+      </Section>
+    </Page>
+  );
+}
+
+
+</cursor_untrusted_data_1337>

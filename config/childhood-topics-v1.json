@@ -1,0 +1,190 @@
+{
+  "version": "v1.1",
+  "chapter": "childhood",
+  "order_note": "Recommend house/food first, then people (parents, friend), then reflective topics (earliest memory). Elder may pick any.",
+  "recommend_order": [
+    "childhood-house",
+    "childhood-food",
+    "childhood-parents",
+    "childhood-friend",
+    "childhood-holidays",
+    "childhood-neighborhood",
+    "childhood-summers",
+    "childhood-grandparents",
+    "childhood-name",
+    "childhood-trouble",
+    "childhood-earliest"
+  ],
+  "topics": [
+    {
+      "id": "childhood-name",
+      "topic_en": "How I got my name",
+      "topic_zh": "我的名字是怎么来的",
+      "sensitive": false,
+      "recommend_by_default": true,
+      "opening_question": "Let's start with your name. Do you know how you got it?",
+      "follow_ups": [
+        "Who picked it out?",
+        "Did anyone call you something different growing up?",
+        "How did you feel about your name as a kid?"
+      ],
+      "card_hint_en": "Who picked it, and what did folks call you?"
+    },
+    {
+      "id": "childhood-parents",
+      "topic_en": "What my parents were like",
+      "topic_zh": "我的父母是什么样的人",
+      "sensitive": false,
+      "recommend_by_default": true,
+      "opening_question": "When you picture your mom or dad back then, what do you see them doing?",
+      "follow_ups": [
+        "What did they do for work?",
+        "What's something they used to say all the time?",
+        "How did you know they cared about you?",
+        "Was there a time you saw a different side of them?"
+      ],
+      "card_hint_en": "What were Mom and Dad like day to day?"
+    },
+    {
+      "id": "childhood-grandparents",
+      "topic_en": "My grandparents",
+      "topic_zh": "我的祖父母",
+      "sensitive": false,
+      "recommend_by_default": true,
+      "opening_question": "Did you know your grandparents growing up?",
+      "follow_ups": [
+        "What was their house like?",
+        "What did you do together?",
+        "Is there something they said that stuck with you?"
+      ],
+      "card_hint_en": "What do you remember about their house?"
+    },
+    {
+      "id": "childhood-house",
+      "topic_en": "The house I grew up in",
+      "topic_zh": "我长大的那栋房子",
+      "sensitive": false,
+      "recommend_by_default": true,
+      "opening_question": "Tell me about the house you grew up in. What did you see when you walked in the front door?",
+      "follow_ups": [
+        "Where did you sleep? Did you share a room?",
+        "What did it smell like at dinnertime?",
+        "Where was your favorite spot in that house?",
+        "Is the house still there?"
+      ],
+      "card_hint_en": "What did you see when you walked in?"
+    },
+    {
+      "id": "childhood-neighborhood",
+      "topic_en": "My neighborhood",
+      "topic_zh": "我的街区",
+      "sensitive": false,
+      "recommend_by_default": true,
+      "opening_question": "What was your street like when you were little?",
+      "follow_ups": [
+        "Who lived next door?",
+        "Where did the kids hang out?",
+        "Was there a store or place everyone went to?"
+      ],
+      "card_hint_en": "Who lived nearby? Where did kids play?"
+    },
+    {
+      "id": "childhood-food",
+      "topic_en": "Food I loved as a kid",
+      "topic_zh": "小时候最爱吃的东西",
+      "sensitive": false,
+      "recommend_by_default": true,
+      "opening_question": "What was a food you couldn't wait to eat as a kid?",
+      "follow_ups": [
+        "Who made it?",
+        "When did you get to have it?",
+        "Can you still taste it? Have you ever had it that way since?"
+      ],
+      "card_hint_en": "What was on the table on a weeknight?"
+    },
+    {
+      "id": "childhood-friend",
+      "topic_en": "My best friend growing up",
+      "topic_zh": "小时候最好的朋友",
+      "sensitive": false,
+      "recommend_by_default": true,
+      "opening_question": "Who was your best friend when you were little?",
+      "follow_ups": [
+        "How did you two meet?",
+        "What did you get up to together?",
+        "Did you stay in touch?"
+      ],
+      "card_hint_en": "Who was your best friend, and what did you do?"
+    },
+    {
+      "id": "childhood-holidays",
+      "topic_en": "Holidays growing up",
+      "topic_zh": "小时候过节",
+      "sensitive": false,
+      "recommend_by_default": true,
+      "opening_question": "Which holiday did your family make the biggest deal about?",
+      "follow_ups": [
+        "What was on the table?",
+        "Who came over?",
+        "Is there one year you'll never forget?",
+        "A gift you still remember?"
+      ],
+      "card_hint_en": "Which holiday felt biggest at your house?"
+    },
+    {
+      "id": "childhood-summers",
+      "topic_en": "Summers as a kid",
+      "topic_zh": "小时候的暑假",
+      "sensitive": false,
+      "recommend_by_default": true,
+      "opening_question": "What did summer look like when you were a kid?",
+      "follow_ups": [
+        "Did your family go anywhere?",
+        "What did a perfect summer day look like?",
+        "What time did you have to be home?"
+      ],
+      "card_hint_en": "Where did your summer days go?"
+    },
+    {
+      "id": "childhood-earliest",
+      "topic_en": "My earliest memory",
+      "topic_zh": "我最早的记忆",
+      "sensitive": false,
+      "recommend_by_default": true,
+      "opening_question": "What's the very first thing you can remember?",
+      "follow_ups": [
+        "About how old were you?",
+        "Do you remember it yourself, or is it a story you heard later?",
+        "What do you see when you picture it?"
+      ],
+      "card_hint_en": "The first thing you can picture, however small."
+    },
+    {
+      "id": "childhood-trouble",
+      "topic_en": "Trouble I got into",
+      "topic_zh": "小时候闯过的祸",
+      "sensitive": false,
+      "recommend_by_default": true,
+      "opening_question": "Did you ever get into trouble as a kid?",
+      "follow_ups": [
+        "Did you get caught?",
+        "What happened when your parents found out?",
+        "Would you do it again?"
+      ],
+      "card_hint_en": "The time you really got caught."
+    },
+    {
+      "id": "childhood-hard",
+      "topic_en": "Hard times at home",
+      "topic_zh": "家里的难处",
+      "sensitive": true,
+      "recommend_by_default": false,
+      "opening_question": "Some families went through hard times back then. Is that something you'd like to talk about, or would you rather skip it?",
+      "follow_ups": [
+        "Only if you want to: what do you remember most?",
+        "How did your family get through it?"
+      ],
+      "card_hint_en": "Only if you want to. It's fine to skip."
+    }
+  ]
+}
