@@ -41,7 +41,7 @@ export default async function HomePage() {
         <section className="hero">
           <div className="kicker">{t.continueKicker}</div>
           <h2>{home.continueCard.title}</h2>
-          {home.continueCard.blurb ? <p>{t.lastTime(home.continueCard.blurb)}</p> : null}
+          {home.continueCard.blurb ? <p className="last-time">{t.lastTime(home.continueCard.blurb)}</p> : null}
           <a className="btn on-hero" href={`/story/${home.continueCard.sessionId}`}>
             {t.continue} <IconArrow width={20} height={20} />
           </a>

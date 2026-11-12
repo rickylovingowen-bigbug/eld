@@ -90,6 +90,13 @@ html[lang="zh-Hans"] .kicker, html[lang="zh-Hans"] .overline { text-transform: n
   margin: 10px 0 0;
 }
 .hero p { margin: 6px 0 0; opacity: 0.82; }
+.hero .last-time {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
 .btn {
   min-height: var(--size-buttonMinHeight);
   border-radius: var(--radius-pill);
@@ -114,6 +121,7 @@ html[lang="zh-Hans"] .kicker, html[lang="zh-Hans"] .overline { text-transform: n
 .text-btn { border: 0; background: transparent; color: var(--color-accent); font-weight: 600; min-height: var(--size-touchMin); }
 .card {
   background: var(--color-surface);
+  border: 0;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
   padding: 16px 8px 8px 18px;
@@ -190,6 +198,10 @@ html[lang="zh-Hans"] .kicker, html[lang="zh-Hans"] .overline { text-transform: n
   padding: 0 18px;
   width: 100%;
   text-align: left;
+  background: var(--color-surface);
+  border: 0;
+  box-shadow: var(--shadow-card);
+  color: var(--color-text);
 }
 .memoir-bar {
   position: fixed; left: 0; right: 0; bottom: 0;
